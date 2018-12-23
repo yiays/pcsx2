@@ -29,7 +29,15 @@ Panels::GSWindowSettingsPanel::GSWindowSettingsPanel( wxWindow* parent )
 	{
 		_("Fit to Window/Screen"),
 		_("Standard (4:3)"),
-		_("Widescreen (16:9)")
+		_("Widescreen (16:9)"),
+		_("Frame")
+	};
+
+	const wxString scaling_type_labels[] =
+	{
+		_("Fit to Window/Screen"),
+		_("Integer Scaling"),
+		_("Centered")
 	};
 
 	const wxString fmv_aspect_ratio_switch_labels[] =
@@ -52,8 +60,11 @@ Panels::GSWindowSettingsPanel::GSWindowSettingsPanel( wxWindow* parent )
 	m_combo_AspectRatio	= new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
 		ArraySize(aspect_ratio_labels), aspect_ratio_labels, wxCB_READONLY );
 
-	m_combo_FMVAspectRatioSwitch = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-		ArraySize(fmv_aspect_ratio_switch_labels), fmv_aspect_ratio_switch_labels, wxCB_READONLY);
+	m_combo_ScalingType = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+		ArraySize(scaling_type_labels), scaling_type_labels, wxCB_READONLY );
+
+	m_combo_FMVAspectRatioSwitch = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+		ArraySize(fmv_aspect_ratio_switch_labels), fmv_aspect_ratio_switch_labels, wxCB_READONLY );
 
 	m_combo_vsync = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
 		ArraySize(vsync_label), vsync_label, wxCB_READONLY );
@@ -69,6 +80,20 @@ Panels::GSWindowSettingsPanel::GSWindowSettingsPanel( wxWindow* parent )
 	m_check_CloseGS		= new pxCheckBox( this, _("Hide window when paused") );
 	m_check_Fullscreen	= new pxCheckBox( this, _("Default to fullscreen mode on open") );
 	m_check_DclickFullscreen = new pxCheckBox( this, _("Double-click toggles fullscreen mode") );
+
+	m_combo_AspectRatio->SetToolTip( pxEt( L"Stretch: Stretches the image to the window/screen size.\n\n"
+		L"4:3: Sets the aspect ratio to 4:3, the default aspect ratio used by the PS2.\n\n"
+		L"16:9: Sets the aspect ratio to widescreen 16:9, the ratio used by games when "
+		L"a widescreen option or a normal widescreen patch is enabled."
+		L"NOTE: Using the widescreen 16:9 aspect ratio will result in a stretched image unless "
+		L"widescreen is enabled in-game or through a widescreen patch. "
+		L"Widescreen is not available for all games.\n\n"
+		L"Frame: Uses the aspect ratio of the frame size of the game, to keep a 1:1 pixel ratio.") );
+
+	m_combo_ScalingType->SetToolTip( pxEt( L"Fit: Scales the image width and/or height to the window/screen size depending on the selected aspect ratio.\n\n"
+		L"Integer Scaling: Scales the image to the highest integer magnification of the selected aspect ratio that "
+		L"fits within the window/screen.\n\n"
+		L"Centered: Displays the image at the native size used by the game, as long as it fits within the window/screen.") );
 
 	m_combo_FMVAspectRatioSwitch->SetToolTip( pxEt( L"Off: Disables temporary aspect ratio switch.\n\n"
 		L"4:3: Temporarily switch to a 4:3 aspect ratio while an FMV plays to correctly display an 4:3 FMV.\n\n"
@@ -103,6 +128,8 @@ Panels::GSWindowSettingsPanel::GSWindowSettingsPanel( wxWindow* parent )
 
 	s_AspectRatio += Label(_("Aspect Ratio:")) | pxMiddle;
 	s_AspectRatio += m_combo_AspectRatio | pxAlignRight;
+	s_AspectRatio += Label(_("Scaling Type:")) | pxMiddle;
+	s_AspectRatio += m_combo_ScalingType | pxAlignRight;
 	s_AspectRatio += Label(_("FMV Aspect Ratio Override:")) | pxMiddle;
 	s_AspectRatio += m_combo_FMVAspectRatioSwitch | pxAlignRight;
 	s_AspectRatio += Label(_("Custom Window Size:")) | pxMiddle;
@@ -135,6 +162,8 @@ Panels::GSWindowSettingsPanel::GSWindowSettingsPanel( wxWindow* parent )
 	*centerSizer += GetSizer()	| pxCenter;
 	SetSizer( centerSizer, false );
 
+	Bind(wxEVT_COMBOBOX, &Panels::GSWindowSettingsPanel::ScalingTypeChanged, this);
+
 	AppStatusEvent_OnSettingsApplied();
 }
 
@@ -154,7 +183,9 @@ void Panels::GSWindowSettingsPanel::ApplyConfigToGui( AppConfig& configToApply, 
 		m_check_HideMouse	->SetValue( conf.AlwaysHideMouse );
 		m_check_SizeLock	->SetValue( conf.DisableResizeBorders );
 
-		m_combo_AspectRatio	->SetSelection( (int)conf.AspectRatio );
+		m_combo_AspectRatio	->SetSelection( enum_cast( conf.AspectRatio ) );
+		m_combo_ScalingType	->SetSelection( enum_cast( conf.ScalingType ) );
+		m_combo_ScalingType	->Enable( conf.AspectRatio != AspectRatio_Stretch );
 		m_combo_FMVAspectRatioSwitch->SetSelection( enum_cast( conf.FMVAspectRatioSwitch ) );
 		m_text_Zoom			->ChangeValue( conf.Zoom.ToString() );
 
@@ -168,6 +199,13 @@ void Panels::GSWindowSettingsPanel::ApplyConfigToGui( AppConfig& configToApply, 
 	m_combo_vsync->Enable( !configToApply.EnablePresets );//grayed-out when presets are enabled
 }
 
+void Panels::GSWindowSettingsPanel::ScalingTypeChanged(wxCommandEvent &event)
+{
+	m_combo_ScalingType->Enable(m_combo_AspectRatio->GetSelection() != 0);
+
+	event.Skip();
+}
+
 void Panels::GSWindowSettingsPanel::Apply()
 {
 	AppConfig::GSWindowOptions& appconf( g_Conf->GSWindow );
@@ -179,6 +217,7 @@ void Panels::GSWindowSettingsPanel::Apply()
 	appconf.DisableResizeBorders	= m_check_SizeLock	->GetValue();
 
 	appconf.AspectRatio		= (AspectRatioType)m_combo_AspectRatio->GetSelection();
+	appconf.ScalingType		= (ScalingTypes)m_combo_ScalingType->GetSelection();
 	appconf.FMVAspectRatioSwitch = (FMVAspectRatioSwitchType)m_combo_FMVAspectRatioSwitch->GetSelection();
 	appconf.Zoom			= Fixed100::FromString( m_text_Zoom->GetValue() );
 

@@ -817,6 +817,7 @@ AppConfig::GSWindowOptions::GSWindowOptions()
 	DisableScreenSaver		= true;
 
 	AspectRatio				= AspectRatio_4_3;
+	ScalingType				= ScalingType_Fit;
 	FMVAspectRatioSwitch	= FMV_AspectRatio_Switch_Off;
 	Zoom					= 100;
 	StretchY				= 100;
@@ -874,11 +875,24 @@ void AppConfig::GSWindowOptions::LoadSave( IniInterface& ini )
 		L"Stretch",
 		L"4:3",
 		L"16:9",
+		L"Frame",
 		// WARNING: array must be NULL terminated to compute it size
 		NULL
 	};
 
 	ini.EnumEntry( L"AspectRatio", AspectRatio, AspectRatioNames, AspectRatio );
+
+	static const wxChar* ScalingTypeNames[] =
+	{
+		L"Fill",
+		L"Fit",
+		L"Integer",
+		L"Centered",
+		// WARNING: array must be NULL terminated to compute its size
+		NULL
+	};
+
+	ini.EnumEntry( L"ScalingType", ScalingType, ScalingTypeNames, ScalingType );
 
 	static const wxChar* FMVAspectRatioSwitchNames[] =
 	{
@@ -888,7 +902,8 @@ void AppConfig::GSWindowOptions::LoadSave( IniInterface& ini )
 		// WARNING: array must be NULL terminated to compute it size
 		NULL
 	};
-	ini.EnumEntry(L"FMVAspectRatioSwitch", FMVAspectRatioSwitch, FMVAspectRatioSwitchNames, FMVAspectRatioSwitch);
+
+	ini.EnumEntry( L"FMVAspectRatioSwitch", FMVAspectRatioSwitch, FMVAspectRatioSwitchNames, FMVAspectRatioSwitch );
 
 	IniEntry( Zoom );
 

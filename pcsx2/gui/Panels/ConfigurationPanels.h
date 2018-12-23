@@ -275,6 +275,7 @@ namespace Panels
 		//    - avih
 
 		wxComboBox*		m_combo_AspectRatio;
+		wxComboBox*		m_combo_ScalingType;
 		wxComboBox*		m_combo_FMVAspectRatioSwitch;
 		wxComboBox*		m_combo_vsync;
 
@@ -290,6 +291,8 @@ namespace Panels
 
 		wxTextCtrl*		m_text_WindowWidth;
 		wxTextCtrl*		m_text_WindowHeight;
+
+		void ScalingTypeChanged(wxCommandEvent &event);
 
 	public:
 		GSWindowSettingsPanel( wxWindow* parent );

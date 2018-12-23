@@ -813,6 +813,7 @@ AppConfig::GSWindowOptions::GSWindowOptions()
 	CloseOnEsc				= true;
 	DefaultToFullscreen		= false;
 	AlwaysHideMouse			= false;
+	DisableScalingCompensation = false;
 	DisableResizeBorders	= false;
 	DisableScreenSaver		= true;
 
@@ -859,6 +860,7 @@ void AppConfig::GSWindowOptions::LoadSave( IniInterface& ini )
 	IniEntry( CloseOnEsc );
 	IniEntry( DefaultToFullscreen );
 	IniEntry( AlwaysHideMouse );
+	IniEntry( DisableScalingCompensation );
 	IniEntry( DisableResizeBorders );
 	IniEntry( DisableScreenSaver );
 

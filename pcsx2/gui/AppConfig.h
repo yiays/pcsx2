@@ -218,6 +218,7 @@ public:
 		
 		bool		DefaultToFullscreen;
 		bool		AlwaysHideMouse;
+		bool		DisableScalingCompensation;
 		bool		DisableResizeBorders;
 		bool		DisableScreenSaver;
 

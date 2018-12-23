@@ -625,12 +625,22 @@ void GSFrame::OnUpdateTitle( wxTimerEvent& evt )
 	out << std::fixed << std::setprecision(2) << fps;
 	OSDmonitor(Color_StrongGreen, "FPS:", out.str());
 
+	const u64 &smode2 = *(u64 *)PS2GS_BASE(GS_SMODE2);
+	int interlacing = smode2 & 1;      // INT: 0 = Progressive, 1 = Interlaced
+	int interlacing_mode = smode2 & 2; // FFMD: 0 = Field mode, 2 = Frame mode
+
 	bool supported_GSWindow_Settings = (g_Conf->GSWindow.AspectRatio == AspectRatio_Frame || (g_Conf->GSWindow.AspectRatio != AspectRatio_Stretch &&
 		g_Conf->GSWindow.ScalingType != ScalingType_Fit));
 
 	if (GSgetImageSize != nullptr && supported_GSWindow_Settings) {
+		bool framemode_compensation = !g_Conf->GSWindow.DisableScalingCompensation && interlacing == 1 && interlacing_mode == 2;
+
 		int new_width = 0, new_height = 0;
 		GSgetImageSize(&new_width, &new_height);
+
+		if (framemode_compensation)
+			new_height *= 2;
+
 		if (new_width > 1 && new_height > 1 && (s_image_width != new_width || s_image_height != new_height)) {
 			if (GSPanel* gsPanel = GetViewport()) {
 				s_image_width = new_width;
@@ -667,9 +677,8 @@ void GSFrame::OnUpdateTitle( wxTimerEvent& evt )
 		}
 	}
 
-	const u64& smode2 = *(u64*)PS2GS_BASE(GS_SMODE2);
-	wxString omodef = (smode2 & 2) ? templates.OutputFrame : templates.OutputField;
-	wxString omodei = (smode2 & 1) ? templates.OutputInterlaced : templates.OutputProgressive;
+	wxString omodef = interlacing_mode == 2 ? templates.OutputFrame : templates.OutputField;
+	wxString omodei = interlacing == 1 ? templates.OutputInterlaced : templates.OutputProgressive;
 
 	wxString title = templates.TitleTemplate;
 	title.Replace(L"${slot}",		pxsFmt(L"%d", States_GetCurrentSlot()));

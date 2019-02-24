@@ -41,6 +41,7 @@ const wxChar* CDVD_SourceLabels[] =
 	L"ISO",
 	L"Plugin",
 	L"NoDisc",
+	L"Disc",
 	NULL
 };
 
@@ -329,6 +330,10 @@ void CDVDsys_ChangeSource( CDVD_SourceType type )
 
 		case CDVD_SourceType::NoDisc:
 			CDVD = &CDVDapi_NoDisc;
+		break;
+
+		case CDVD_SourceType::Disc:
+			CDVD = &CDVDapi_Disc;
 		break;
 
 		case CDVD_SourceType::Plugin:

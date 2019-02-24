@@ -103,6 +103,7 @@ enum MenuIdentifiers
 	MenuId_Cdvd_Source,
 	MenuId_Src_Iso,
 	MenuId_Src_Plugin,
+	MenuId_Src_Disc,
 	MenuId_Src_NoDisc,
 	MenuId_Boot_Iso,			// Opens submenu with Iso browser, and recent isos.
 	MenuId_RecentIsos_reservedStart,

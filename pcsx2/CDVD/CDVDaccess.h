@@ -22,6 +22,7 @@ enum class CDVD_SourceType : uint8_t
 	Iso,		// use built in ISO api
 	Plugin,		// use external plugin
 	NoDisc,		// use built in CDVDnull
+	Disc,		// use CDVD drive
 };
 
 struct CDVD_API
@@ -63,6 +64,7 @@ extern CDVD_API* CDVD;		// currently active CDVD access mode api (either Iso, No
 
 extern CDVD_API CDVDapi_Plugin;
 extern CDVD_API CDVDapi_Iso;
+extern CDVD_API CDVDapi_Disc;
 extern CDVD_API CDVDapi_NoDisc;
 
 extern const wxChar* CDVD_SourceLabels[];

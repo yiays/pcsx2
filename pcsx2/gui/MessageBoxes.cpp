@@ -13,6 +13,8 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <utility>
+
 #include "PrecompiledHeader.h"
 #include "App.h"
 #include "MSWstuff.h"
@@ -83,17 +85,17 @@ int BaseMessageBoxEvent::_DoDialog() const
 // --------------------------------------------------------------------------------------
 wxIMPLEMENT_DYNAMIC_CLASS( pxMessageBoxEvent, BaseMessageBoxEvent );
 
-pxMessageBoxEvent::pxMessageBoxEvent( const wxString& title, const wxString& content, const MsgButtons& buttons, SynchronousActionState& instdata )
+pxMessageBoxEvent::pxMessageBoxEvent( const wxString& title, const wxString& content, MsgButtons  buttons, SynchronousActionState& instdata )
 	: BaseMessageBoxEvent( content, instdata )
 	, m_Title( title )
-	, m_Buttons( buttons )
+	, m_Buttons(std::move( buttons ))
 {
 }
 
-pxMessageBoxEvent::pxMessageBoxEvent( const wxString& title, const wxString& content, const MsgButtons& buttons, SynchronousActionState* instdata )
+pxMessageBoxEvent::pxMessageBoxEvent( const wxString& title, const wxString& content, MsgButtons  buttons, SynchronousActionState* instdata )
 	: BaseMessageBoxEvent( content, instdata )
 	, m_Title( title )
-	, m_Buttons( buttons )
+	, m_Buttons(std::move( buttons ))
 {
 }
 

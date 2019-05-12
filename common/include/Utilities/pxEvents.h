@@ -385,8 +385,8 @@ public:
     virtual pxMessageBoxEvent *Clone() const { return new pxMessageBoxEvent(*this); }
 
     pxMessageBoxEvent() {}
-    pxMessageBoxEvent(const wxString &title, const wxString &content, const MsgButtons &buttons, SynchronousActionState &instdata);
-    pxMessageBoxEvent(const wxString &title, const wxString &content, const MsgButtons &buttons, SynchronousActionState *instdata = nullptr);
+    pxMessageBoxEvent(const wxString &title, const wxString &content, MsgButtons buttons, SynchronousActionState &instdata);
+    pxMessageBoxEvent(const wxString &title, const wxString &content, MsgButtons buttons, SynchronousActionState *instdata = nullptr);
     pxMessageBoxEvent(const pxMessageBoxEvent &event) = default;
 
 protected:

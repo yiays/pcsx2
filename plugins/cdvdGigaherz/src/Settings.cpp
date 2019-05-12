@@ -23,6 +23,7 @@
 #include <fstream>
 #include <locale>
 #include <string>
+#include <utility>
 #include <PluginCompatibility.h>
 
 Settings::Settings()
@@ -30,7 +31,7 @@ Settings::Settings()
 }
 
 Settings::Settings(std::map<std::string, std::string> data)
-    : m_data(data)
+    : m_data(std::move(data))
 {
 }
 

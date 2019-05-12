@@ -37,7 +37,7 @@ protected:
 public:
 	IsoFile(const IsoDirectory& dir, const wxString& filename);
 	IsoFile(SectorSource& reader, const wxString& filename);
-	IsoFile(SectorSource& reader, const IsoFileDescriptor& fileEntry);
+	IsoFile(SectorSource& reader, IsoFileDescriptor  fileEntry);
 	virtual ~IsoFile() = default;
 
 	u32 seek(u32 absoffset);

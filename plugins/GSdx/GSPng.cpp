@@ -23,6 +23,8 @@
 #include <zlib.h>
 #include <png.h>
 
+#include <utility>
+
 struct {
     int type;
     int bytes_per_pixel_in;
@@ -128,8 +130,8 @@ namespace GSPng {
         return SaveFile(filename, fmt, image, row.get(), w, h, pitch, compression);
     }
 
-    Transaction::Transaction(GSPng::Format fmt, const std::string& file, const uint8* image, int w, int h, int pitch, int compression)
-        : m_fmt(fmt), m_file(file), m_w(w), m_h(h), m_pitch(pitch), m_compression(compression)
+    Transaction::Transaction(GSPng::Format fmt, std::string  file, const uint8* image, int w, int h, int pitch, int compression)
+        : m_fmt(fmt), m_file(std::move(file)), m_w(w), m_h(h), m_pitch(pitch), m_compression(compression)
     {
         // Note: yes it would be better to use shared pointer
         m_image = (uint8*)_aligned_malloc(pitch*h, 32);

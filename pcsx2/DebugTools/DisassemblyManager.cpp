@@ -18,6 +18,7 @@
 #include <string>
 #include <algorithm>
 #include <map>
+#include <utility>
 
 #include "DisassemblyManager.h"
 #include "Memory.h"
@@ -1020,7 +1021,7 @@ void DisassemblyData::createLines()
 
 
 DisassemblyComment::DisassemblyComment(DebugInterface* _cpu, u32 _address, u32 _size, std::string _name, std::string _param)
-	: cpu(_cpu), address(_address), size(_size), name(_name), param(_param)
+	: cpu(_cpu), address(_address), size(_size), name(std::move(_name)), param(std::move(_param))
 {
 
 }

@@ -19,6 +19,8 @@
 #include "IsoFS.h"
 #include "IsoFile.h"
 
+#include <utility>
+
 IsoFile::IsoFile(SectorSource& reader, const wxString& filename)
 	: internalReader(reader)
 	, fileEntry(IsoDirectory(reader).FindFile(filename))
@@ -33,9 +35,9 @@ IsoFile::IsoFile(const IsoDirectory& dir, const wxString& filename)
 	Init();
 }
 
-IsoFile::IsoFile(SectorSource& reader, const IsoFileDescriptor& fileEntry)
+IsoFile::IsoFile(SectorSource& reader, IsoFileDescriptor  fileEntry)
 	: internalReader(reader)
-	, fileEntry(fileEntry)
+	, fileEntry(std::move(fileEntry))
 {
 	Init();
 }

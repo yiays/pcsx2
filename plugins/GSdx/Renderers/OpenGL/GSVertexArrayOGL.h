@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "config.h"
 
 #ifdef ENABLE_OGL_DEBUG_MEM_BW
@@ -226,7 +228,7 @@ class GSVertexBufferStateOGL {
 	GSVertexBufferStateOGL(const GSVertexBufferStateOGL& ) = delete;
 
 public:
-	GSVertexBufferStateOGL(const std::vector<GSInputLayoutOGL>& layout) : m_topology(0), m_layout(layout)
+	GSVertexBufferStateOGL(std::vector<GSInputLayoutOGL>  layout) : m_topology(0), m_layout(std::move(layout))
 	{
 		glGenVertexArrays(1, &m_va);
 		glBindVertexArray(m_va);

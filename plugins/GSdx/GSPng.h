@@ -46,7 +46,7 @@ namespace GSPng {
 			int m_pitch;
 			int m_compression;
 
-			Transaction(GSPng::Format fmt, const std::string& file, const uint8* image, int w, int h, int pitch, int compression);
+			Transaction(GSPng::Format fmt, std::string  file, const uint8* image, int w, int h, int pitch, int compression);
 			~Transaction();
 	};
 

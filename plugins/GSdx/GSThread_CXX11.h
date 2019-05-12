@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "GSdx.h"
 #include "Utilities/boost_spsc_queue.hpp"
 
@@ -65,7 +67,7 @@ private:
 
 public:
 	GSJobQueue(std::function<void(T&)> func) :
-		m_func(func),
+		m_func(std::move(func)),
 		m_exit(false)
 	{
 		m_thread = std::thread(&GSJobQueue::ThreadProc, this);

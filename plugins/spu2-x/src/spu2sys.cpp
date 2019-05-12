@@ -105,7 +105,7 @@ V_Core::V_Core(int coreidx)
 	LogFile_AutoDMA = fopen( fname, "wb" );*/
 }
 
-V_Core::~V_Core() throw()
+V_Core::~V_Core() noexcept
 {
     // Can't use this yet because we dumb V_Core into savestates >_<
     /*if( LogFile_AutoDMA != NULL )

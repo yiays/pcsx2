@@ -463,7 +463,7 @@ struct V_Core
     {
     }
     V_Core(int idx); // our badass constructor
-    ~V_Core() throw();
+    ~V_Core() noexcept;
 
     void Init(int index);
     void UpdateEffectsBufferSize();

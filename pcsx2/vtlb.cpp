@@ -539,17 +539,17 @@ __ri void vtlb_ReassignHandler( vtlbHandler rv,
 {
 	pxAssume(rv < VTLB_HANDLER_ITEMS);
 
-	vtlbdata.RWFT[0][0][rv] = (void*)((r8!=0)   ? r8	: vtlbDefaultPhyRead8);
-	vtlbdata.RWFT[1][0][rv] = (void*)((r16!=0)  ? r16	: vtlbDefaultPhyRead16);
-	vtlbdata.RWFT[2][0][rv] = (void*)((r32!=0)  ? r32	: vtlbDefaultPhyRead32);
-	vtlbdata.RWFT[3][0][rv] = (void*)((r64!=0)  ? r64	: vtlbDefaultPhyRead64);
-	vtlbdata.RWFT[4][0][rv] = (void*)((r128!=0) ? r128	: vtlbDefaultPhyRead128);
+	vtlbdata.RWFT[0][0][rv] = (void*)((r8!=nullptr)   ? r8	: vtlbDefaultPhyRead8);
+	vtlbdata.RWFT[1][0][rv] = (void*)((r16!=nullptr)  ? r16	: vtlbDefaultPhyRead16);
+	vtlbdata.RWFT[2][0][rv] = (void*)((r32!=nullptr)  ? r32	: vtlbDefaultPhyRead32);
+	vtlbdata.RWFT[3][0][rv] = (void*)((r64!=nullptr)  ? r64	: vtlbDefaultPhyRead64);
+	vtlbdata.RWFT[4][0][rv] = (void*)((r128!=nullptr) ? r128	: vtlbDefaultPhyRead128);
 
-	vtlbdata.RWFT[0][1][rv] = (void*)((w8!=0)   ? w8	: vtlbDefaultPhyWrite8);
-	vtlbdata.RWFT[1][1][rv] = (void*)((w16!=0)  ? w16	: vtlbDefaultPhyWrite16);
-	vtlbdata.RWFT[2][1][rv] = (void*)((w32!=0)  ? w32	: vtlbDefaultPhyWrite32);
-	vtlbdata.RWFT[3][1][rv] = (void*)((w64!=0)  ? w64	: vtlbDefaultPhyWrite64);
-	vtlbdata.RWFT[4][1][rv] = (void*)((w128!=0) ? w128	: vtlbDefaultPhyWrite128);
+	vtlbdata.RWFT[0][1][rv] = (void*)((w8!=nullptr)   ? w8	: vtlbDefaultPhyWrite8);
+	vtlbdata.RWFT[1][1][rv] = (void*)((w16!=nullptr)  ? w16	: vtlbDefaultPhyWrite16);
+	vtlbdata.RWFT[2][1][rv] = (void*)((w32!=nullptr)  ? w32	: vtlbDefaultPhyWrite32);
+	vtlbdata.RWFT[3][1][rv] = (void*)((w64!=nullptr)  ? w64	: vtlbDefaultPhyWrite64);
+	vtlbdata.RWFT[4][1][rv] = (void*)((w128!=nullptr) ? w128	: vtlbDefaultPhyWrite128);
 }
 
 vtlbHandler vtlb_NewHandler()
@@ -649,7 +649,7 @@ void vtlb_Mirror(u32 new_region,u32 start,u32 size)
 __fi void* vtlb_GetPhyPtr(u32 paddr)
 {
 	if (paddr>=VTLB_PMAP_SZ || vtlbdata.pmap[paddr>>VTLB_PAGE_BITS]<0)
-		return NULL;
+		return nullptr;
 	else
 		return reinterpret_cast<void*>(vtlbdata.pmap[paddr>>VTLB_PAGE_BITS]+(paddr&VTLB_PAGE_MASK));
 }
@@ -759,7 +759,7 @@ void vtlb_Init()
 	UnmappedPhyHandler0 = vtlb_RegisterHandler( VTLB_BuildUnmappedHandler(vtlbUnmappedP, 0) );
 	UnmappedPhyHandler1 = vtlb_RegisterHandler( VTLB_BuildUnmappedHandler(vtlbUnmappedP, 0x80000000) );
 
-	DefaultPhyHandler = vtlb_RegisterHandler(0,0,0,0,0,0,0,0,0,0);
+	DefaultPhyHandler = vtlb_RegisterHandler(nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr);
 
 	//done !
 

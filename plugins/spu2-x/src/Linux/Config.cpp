@@ -279,7 +279,7 @@ void DisplayDialog()
     /* Create the widgets */
     dialog = gtk_dialog_new_with_buttons(
         "SPU2-X Config",
-        NULL, /* parent window*/
+        nullptr, /* parent window*/
         (GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
         "Cancel", GTK_RESPONSE_REJECT,
         "OK", GTK_RESPONSE_ACCEPT,
@@ -480,5 +480,5 @@ void configure()
     DisplayDialog();
     WriteSettings();
     delete spuConfig;
-    spuConfig = NULL;
+    spuConfig = nullptr;
 }

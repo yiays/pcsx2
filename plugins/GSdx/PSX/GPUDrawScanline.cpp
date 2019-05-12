@@ -54,9 +54,9 @@ void GPUDrawScanline::BeginDraw(const GSRasterizerData* data)
 
 	m_ds = m_ds_map[m_global.sel];
 
-	m_de = NULL;
+	m_de = nullptr;
 
-	m_dr = NULL; // TODO
+	m_dr = nullptr; // TODO
 
 	// doesn't need all bits => less functions generated
 

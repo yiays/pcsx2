@@ -58,7 +58,7 @@ class BaseBlockArray {
 			delete[] blocks;
 		}
 		blocks = newMem;
-		pxAssert(blocks != NULL);
+		pxAssert(blocks != nullptr);
 	}
 
 	void reserve(u32 size)
@@ -75,7 +75,7 @@ public:
 	}
 
 	BaseBlockArray (s32 size) : _Reserved(0),
-		_Size(0), blocks(NULL)
+		_Size(0), blocks(nullptr)
 	{
 		reserve(size);
 	}
@@ -180,7 +180,7 @@ public:
 	__fi BASEBLOCKEX* operator[](int idx)
 	{
 		if (idx < 0 || idx >= (int)blocks.size())
-			return 0;
+			return nullptr;
 
 		return &blocks[idx];
 	}

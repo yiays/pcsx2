@@ -160,7 +160,7 @@ const void* GPULocalMemory::GetTexture(int tp, int tx, int ty)
 	{
 		ASSERT(0);
 
-		return NULL;
+		return nullptr;
 	}
 
 	void* buff = m_texture.page[tp][ty][tx];
@@ -599,7 +599,7 @@ void GPULocalMemory::SaveBMP(const std::string& fn, const GSVector4i& r2, int tp
 
 	GSTexture::GSMap m;
 
-	if(t.Map(m, NULL))
+	if(t.Map(m, nullptr))
 	{
 		int pitch = GetWidth();
 

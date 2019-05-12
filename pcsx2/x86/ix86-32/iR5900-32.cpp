@@ -72,26 +72,26 @@ eeProfiler EE::Profiler;
 #define X86
 static const int RECCONSTBUF_SIZE = 16384 * 2; // 64 bit consts in 32 bit units
 
-static RecompiledCodeReserve* recMem = NULL;
-static u8* recRAMCopy = NULL;
-static u8* recLutReserve_RAM = NULL;
+static RecompiledCodeReserve* recMem = nullptr;
+static u8* recRAMCopy = nullptr;
+static u8* recLutReserve_RAM = nullptr;
 static const size_t recLutSize = Ps2MemSize::MainRam + Ps2MemSize::Rom + Ps2MemSize::Rom1;
 
 static uptr m_ConfiguredCacheReserve = 64;
 
-static u32* recConstBuf = NULL;			// 64-bit pseudo-immediates
-static BASEBLOCK *recRAM = NULL;		// and the ptr to the blocks here
-static BASEBLOCK *recROM = NULL;		// and here
-static BASEBLOCK *recROM1 = NULL;		// also here
+static u32* recConstBuf = nullptr;			// 64-bit pseudo-immediates
+static BASEBLOCK *recRAM = nullptr;		// and the ptr to the blocks here
+static BASEBLOCK *recROM = nullptr;		// and here
+static BASEBLOCK *recROM1 = nullptr;		// also here
 
 static BaseBlocks recBlocks;
-static u8* recPtr = NULL;
-static u32 *recConstBufPtr = NULL;
-EEINST* s_pInstCache = NULL;
+static u8* recPtr = nullptr;
+static u32 *recConstBufPtr = nullptr;
+EEINST* s_pInstCache = nullptr;
 static u32 s_nInstCacheSize = 0;
 
-static BASEBLOCK* s_pCurBlock = NULL;
-static BASEBLOCKEX* s_pCurBlockEx = NULL;
+static BASEBLOCK* s_pCurBlock = nullptr;
+static BASEBLOCKEX* s_pCurBlockEx = nullptr;
 u32 s_nEndBlock = 0; // what pc the current block ends
 u32 s_branchTo;
 static bool s_nBlockFF;
@@ -99,7 +99,7 @@ static bool s_nBlockFF;
 // save states for branches
 GPR_reg64 s_saveConstRegs[32];
 static u32 s_saveHasConstReg = 0, s_saveFlushedConstReg = 0;
-static EEINST* s_psaveInstInfo = NULL;
+static EEINST* s_psaveInstInfo = nullptr;
 
 static u32 s_savenBlockCycles = 0;
 
@@ -323,14 +323,14 @@ static u8 __pagealigned eeRecDispatchers[__pagesize];
 
 typedef void DynGenFunc();
 
-static DynGenFunc* DispatcherEvent		= NULL;
-static DynGenFunc* DispatcherReg		= NULL;
-static DynGenFunc* JITCompile			= NULL;
-static DynGenFunc* JITCompileInBlock	= NULL;
-static DynGenFunc* EnterRecompiledCode	= NULL;
-static DynGenFunc* ExitRecompiledCode	= NULL;
-static DynGenFunc* DispatchBlockDiscard = NULL;
-static DynGenFunc* DispatchPageReset    = NULL;
+static DynGenFunc* DispatcherEvent		= nullptr;
+static DynGenFunc* DispatcherReg		= nullptr;
+static DynGenFunc* JITCompile			= nullptr;
+static DynGenFunc* JITCompileInBlock	= nullptr;
+static DynGenFunc* EnterRecompiledCode	= nullptr;
+static DynGenFunc* ExitRecompiledCode	= nullptr;
+static DynGenFunc* DispatchBlockDiscard = nullptr;
+static DynGenFunc* DispatchPageReset    = nullptr;
 
 static void recEventTest()
 {
@@ -341,7 +341,7 @@ static void recEventTest()
 // dispatches to the recompiled block address.
 static DynGenFunc* _DynGen_JITCompile()
 {
-	pxAssertMsg( DispatcherReg != NULL, "Please compile the DispatcherReg subroutine *before* JITComple.  Thanks." );
+	pxAssertMsg( DispatcherReg != nullptr, "Please compile the DispatcherReg subroutine *before* JITComple.  Thanks." );
 
 	u8* retval = xGetAlignedCallTarget();
 
@@ -388,7 +388,7 @@ static DynGenFunc* _DynGen_DispatcherEvent()
 
 static DynGenFunc* _DynGen_EnterRecompiledCode()
 {
-	pxAssertDev( DispatcherReg != NULL, "Dynamically generated dispatchers are required prior to generating EnterRecompiledCode!" );
+	pxAssertDev( DispatcherReg != nullptr, "Dynamically generated dispatchers are required prior to generating EnterRecompiledCode!" );
 
 	u8* retval = xGetAlignedCallTarget();
 
@@ -479,7 +479,7 @@ static void recReserveCache()
 
 	while (!recMem->IsOk())
 	{
-		if (recMem->Reserve( m_ConfiguredCacheReserve * _1mb, HostMemoryMap::EErec ) != NULL) break;
+		if (recMem->Reserve( m_ConfiguredCacheReserve * _1mb, HostMemoryMap::EErec ) != nullptr) break;
 
 		// If it failed, then try again (if possible):
 		if (m_ConfiguredCacheReserve < 16) break;
@@ -517,7 +517,7 @@ static void recAlloc()
 	recROM1		= basepos; basepos += (Ps2MemSize::Rom1 / 4);
 
 	for (int i = 0; i < 0x10000; i++)
-		recLUT_SetPage(recLUT, 0, 0, 0, i, 0);
+		recLUT_SetPage(recLUT, nullptr, nullptr, 0, i, 0);
 
 	for ( int i = 0x0000; i < 0x0200; i++ )
 	{
@@ -545,19 +545,19 @@ static void recAlloc()
 		recLUT_SetPage(recLUT, hwLUT, recROM1, 0xa000, i, i - 0x1e00);
 	}
 
-    if( recConstBuf == NULL )
+    if( recConstBuf == nullptr )
 		recConstBuf = (u32*) _aligned_malloc( RECCONSTBUF_SIZE * sizeof(*recConstBuf), 16 );
 
-	if( recConstBuf == NULL )
+	if( recConstBuf == nullptr )
 		throw Exception::OutOfMemory( L"R5900-32 SIMD Constants Buffer" );
 
-	if( s_pInstCache == NULL )
+	if( s_pInstCache == nullptr )
 	{
 		s_nInstCacheSize = 128;
 		s_pInstCache = (EEINST*)malloc( sizeof(EEINST) * s_nInstCacheSize );
 	}
 
-	if( s_pInstCache == NULL )
+	if( s_pInstCache == nullptr )
 		throw Exception::OutOfMemory( L"R5900-32 InstCache" );
 
 	// No errors.. Proceed with initialization:
@@ -620,7 +620,7 @@ static void recShutdown()
 
 	recBlocks.Reset();
 
-	recRAM = recROM = recROM1 = NULL;
+	recRAM = recROM = recROM1 = nullptr;
 
 	safe_aligned_free( recConstBuf );
 	safe_free( s_pInstCache );
@@ -696,8 +696,8 @@ static void recExecute()
 #else
 
 	int oldstate;
-	m_cpuException	= NULL;
-	m_Exception		= NULL;
+	m_cpuException	= nullptr;
+	m_Exception		= nullptr;
 
 	// setjmp will save the register context and will return 0
 	// A call to longjmp will restore the context (included the eip/rip)
@@ -1133,14 +1133,14 @@ void dynarecCheckBreakpoint()
 	//check breakpoint at current pc
 	if (bpFlags & 1) {
 		auto cond = CBreakPoints::GetBreakPointCondition(pc);
-		if (cond == NULL || cond->Evaluate()) {
+		if (cond == nullptr || cond->Evaluate()) {
 			hit = true;
 		}
 	}
 	//check breakpoint in delay slot
 	if (bpFlags & 2) {
 		auto cond = CBreakPoints::GetBreakPointCondition(pc + 4);
-		if (cond == NULL || cond->Evaluate())
+		if (cond == nullptr || cond->Evaluate())
 			hit = true;
 	}
 
@@ -1931,7 +1931,7 @@ StartRecomp:
 			free(s_pInstCache);
 			s_nInstCacheSize = (s_nEndBlock-startpc)/4+10;
 			s_pInstCache = (EEINST*)malloc(sizeof(EEINST)*s_nInstCacheSize);
-			pxAssert( s_pInstCache != NULL );
+			pxAssert( s_pInstCache != nullptr );
 		}
 
 		pcur = s_pInstCache + (s_nEndBlock-startpc)/4;
@@ -2125,8 +2125,8 @@ StartRecomp:
 
 	pxAssert( (g_cpuHasConstReg&g_cpuFlushedConstReg) == g_cpuHasConstReg );
 
-	s_pCurBlock = NULL;
-	s_pCurBlockEx = NULL;
+	s_pCurBlock = nullptr;
+	s_pCurBlockEx = nullptr;
 }
 
 // The only *safe* way to throw exceptions from the context of recompiled code.

@@ -20,7 +20,7 @@
 using namespace pxSizerFlags;
 
 Dialogs::AssertionDialog::AssertionDialog( const wxString& text, const wxString& stacktrace )
-	: wxDialogWithHelpers( NULL, _("Assertion Failure - ") + pxGetAppName(), pxDialogFlags().Resize(!stacktrace.IsEmpty()) )
+	: wxDialogWithHelpers( nullptr, _("Assertion Failure - ") + pxGetAppName(), pxDialogFlags().Resize(!stacktrace.IsEmpty()) )
 {
 	SetMinWidth( 720 );
 
@@ -28,7 +28,7 @@ Dialogs::AssertionDialog::AssertionDialog( const wxString& text, const wxString&
 	flexgrid->AddGrowableCol( 0 );
 	SetSizer( flexgrid );
 
-	wxTextCtrl* traceArea = NULL;
+	wxTextCtrl* traceArea = nullptr;
 
 	if( !stacktrace.IsEmpty() )
 	{
@@ -52,7 +52,7 @@ Dialogs::AssertionDialog::AssertionDialog( const wxString& text, const wxString&
 
 	*this += Heading( text ) | StdExpand();
 
-	if( traceArea != NULL ) *this += traceArea | pxExpand.Border(wxTOP|wxLEFT|wxRIGHT,8);
+	if( traceArea != nullptr ) *this += traceArea | pxExpand.Border(wxTOP|wxLEFT|wxRIGHT,8);
 
 	*this += Heading(
 		L"\nDo you want to stop the program [Yes/No]?"

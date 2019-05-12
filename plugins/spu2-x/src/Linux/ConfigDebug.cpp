@@ -55,9 +55,9 @@ wxString RegDumpFileName;
 
 void CfgSetLogDir(const char *dir)
 {
-    LogsFolder = (dir == NULL) ? wxString(L"logs") : fromUTF8(dir);
-    DumpsFolder = (dir == NULL) ? wxString(L"logs") : fromUTF8(dir);
-    LogLocationSetByPcsx2 = (dir != NULL);
+    LogsFolder = (dir == nullptr) ? wxString(L"logs") : fromUTF8(dir);
+    DumpsFolder = (dir == nullptr) ? wxString(L"logs") : fromUTF8(dir);
+    LogLocationSetByPcsx2 = (dir != nullptr);
 }
 
 FILE *OpenBinaryLog(const wxString &logfile)
@@ -174,7 +174,7 @@ void DisplayDialog()
     // Create the widgets
     dialog = gtk_dialog_new_with_buttons(
         "Spu2-X Config",
-        NULL, // parent window
+        nullptr, // parent window
         (GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
         "Cancel", GTK_RESPONSE_REJECT,
         "OK", GTK_RESPONSE_ACCEPT,

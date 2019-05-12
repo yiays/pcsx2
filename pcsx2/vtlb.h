@@ -206,8 +206,8 @@ namespace vtlb_private
 
 		MapData()
 		{
-			vmap = NULL;
-			ppmap = NULL;
+			vmap = nullptr;
+			ppmap = nullptr;
 		}
 	};
 

@@ -309,7 +309,7 @@ GSTexture* GSRendererHW::GetOutput(int i, int& y_offset)
 
 	// TRACE(_T("[%d] GetOutput %d %05x (%d)\n"), (int)m_perfmon.GetFrame(), i, (int)TEX0.TBP0, (int)TEX0.PSM);
 
-	GSTexture* t = NULL;
+	GSTexture* t = nullptr;
 
 	if(GSTextureCache::Target* rt = m_tc->LookupTarget(TEX0, m_width, m_height, GetFramebufferHeight()))
 	{
@@ -887,8 +887,8 @@ void GSRendererHW::Draw()
 	TEX0.TBW = context->FRAME.FBW;
 	TEX0.PSM = context->FRAME.PSM;
 
-	GSTextureCache::Target* rt = NULL;
-	GSTexture* rt_tex = NULL;
+	GSTextureCache::Target* rt = nullptr;
+	GSTexture* rt_tex = nullptr;
 	if (!no_rt) {
 		rt = m_tc->LookupTarget(TEX0, m_width, m_height, GSTextureCache::RenderTarget, true, fm);
 		rt_tex = rt->m_texture;
@@ -898,8 +898,8 @@ void GSRendererHW::Draw()
 	TEX0.TBW = context->FRAME.FBW;
 	TEX0.PSM = context->ZBUF.PSM;
 
-	GSTextureCache::Target* ds = NULL;
-	GSTexture* ds_tex = NULL;
+	GSTextureCache::Target* ds = nullptr;
+	GSTexture* ds_tex = nullptr;
 	if (!no_ds) {
 		ds = m_tc->LookupTarget(TEX0, m_width, m_height, GSTextureCache::DepthStencil, context->DepthWrite());
 		ds_tex = ds->m_texture;
@@ -1265,9 +1265,9 @@ GSRendererHW::Hacks::Hacks()
 	: m_oi_map(m_oi_list)
 	, m_oo_map(m_oo_list)
 	, m_cu_map(m_cu_list)
-	, m_oi(NULL)
-	, m_oo(NULL)
-	, m_cu(NULL)
+	, m_oi(nullptr)
+	, m_oo(nullptr)
+	, m_cu(nullptr)
 {
 	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::FFXII, CRC::EU, &GSRendererHW::OI_FFXII));
 	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::FFX, CRC::RegionCount, &GSRendererHW::OI_FFX));
@@ -1496,7 +1496,7 @@ bool GSRendererHW::OI_BlitFMV(GSTextureCache::Target* _rt, GSTextureCache::Sourc
 
 bool GSRendererHW::OI_FFXII(GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
 {
-	static uint32* video = NULL;
+	static uint32* video = nullptr;
 	static size_t lines = 0;
 
 	if(lines == 0)

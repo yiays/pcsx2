@@ -36,7 +36,7 @@ static HRESULT s_hr = E_FAIL;
 
 #define PSE_LT_GPU 2
 
-static GPURenderer* s_gpu = NULL;
+static GPURenderer* s_gpu = nullptr;
 
 EXPORT_C_(uint32) PSEgetLibType()
 {
@@ -95,7 +95,7 @@ EXPORT_C_(int32) GPUclose()
 {
 	delete s_gpu;
 
-	s_gpu = NULL;
+	s_gpu = nullptr;
 
 #ifdef _WIN32
 	GSDevice11::FreeD3DCompiler();

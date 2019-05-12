@@ -47,7 +47,7 @@ static Access* ReadIndexFromFile(const wxString& filename) {
 	s64 size = fsize(filename);
 	if (size <= 0) {
 		Console.Error(L"Error: Can't open index file: '%s'", WX_STR(filename));
-		return 0;
+		return nullptr;
 	}
 	std::ifstream infile(PX_wfilename(filename), std::ifstream::binary);
 
@@ -56,7 +56,7 @@ static Access* ReadIndexFromFile(const wxString& filename) {
 	if (wxString::From8BitData(GZIP_ID) != wxString::From8BitData(fileId)) {
 		Console.Error(L"Error: Incompatible gzip index, please delete it manually: '%s'", WX_STR(filename));
 		infile.close();
-		return 0;
+		return nullptr;
 	}
 
 	Access* index = (Access*)malloc(sizeof(Access));
@@ -67,7 +67,7 @@ static Access* ReadIndexFromFile(const wxString& filename) {
 		Console.Error(L"Error: unexpected size of gzip index, please delete it manually: '%s'.", WX_STR(filename));
 		infile.close();
 		free(index);
-		return 0;
+		return nullptr;
 	}
 
 	char* buffer = (char*)malloc(datasize);
@@ -87,7 +87,7 @@ static void WriteIndexToFile(Access* index, const wxString filename) {
 	outfile.write(GZIP_ID, GZIP_ID_LEN);
 
 	Point* tmp = index->list;
-	index->list = 0; // current pointer is useless on disk, normalize it as 0.
+	index->list = nullptr; // current pointer is useless on disk, normalize it as 0.
 	outfile.write((char*)index, sizeof(Access));
 	index->list = tmp;
 
@@ -179,9 +179,9 @@ static wxString iso2indexname(const wxString& isoname) {
 
 GzippedFileReader::GzippedFileReader(void) :
 	mBytesRead(0),
-	m_pIndex(0),
-	m_zstates(0),
-	m_src(0),
+	m_pIndex(nullptr),
+	m_zstates(nullptr),
+	m_src(nullptr),
 	m_cache(GZFILE_CACHE_SIZE_MB) {
 	m_blocksize = 2048;
 	AsyncPrefetchReset();
@@ -190,7 +190,7 @@ GzippedFileReader::GzippedFileReader(void) :
 void GzippedFileReader::InitZstates() {
 	if (m_zstates) {
 		delete[] m_zstates;
-		m_zstates = 0;
+		m_zstates = nullptr;
 	}
 	if (!m_pIndex)
 		return;
@@ -443,7 +443,7 @@ int GzippedFileReader::_ReadSync(void* pBuffer, PX_off_t offset, uint bytesToRea
 	else { // split into cacheable chunks
 		for (int i = 0; i < size; i += GZFILE_READ_CHUNK_SIZE) {
 			int available = CLAMP(res - i, 0, GZFILE_READ_CHUNK_SIZE);
-			void* chunk = available ? malloc(available) : 0;
+			void* chunk = available ? malloc(available) : nullptr;
 			if (available)
 				memcpy(chunk, extracted + i, available);
 			m_cache.Take(chunk, extractOffset + i, available, std::min(size - i, GZFILE_READ_CHUNK_SIZE));
@@ -466,7 +466,7 @@ void GzippedFileReader::Close() {
 	m_filename.Empty();
 	if (m_pIndex) {
 		free_index((Access*)m_pIndex);
-		m_pIndex = 0;
+		m_pIndex = nullptr;
 	}
 
 	InitZstates(); // results in delete because no index
@@ -474,7 +474,7 @@ void GzippedFileReader::Close() {
 
 	if (m_src) {
 		fclose(m_src);
-		m_src = 0;
+		m_src = nullptr;
 	}
 
 	AsyncPrefetchClose();

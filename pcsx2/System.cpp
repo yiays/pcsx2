@@ -59,7 +59,7 @@ void RecompiledCodeReserve::_termProfiler()
 
 void* RecompiledCodeReserve::Reserve( size_t size, uptr base, uptr upper_bounds )
 {
-	if (!_parent::Reserve(size, base, upper_bounds)) return NULL;
+	if (!_parent::Reserve(size, base, upper_bounds)) return nullptr;
 
 	Commit();
 
@@ -547,8 +547,8 @@ bool SysCpuProviderPack::HadSomeFailures( const Pcsx2Config::RecompilerOptions& 
 
 }
 
-BaseVUmicroCPU* CpuVU0 = NULL;
-BaseVUmicroCPU* CpuVU1 = NULL;
+BaseVUmicroCPU* CpuVU0 = nullptr;
+BaseVUmicroCPU* CpuVU1 = nullptr;
 
 void SysCpuProviderPack::ApplyConfig() const
 {
@@ -581,7 +581,7 @@ BaseVUmicroCPU* SysCpuProviderPack::getVUprovider(int whichProvider, int vuIndex
 		case 1: return vuIndex ? (BaseVUmicroCPU*)CpuProviders->superVU1  : (BaseVUmicroCPU*)CpuProviders->superVU0;
 		case 2: return vuIndex ? (BaseVUmicroCPU*)CpuProviders->microVU1  : (BaseVUmicroCPU*)CpuProviders->microVU0;
 	}
-	return NULL;
+	return nullptr;
 }
 #endif
 
@@ -619,7 +619,7 @@ u8* SysMmapEx(uptr base, u32 size, uptr bounds, const char *caller)
 {
 	u8* Mem = (u8*)HostSys::Mmap( base, size );
 
-	if( (Mem == NULL) || (bounds != 0 && (((uptr)Mem + size) > bounds)) )
+	if( (Mem == nullptr) || (bounds != 0 && (((uptr)Mem + size) > bounds)) )
 	{
 		if( base )
 		{

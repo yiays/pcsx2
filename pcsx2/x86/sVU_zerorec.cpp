@@ -91,8 +91,8 @@ static u32 s_vuInfo; // info passed into rec insts
 
 static const u32 s_MemSize[2] = {VU0_MEMSIZE, VU1_MEMSIZE};
 //static u8* s_recVUMem = NULL, *s_recVUPtr = NULL;
-static RecompiledCodeReserve* s_recVUMem[2] = { NULL, NULL };
-static u8* s_recVUPtr[2] = { NULL, NULL };
+static RecompiledCodeReserve* s_recVUMem[2] = { nullptr, nullptr };
+static u8* s_recVUPtr[2] = { nullptr, nullptr };
 
 // tables which are defined at the bottom of this massive file.
 extern void (*recVU_UPPER_OPCODE[64])(VURegs* VU, s32 info);
@@ -141,13 +141,13 @@ struct VuFunctionHeader
 {
 	struct RANGE
 	{
-		RANGE() : start(0), size(0), pmem(NULL) {}
+		RANGE() : start(0), size(0), pmem(nullptr) {}
 
 		u16 start, size;
 		void* pmem; // all the mem
 	};
 
-	VuFunctionHeader() : startpc(0xffffffff), pprogfunc(NULL) {}
+	VuFunctionHeader() : startpc(0xffffffff), pprogfunc(nullptr) {}
 	~VuFunctionHeader()
 	{
 		for (std::vector<RANGE>::iterator it = ranges.begin(); it != ranges.end(); ++it)
@@ -320,15 +320,15 @@ VuBaseBlock::VuBaseBlock()
 #define SUPERVU_STACKSIZE 0x1000
 
 static std::list<VuFunctionHeader*> s_listVUHeaders[2];
-static std::list<VuFunctionHeader*>* s_plistCachedHeaders[2] = {NULL, NULL};
-static VuFunctionHeader** recVUHeaders[2]	= { NULL, NULL };
-static VuBlockHeader* recVUBlocks[2]		= { NULL, NULL };
-static u8* recVUStack[2]					= { NULL, NULL };
-static u8* recVUStackPtr[2]					= { NULL, NULL };
+static std::list<VuFunctionHeader*>* s_plistCachedHeaders[2] = {nullptr, nullptr};
+static VuFunctionHeader** recVUHeaders[2]	= { nullptr, nullptr };
+static VuBlockHeader* recVUBlocks[2]		= { nullptr, nullptr };
+static u8* recVUStack[2]					= { nullptr, nullptr };
+static u8* recVUStackPtr[2]					= { nullptr, nullptr };
 
 static std::vector<_x86regs> s_vecRegArray(128);
 
-static VURegs* VU = NULL;
+static VURegs* VU = nullptr;
 static std::list<VuBaseBlock*> s_listBlocks;
 static u32 s_vu = 0;
 static u32 s_UnconditionalDelay = 0; // 1 if there are two sequential branches and the last is unconditional
@@ -403,7 +403,7 @@ void SuperVUDestroy(int vuindex)
 	safe_delete_array(recVUHeaders[vuindex]);
 	safe_delete_array(recVUBlocks[vuindex]);
 
-	if (s_plistCachedHeaders[vuindex] != NULL)
+	if (s_plistCachedHeaders[vuindex] != nullptr)
 	{
 		for (u32 j = 0; j < s_MemSize[vuindex] / 8; ++j)
 		{
@@ -428,17 +428,17 @@ void SuperVUReset(int vuindex)
 
 	DevCon.WriteLn("SuperVU%d: Resetting function and block lists.", vuindex);
 
-	if (recVUHeaders[vuindex] == NULL)
+	if (recVUHeaders[vuindex] == nullptr)
 		recVUHeaders[vuindex] = new VuFunctionHeader* [s_MemSize[vuindex] / 8];
-	if (recVUBlocks[vuindex] == NULL)
+	if (recVUBlocks[vuindex] == nullptr)
 		recVUBlocks[vuindex] = new VuBlockHeader[s_MemSize[vuindex] / 8];
-	if (s_plistCachedHeaders[vuindex] == NULL)
+	if (s_plistCachedHeaders[vuindex] == nullptr)
 		s_plistCachedHeaders[vuindex] = new std::list<VuFunctionHeader*>[s_MemSize[vuindex] / 8];
 
 	if (recVUHeaders[vuindex]) memset(recVUHeaders[vuindex], 0, sizeof(VuFunctionHeader*) * (s_MemSize[vuindex] / 8));
 	if (recVUBlocks[vuindex]) memset(recVUBlocks[vuindex], 0, sizeof(VuBlockHeader) * (s_MemSize[vuindex] / 8));
 
-	if (s_plistCachedHeaders[vuindex] != NULL)
+	if (s_plistCachedHeaders[vuindex] != nullptr)
 	{
 		for (u32 j = 0; j < s_MemSize[vuindex] / 8; ++j)
 		{
@@ -475,7 +475,7 @@ static void __fastcall SuperVUClear(u32 startpc, u32 size, int vuindex)
 
 		if (itrange != (*it)->ranges.end())
 		{
-			recVUHeaders[vuindex][(*it)->startpc/8] = NULL;
+			recVUHeaders[vuindex][(*it)->startpc/8] = nullptr;
 #ifdef SUPERVU_CACHING
 			std::list<VuFunctionHeader*>* plist = &s_plistCachedHeaders[vuindex][(*it)->startpc / 8];
 			plist->push_back(*it);
@@ -496,9 +496,9 @@ static void __fastcall SuperVUClear(u32 startpc, u32 size, int vuindex)
 	}
 }
 
-static VuFunctionHeader* s_pFnHeader = NULL;
-static VuBaseBlock* s_pCurBlock = NULL;
-static VuInstruction* s_pCurInst = NULL;
+static VuFunctionHeader* s_pFnHeader = nullptr;
+static VuBaseBlock* s_pCurBlock = nullptr;
+static VuInstruction* s_pCurInst = nullptr;
 static u32 s_StatusRead = 0, s_MACRead = 0, s_ClipRead = 0; // read addrs
 static u32 s_PrevStatusWrite = 0, s_PrevMACWrite = 0, s_PrevClipWrite = 0, s_PrevIWrite = 0;
 static u32 s_WriteToReadQ = 0;
@@ -511,7 +511,7 @@ u32 s_TotalVUCycles; // total cycles since start of program execution
 
 u32 SuperVUGetVIAddr(int reg, int read)
 {
-	pxAssert(s_pCurInst != NULL);
+	pxAssert(s_pCurInst != nullptr);
 
 	switch (reg)
 	{
@@ -704,10 +704,10 @@ void* SuperVUGetProgram(u32 startpc, int vuindex)
 {
 	pxAssert(startpc < s_MemSize[vuindex]);
 	pxAssert((startpc % 8) == 0);
-	pxAssert(recVUHeaders[vuindex] != NULL);
+	pxAssert(recVUHeaders[vuindex] != nullptr);
 	VuFunctionHeader** pheader = &recVUHeaders[vuindex][startpc/8];
 
-	if (*pheader == NULL)
+	if (*pheader == nullptr)
 	{
 
 #ifdef SUPERVU_CACHING
@@ -730,7 +730,7 @@ void* SuperVUGetProgram(u32 startpc, int vuindex)
 
 		*pheader = SuperVURecompileProgram(startpc, vuindex);
 
-		if (*pheader == NULL)
+		if (*pheader == nullptr)
 		{
 			pxAssert(s_TotalVUCycles > 0);
 			if (vuindex)
@@ -741,7 +741,7 @@ void* SuperVUGetProgram(u32 startpc, int vuindex)
 			return (void*)SuperVUEndProgram;
 		}
 
-		pxAssert((*pheader)->pprogfunc != NULL);
+		pxAssert((*pheader)->pprogfunc != nullptr);
 	}
 	//else pxAssert( (*pheader)->IsSame((vuindex&1) ? VU1.Micro : VU0.Micro) );
 
@@ -820,7 +820,7 @@ void VuBaseBlock::GetInstsAtPc(int instpc, std::list<VuInstruction*>& listinsts)
 static VuFunctionHeader* SuperVURecompileProgram(u32 startpc, int vuindex)
 {
 	pxAssert(vuindex == 0 || vuindex == 1);
-	pxAssert(s_recVUPtr[vuindex] != NULL);
+	pxAssert(s_recVUPtr[vuindex] != nullptr);
 	//Console.WriteLn("svu%c rec: %x", '0'+vuindex, startpc);
 
 	// if recPtr reached the mem limit reset whole mem
@@ -832,7 +832,7 @@ static VuFunctionHeader* SuperVURecompileProgram(u32 startpc, int vuindex)
 		if (s_TotalVUCycles > 0)
 		{
 			// already executing, so return NULL
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -853,7 +853,7 @@ static VuFunctionHeader* SuperVURecompileProgram(u32 startpc, int vuindex)
 	memzero(pipes.fdiv);
 	memzero(pipes.efu);
 	memzero(pipes.ialu);
-	SuperVUBuildBlocks(NULL, startpc, pipes);
+	SuperVUBuildBlocks(nullptr, startpc, pipes);
 
 	// fill parents
 	VuBaseBlock::LISTBLOCKS::iterator itchild;
@@ -993,11 +993,11 @@ static VuInstruction* getDelayInst(VuInstruction* pInst)
 	// ibeq vi01, vi02     <- reads current values of both vi01 and vi02 because the branch instruction stalls
 
 	int delay = 1;
-	VuInstruction* pDelayInst = NULL;
+	VuInstruction* pDelayInst = nullptr;
 	VuInstruction* pTargetInst = pInst->pPrevInst;
 	while (1)
 	{
-		if (pTargetInst != NULL
+		if (pTargetInst != nullptr
 		        && pTargetInst->info.cycle + delay == pInst->info.cycle
 		        && (pTargetInst->regs[0].pipe == VUPIPE_IALU || pTargetInst->regs[0].pipe == VUPIPE_FMAC)
 		        && ((pTargetInst->regs[0].VIwrite & pInst->regs[0].VIread) & 0xffff)
@@ -1027,7 +1027,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 	startpc &= (s_vu ? 0x3fff : 0xfff);
 	VuBlockHeader* pbh = &recVUBlocks[s_vu][startpc/8];
 
-	if (pbh->pblock != NULL)
+	if (pbh->pblock != nullptr)
 	{
 
 		VuBaseBlock* pblock = pbh->pblock;
@@ -1208,7 +1208,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 	// second full pass
 	pc = startpc;
 	g_branch = 0;
-	VuInstruction* pprevinst = NULL, *pinst = NULL;
+	VuInstruction* pprevinst = nullptr, *pinst = nullptr;
 
 	while (1)
 	{
@@ -1219,7 +1219,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 			break;
 		}
 
-		if (!g_branch && pbh->pblock != NULL)
+		if (!g_branch && pbh->pblock != nullptr)
 		{
 			pblock->blocks.push_back(pbh->pblock);
 			break;
@@ -1231,7 +1231,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 		{
 			pbh->pblock = pblock;
 		}
-		else pxAssert(prevbranch || pbh->pblock == NULL);
+		else pxAssert(prevbranch || pbh->pblock == nullptr);
 
 		pblock->insts.push_back(VuInstruction());
 
@@ -1480,7 +1480,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 
 				// update pblock since could have changed
 				pblock = recVUBlocks[s_vu][lastpc/8-2].pblock;
-				pxAssert(pblock != NULL);
+				pxAssert(pblock != nullptr);
 
 				pblock->blocks.push_back(pjumpblock);
 				firstbranch = 0xff; //Non-Conditional Jump
@@ -1492,7 +1492,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 
 				// update pblock since could have changed
 				pblock = recVUBlocks[s_vu][lastpc/8-2].pblock;
-				pxAssert(pblock != NULL);
+				pxAssert(pblock != nullptr);
 
 				pblock->blocks.push_back(pbranchblock);
 				firstbranch = 0xff; //Non-Conditional Jump
@@ -1504,7 +1504,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 
 				// update pblock since could have changed
 				pblock = recVUBlocks[s_vu][lastpc/8-2].pblock;
-				pxAssert(pblock != NULL);
+				pxAssert(pblock != nullptr);
 				pblock->blocks.push_back(pbranchblock);
 				firstbranch = 0xff; //Non-Conditional Jump
 				break;
@@ -1520,7 +1520,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 
 				// update pblock since could have changed
 				pblock = recVUBlocks[s_vu][lastpc/8-2].pblock;
-				pxAssert(pblock != NULL);
+				pxAssert(pblock != nullptr);
 				pblock->blocks.push_back(pbranchblock);
 
 				// if has a second branch that is B or BAL, skip this
@@ -2695,7 +2695,7 @@ static void SuperVURecompile()
 	// make sure everything compiled
 	for(itblock = s_listBlocks.begin(); itblock != s_listBlocks.end(); itblock++)
 	{
-		pxAssert(((*itblock)->type & BLOCKTYPE_ANALYZED) && (*itblock)->pcode != NULL);
+		pxAssert(((*itblock)->type & BLOCKTYPE_ANALYZED) && (*itblock)->pcode != nullptr);
 	}
 
 	// link all blocks
@@ -2712,7 +2712,7 @@ static void SuperVURecompile()
 			if ((u32)(uptr)(*itblock)->pChildJumps[i] == 0xffffffff)
 				continue;
 
-			if ((*itblock)->pChildJumps[i] == NULL)
+			if ((*itblock)->pChildJumps[i] == nullptr)
 			{
 				VuBaseBlock* pchild = *itchild;
 
@@ -3287,7 +3287,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 	{
 
 		// find nParentPc
-		VuInstruction* pparentinst = NULL;
+		VuInstruction* pparentinst = nullptr;
 
 		// if true, will check if parent block was executed before getting the results of the flags (superman returns)
 		int nParentCheckForExecution = -1;
@@ -3321,7 +3321,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 				}
 			}
 
-			pxAssert(pparentinst != NULL);
+			pxAssert(pparentinst != nullptr);
 		}
 #endif
 
@@ -3330,7 +3330,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 			if (nParentPc < s_pCurBlock->startpc || nParentPc >= (int)pc)
 			{
 
-				if (!CHECK_VUCLIPFLAGHACK && pparentinst != NULL)
+				if (!CHECK_VUCLIPFLAGHACK && pparentinst != nullptr)
 				{
 
 					if (nParentCheckForExecution >= 0)
@@ -3372,7 +3372,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 				{
 
 					// reading from out of this block, so already flushed to mem
-					if (pparentinst != NULL)    //&& pparentinst->pStatusWrite != NULL ) {
+					if (pparentinst != nullptr)    //&& pparentinst->pStatusWrite != NULL ) {
 					{
 
 						// might not have processed it yet, so reserve a mem loc
@@ -3445,7 +3445,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 				{
 					// reading from out of this block, so already flushed to mem
 
-					if (pparentinst != NULL)   //&& pparentinst->pMACWrite != NULL ) {
+					if (pparentinst != nullptr)   //&& pparentinst->pMACWrite != NULL ) {
 					{
 						// necessary for (katamari)
 						// towards the end, so variable might be leaked to another block (silent hill 4)
@@ -3514,7 +3514,7 @@ void VuInstruction::Recompile(std::list<VuInstruction>::iterator& itinst, u32 vu
 
 			s_pCurBlock->prevFlagsOutOfBlock = outofblock;
 		}
-		else if (pparentinst != NULL)
+		else if (pparentinst != nullptr)
 		{
 			// make sure to reset the mac and status flags! (katamari)
 			if (pparentinst->pStatusWrite)

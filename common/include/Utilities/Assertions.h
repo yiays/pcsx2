@@ -41,7 +41,7 @@ struct DiagnosticOrigin
     const wxChar *condition;
     int line;
 
-    DiagnosticOrigin(const wxChar *_file, int _line, const FnChar_t *_func, const wxChar *_cond = NULL)
+    DiagnosticOrigin(const wxChar *_file, int _line, const FnChar_t *_func, const wxChar *_cond = nullptr)
         : srcfile(_file)
         , function(_func)
         , condition(_cond)
@@ -49,7 +49,7 @@ struct DiagnosticOrigin
     {
     }
 
-    wxString ToString(const wxChar *msg = NULL) const;
+    wxString ToString(const wxChar *msg = nullptr) const;
 };
 
 // Returns ture if the assertion is to trap into the debugger, or false if execution
@@ -186,7 +186,7 @@ extern pxDoAssertFnType *pxDoAssert;
                                                             pxsFmt(L"Array index out of bounds accessing object '%s' (index=%d, size=%d)", objname, (idx), (sze)))
 
 
-extern void pxOnAssert(const DiagnosticOrigin &origin, const wxChar *msg = NULL);
+extern void pxOnAssert(const DiagnosticOrigin &origin, const wxChar *msg = nullptr);
 extern void pxOnAssert(const DiagnosticOrigin &origin, const char *msg);
 extern void pxOnAssert(const DiagnosticOrigin &origin, const wxString &msg);
 extern void pxOnAssert(const DiagnosticOrigin &origin, const FastFormatUnicode &msg);

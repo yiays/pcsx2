@@ -97,7 +97,7 @@ class PluginErrorEvent : public pxExceptionEvent
 	typedef pxExceptionEvent _parent;
 
 public:
-	PluginErrorEvent( BaseException* ex=NULL ) : _parent( ex ) {}
+	PluginErrorEvent( BaseException* ex=nullptr ) : _parent( ex ) {}
 	PluginErrorEvent( const BaseException& ex ) : _parent( ex ) {}
 
 	virtual ~PluginErrorEvent() = default;
@@ -112,7 +112,7 @@ class PluginInitErrorEvent : public pxExceptionEvent
 	typedef pxExceptionEvent _parent;
 
 public:
-	PluginInitErrorEvent( BaseException* ex=NULL ) : _parent( ex ) {}
+	PluginInitErrorEvent( BaseException* ex=nullptr ) : _parent( ex ) {}
 	PluginInitErrorEvent( const BaseException& ex ) : _parent( ex ) {}
 
 	virtual ~PluginInitErrorEvent() = default;
@@ -128,7 +128,7 @@ void PluginErrorEvent::InvokeEvent()
 	if( !m_except ) return;
 
 	ScopedExcept deleteMe( m_except );
-	m_except = NULL;
+	m_except = nullptr;
 
 	if( !HandlePluginError( *deleteMe ) )
 	{
@@ -142,7 +142,7 @@ void PluginInitErrorEvent::InvokeEvent()
 	if( !m_except ) return;
 
 	ScopedExcept deleteMe( m_except );
-	m_except = NULL;
+	m_except = nullptr;
 
 	if( !HandlePluginError( *deleteMe ) )
 	{
@@ -165,7 +165,7 @@ class BIOSLoadErrorEvent : public pxExceptionEvent
 	typedef pxExceptionEvent _parent;
 
 public:
-	BIOSLoadErrorEvent(BaseException* ex = NULL) : _parent(ex) {}
+	BIOSLoadErrorEvent(BaseException* ex = nullptr) : _parent(ex) {}
 	BIOSLoadErrorEvent(const BaseException& ex) : _parent(ex) {}
 
 	virtual ~BIOSLoadErrorEvent() = default;
@@ -199,7 +199,7 @@ void BIOSLoadErrorEvent::InvokeEvent()
 	if (!m_except) return;
 
 	ScopedExcept deleteMe(m_except);
-	m_except = NULL;
+	m_except = nullptr;
 
 	if (!HandleBIOSError(*deleteMe))
 	{
@@ -213,7 +213,7 @@ void BIOSLoadErrorEvent::InvokeEvent()
 void Pcsx2App::PostMenuAction( MenuIdentifiers menu_id ) const
 {
 	MainEmuFrame* mainFrame = GetMainFramePtr();
-	if( mainFrame == NULL ) return;
+	if( mainFrame == nullptr ) return;
 
 	wxCommandEvent joe( wxEVT_MENU, menu_id );
 	if( wxThread::IsMain() )
@@ -241,7 +241,7 @@ public:
 	virtual ~Pcsx2AppMethodEvent() = default;
 	virtual Pcsx2AppMethodEvent *Clone() const { return new Pcsx2AppMethodEvent(*this); }
 
-	explicit Pcsx2AppMethodEvent( FnPtr_Pcsx2App method=NULL, SynchronousActionState* sema=NULL )
+	explicit Pcsx2AppMethodEvent( FnPtr_Pcsx2App method=nullptr, SynchronousActionState* sema=nullptr )
 		: pxActionEvent( sema )
 	{
 		m_Method = method;
@@ -570,7 +570,7 @@ void Pcsx2App::LogicalVsync()
 
 	// Only call PADupdate here if we're using GSopen2.  Legacy GSopen plugins have the
 	// GS window belonging to the MTGS thread.
-	if( (PADupdate != NULL) && (GSopen2 != NULL) && (wxGetApp().GetGsFramePtr() != NULL) )
+	if( (PADupdate != nullptr) && (GSopen2 != nullptr) && (wxGetApp().GetGsFramePtr() != nullptr) )
 		PADupdate(0);
 
 	while( const keyEvent* ev = PADkeyEvent() )
@@ -587,7 +587,7 @@ void Pcsx2App::LogicalVsync()
 
 void Pcsx2App::OnEmuKeyDown( wxKeyEvent& evt )
 {
-	const GlobalCommandDescriptor* cmd = NULL;
+	const GlobalCommandDescriptor* cmd = nullptr;
 	if (GlobalAccels)
 	{
 		std::unordered_map<int, const GlobalCommandDescriptor*>::const_iterator iter(GlobalAccels->find(KeyAcceleratorCode(evt).val32));
@@ -595,7 +595,7 @@ void Pcsx2App::OnEmuKeyDown( wxKeyEvent& evt )
 			cmd = iter->second;
 	}
 
-	if( cmd == NULL )
+	if( cmd == nullptr )
 	{
 		evt.Skip();
 		return;
@@ -621,11 +621,11 @@ void Pcsx2App::HandleEvent(wxEvtHandler* handler, wxEventFunction func, wxEvent&
 			{
 				// While stopping, GSFrame key event also stops, so get key input from here
 				// Along with that, you can not use the shortcut keys set in GSFrame
-				if (PADkeyEvent != NULL)
+				if (PADkeyEvent != nullptr)
 				{
 					// Acquire key information, possibly calling it only once per frame
 					const keyEvent* ev = PADkeyEvent();
-					if (ev != NULL)
+					if (ev != nullptr)
 					{
 						sApp.Recording_PadKeyDispatch(*ev);
 					}
@@ -798,7 +798,7 @@ MainEmuFrame& Pcsx2App::GetMainFrame() const
 {
 	MainEmuFrame* mainFrame = GetMainFramePtr();
 
-	pxAssert(mainFrame != NULL);
+	pxAssert(mainFrame != nullptr);
 	pxAssert(((uptr)GetTopWindow()) == ((uptr)mainFrame));
 	return  *mainFrame;
 }
@@ -806,7 +806,7 @@ MainEmuFrame& Pcsx2App::GetMainFrame() const
 GSFrame& Pcsx2App::GetGsFrame() const
 {
 	GSFrame* gsFrame  = (GSFrame*)wxWindow::FindWindowById( m_id_GsFrame );
-	pxAssert(gsFrame != NULL);
+	pxAssert(gsFrame != nullptr);
 	return  *gsFrame;
 }
 
@@ -854,7 +854,7 @@ void AppApplySettings( const AppConfig* oldconf )
 
 	RelocateLogfile();
 
-	if( (oldconf == NULL) || (oldconf->LanguageCode.CmpNoCase(g_Conf->LanguageCode)) )
+	if( (oldconf == nullptr) || (oldconf->LanguageCode.CmpNoCase(g_Conf->LanguageCode)) )
 	{
 		wxDoNotLogInThisScope please;
 		i18n_SetLanguage( g_Conf->LanguageId, g_Conf->LanguageCode );
@@ -939,7 +939,7 @@ void Pcsx2App::OpenGsPanel()
 	if( AppRpc_TryInvoke( &Pcsx2App::OpenGsPanel ) ) return;
 
 	GSFrame* gsFrame = GetGsFramePtr();
-	if( gsFrame == NULL )
+	if( gsFrame == nullptr )
 	{
 		gsFrame = new GSFrame(GetAppName() );
 		m_id_GsFrame = gsFrame->GetId();
@@ -1127,7 +1127,7 @@ protected:
 		CDVDsys_SetFile(CDVD_SourceType::Iso, g_Conf->CurrentIso );
 		if( m_UseCDVDsrc )
 			CDVDsys_ChangeSource( m_cdvdsrc_type );
-		else if( CDVD == NULL )
+		else if( CDVD == nullptr )
 			CDVDsys_ChangeSource(CDVD_SourceType::NoDisc);
 
 		if( m_UseELFOverride && !CoreThread.HasActiveMachine() )
@@ -1198,7 +1198,7 @@ MainEmuFrame& GetMainFrame()
 // the wxApp is NULL then this will also return NULL.
 MainEmuFrame* GetMainFramePtr()
 {
-	return wxTheApp ? wxGetApp().GetMainFramePtr() : NULL;
+	return wxTheApp ? wxGetApp().GetMainFramePtr() : nullptr;
 }
 
 SysMainMemory& GetVmMemory()

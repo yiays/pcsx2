@@ -201,7 +201,7 @@ void GSPanel::DoShowMouse()
 
 void GSPanel::DoResize()
 {
-	if( GetParent() == NULL ) return;
+	if( GetParent() == nullptr ) return;
 	wxSize client = GetParent()->GetClientSize();
 	wxSize viewport = client;
 
@@ -288,7 +288,7 @@ void GSPanel::OnMouseEvent( wxMouseEvent& evt )
 #if defined(__unix__)
 	// HACK2: In gsopen2 there is one event buffer read by both wx/gui and pad plugin. Wx deletes
 	// the event before the pad see it. So you send key event directly to the pad.
-	if( (PADWriteEvent != NULL) && (GSopen2 != NULL) ) {
+	if( (PADWriteEvent != nullptr) && (GSopen2 != nullptr) ) {
 		keyEvent event;
 		// FIXME how to handle double click ???
 		if (evt.ButtonDown()) {
@@ -351,7 +351,7 @@ void GSPanel::OnKeyDownOrUp( wxKeyEvent& evt )
 #if defined(__unix__)
 	// HACK2: In gsopen2 there is one event buffer read by both wx/gui and pad plugin. Wx deletes
 	// the event before the pad see it. So you send key event directly to the pad.
-	if( (PADWriteEvent != NULL) && (GSopen2 != NULL) ) {
+	if( (PADWriteEvent != nullptr) && (GSopen2 != nullptr) ) {
 		keyEvent event;
 		event.key = evt.GetRawKeyCode();
 		if (evt.GetEventType() == wxEVT_KEY_UP)
@@ -384,7 +384,7 @@ void GSPanel::OnKeyDownOrUp( wxKeyEvent& evt )
 		evt.m_keyCode += (int)'a' - 'A';
 #endif
 
-	if ((PADopen != NULL) && CoreThread.IsOpen())
+	if ((PADopen != nullptr) && CoreThread.IsOpen())
 	{
 		return;
 	}
@@ -394,7 +394,7 @@ void GSPanel::OnKeyDownOrUp( wxKeyEvent& evt )
 
 void GSPanel::DirectKeyCommand( const KeyAcceleratorCode& kac )
 {
-	const GlobalCommandDescriptor* cmd = NULL;
+	const GlobalCommandDescriptor* cmd = nullptr;
 
 	std::unordered_map<int, const GlobalCommandDescriptor*>::const_iterator iter(m_Accels->find(kac.val32));
 	if (iter == m_Accels->end())
@@ -437,7 +437,7 @@ void GSPanel::OnFocus( wxFocusEvent& evt )
 #if defined(__unix__)
 	// HACK2: In gsopen2 there is one event buffer read by both wx/gui and pad plugin. Wx deletes
 	// the event before the pad see it. So you send key event directly to the pad.
-	if( (PADWriteEvent != NULL) && (GSopen2 != NULL) ) {
+	if( (PADWriteEvent != nullptr) && (GSopen2 != nullptr) ) {
 		keyEvent event = {0, 9}; // X equivalent of FocusIn;
 		PADWriteEvent(event);
 	}
@@ -455,7 +455,7 @@ void GSPanel::OnFocusLost( wxFocusEvent& evt )
 #if defined(__unix__)
 	// HACK2: In gsopen2 there is one event buffer read by both wx/gui and pad plugin. Wx deletes
 	// the event before the pad see it. So you send key event directly to the pad.
-	if( (PADWriteEvent != NULL) && (GSopen2 != NULL) ) {
+	if( (PADWriteEvent != nullptr) && (GSopen2 != nullptr) ) {
 		keyEvent event = {0, 10}; // X equivalent of FocusOut
 		PADWriteEvent(event);
 	}
@@ -503,7 +503,7 @@ static const uint TitleBarUpdateMsWhenRecording = 50;
 #endif
 
 GSFrame::GSFrame( const wxString& title)
-	: wxFrame(NULL, wxID_ANY, title, g_Conf->GSWindow.WindowPos)
+	: wxFrame(nullptr, wxID_ANY, title, g_Conf->GSWindow.WindowPos)
 	, m_timer_UpdateTitle( this )
 {
 	SetIcons( wxGetApp().GetIconBundle() );

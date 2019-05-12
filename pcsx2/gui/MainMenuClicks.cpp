@@ -231,7 +231,7 @@ wxWindowID SwapOrReset_CdvdSrc( wxWindow* owner, CDVD_SourceType newsrc )
 static wxString JoinFiletypes( const wxChar** src )
 {
 	wxString dest;
-	while( *src != NULL )
+	while( *src != nullptr )
 	{
 		if( *src[0] == 0 ) continue;
 		if( !dest.IsEmpty() )
@@ -256,7 +256,7 @@ bool MainEmuFrame::_DoSelectIsoBrowser( wxString& result )
 {
 	static const wxChar* isoSupportedTypes[] =
 	{
-		L"iso", L"mdf", L"nrg", L"bin", L"img", NULL
+		L"iso", L"mdf", L"nrg", L"bin", L"img", nullptr
 	};
 
 	const wxString isoSupportedLabel( JoinString(isoSupportedTypes, L" ") );
@@ -744,11 +744,11 @@ void MainEmuFrame::VideoCaptureUpdate()
 		if (GSsetupRecording)
 		{
 			// GSsetupRecording can be aborted/canceled by the user. Don't go on to record the audio if that happens.
-			if (GSsetupRecording(m_capturingVideo, NULL))
+			if (GSsetupRecording(m_capturingVideo, nullptr))
 			{
 				if (SPU2setupRecording)
 				{
-					SPU2setupRecording(m_capturingVideo, NULL);
+					SPU2setupRecording(m_capturingVideo, nullptr);
 				}
 			}
 			else
@@ -762,7 +762,7 @@ void MainEmuFrame::VideoCaptureUpdate()
 			// the GS doesn't support recording.
 			if (SPU2setupRecording)
 			{
-				SPU2setupRecording(m_capturingVideo, NULL);
+				SPU2setupRecording(m_capturingVideo, nullptr);
 			}
 		}
 
@@ -777,11 +777,11 @@ void MainEmuFrame::VideoCaptureUpdate()
 		// stop recording
 		if (GSsetupRecording)
 		{
-			GSsetupRecording(m_capturingVideo, NULL);
+			GSsetupRecording(m_capturingVideo, nullptr);
 		}
 		if (SPU2setupRecording)
 		{
-			SPU2setupRecording(m_capturingVideo, NULL);
+			SPU2setupRecording(m_capturingVideo, nullptr);
 		}
 	}
 
@@ -863,7 +863,7 @@ void MainEmuFrame::Menu_Recording_Stop_Click(wxCommandEvent &event)
 
 void MainEmuFrame::Menu_Recording_VirtualPad_Open_Click(wxCommandEvent &event)
 {
-	VirtualPad *vp = NULL;
+	VirtualPad *vp = nullptr;
 	if (event.GetId() == MenuId_Recording_VirtualPad_Port0)
 	{
 		vp = wxGetApp().GetVirtualPadPtr(0);
@@ -872,7 +872,7 @@ void MainEmuFrame::Menu_Recording_VirtualPad_Open_Click(wxCommandEvent &event)
 	{
 		vp = wxGetApp().GetVirtualPadPtr(1);
 	}
-	if (vp != NULL)
+	if (vp != nullptr)
 	{
 		vp->Show();
 	}

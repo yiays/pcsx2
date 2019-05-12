@@ -759,7 +759,7 @@ void GPUState::Buffer::Reserve(int size)
 		int new_maxbytes = (maxbytes + size + 1023) & ~1023;
 		uint8* new_buff = (uint8*)_aligned_malloc(new_maxbytes, 32);
 
-		if(buff != NULL)
+		if(buff != nullptr)
 		{
 			memcpy(new_buff, buff, maxbytes);
 			_aligned_free(buff);

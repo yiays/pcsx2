@@ -226,7 +226,7 @@ bool PollX11KeyboardMouseEvent(u32 &pkey)
 {
     GdkEvent *ev = gdk_event_get();
 
-    if (ev != NULL) {
+    if (ev != nullptr) {
         if (ev->type == GDK_KEY_PRESS) {
             pkey = ev->key.keyval != GDK_KEY_Escape ? ev->key.keyval : 0;
             return true;

@@ -64,7 +64,7 @@ namespace Dialogs
 		wxStaticBitmap m_bitmap_logo;
 
 	public:
-		AboutBoxDialog( wxWindow* parent=NULL );
+		AboutBoxDialog( wxWindow* parent=nullptr );
 		virtual ~AboutBoxDialog() = default;
 
 		static wxString GetNameStatic() { return L"AboutBox"; }

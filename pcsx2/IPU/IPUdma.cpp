@@ -84,7 +84,7 @@ static __fi int IPU1chain() {
 
 		pMem = (u32*)dmaGetAddr(ipu1ch.madr, false);
 
-		if (pMem == NULL)
+		if (pMem == nullptr)
 		{
 			Console.Error("ipu1dma NULL!");
 			return totalqwc;

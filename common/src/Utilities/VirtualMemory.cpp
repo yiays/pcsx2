@@ -25,7 +25,7 @@
 
 template class EventSource<IEventListener_PageFault>;
 
-SrcType_PageFault *Source_PageFault = NULL;
+SrcType_PageFault *Source_PageFault = nullptr;
 Threading::Mutex PageFault_Mutex;
 
 void pxInstallSignalHandler()
@@ -77,7 +77,7 @@ VirtualMemoryReserve::VirtualMemoryReserve(const wxString &name, size_t size)
 
     m_pages_commited = 0;
     m_pages_reserved = 0;
-    m_baseptr = NULL;
+    m_baseptr = nullptr;
     m_prot_mode = PageAccess_None();
     m_allow_writes = true;
 }
@@ -117,13 +117,13 @@ VirtualMemoryReserve &VirtualMemoryReserve::SetPageAccessOnCommit(const PageProt
 //     object will fail to initialize and an exception will be thrown.
 void *VirtualMemoryReserve::Reserve(size_t size, uptr base, uptr upper_bounds)
 {
-    if (!pxAssertDev(m_baseptr == NULL, "(VirtualMemoryReserve) Invalid object state; object has already been reserved."))
+    if (!pxAssertDev(m_baseptr == nullptr, "(VirtualMemoryReserve) Invalid object state; object has already been reserved."))
         return m_baseptr;
 
     if (!size)
         size = m_defsize;
     if (!size)
-        return NULL;
+        return nullptr;
 
     m_pages_reserved = (size + __pagesize - 4) / __pagesize;
     uptr reserved_bytes = m_pages_reserved * __pagesize;
@@ -149,7 +149,7 @@ void *VirtualMemoryReserve::Reserve(size_t size, uptr base, uptr upper_bounds)
     }
 
     if (!m_baseptr)
-        return NULL;
+        return nullptr;
 
     FastFormatUnicode mbkb;
     uint mbytes = reserved_bytes / _1mb;

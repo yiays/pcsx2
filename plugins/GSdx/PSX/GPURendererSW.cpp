@@ -25,7 +25,7 @@
 
 GPURendererSW::GPURendererSW(GSDevice* dev, int threads)
 	: GPURendererT<GSVertexSW>(dev)
-	, m_texture(NULL)
+	, m_texture(nullptr)
 {
 	m_output = (uint32*)_aligned_malloc(m_mem.GetWidth() * m_mem.GetHeight() * sizeof(uint32), 32);
 
@@ -45,7 +45,7 @@ void GPURendererSW::ResetDevice()
 {
 	delete m_texture;
 
-	m_texture = NULL;
+	m_texture = nullptr;
 }
 
 GSTexture* GPURendererSW::GetOutput()

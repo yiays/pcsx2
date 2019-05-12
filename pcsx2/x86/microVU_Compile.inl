@@ -380,7 +380,7 @@ void mVUtestCycles(microVU& mVU) {
 			// xFastCall(mVUwarning0, mVU.prog.cur->idx, xPC); // VU0 is allowed early exit for COP2 Interlock Simulation
 			// mVUrestoreRegs(mVU, true);
 			mVUsavePipelineState(mVU);
-			mVUendProgram(mVU, NULL, 0);
+			mVUendProgram(mVU, nullptr, 0);
 			// vu0jmp.SetTarget();
 		}
 		else {
@@ -388,7 +388,7 @@ void mVUtestCycles(microVU& mVU) {
 			xFastCall(mVUwarning1, mVU.prog.cur->idx, xPC);
 			mVUrestoreRegs(mVU, true);
 			mVUsavePipelineState(mVU);
-			mVUendProgram(mVU, NULL, 0);
+			mVUendProgram(mVU, nullptr, 0);
 		}
 		skip.SetTarget();
 	}

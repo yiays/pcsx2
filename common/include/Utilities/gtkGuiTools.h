@@ -105,7 +105,7 @@ static void pcsx2_message(const char *fmt, ...)
         msg[strlen(msg) - 1] = 0;
 
     GtkWidget *dialog;
-    dialog = gtk_message_dialog_new(NULL,
+    dialog = gtk_message_dialog_new(nullptr,
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
                                     GTK_MESSAGE_INFO,
                                     GTK_BUTTONS_OK,
@@ -123,7 +123,7 @@ static void pcsx2_message(const wchar_t *fmt, ...)
     va_end(list);
 
     GtkWidget *dialog;
-    dialog = gtk_message_dialog_new(NULL,
+    dialog = gtk_message_dialog_new(nullptr,
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
                                     GTK_MESSAGE_INFO,
                                     GTK_BUTTONS_OK,

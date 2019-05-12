@@ -70,7 +70,7 @@ public:
             ExactAlloc(newsize);
     }
 
-    bool IsDisposed() const { return (m_ptr == NULL); }
+    bool IsDisposed() const { return (m_ptr == nullptr); }
 
     // Returns the size of the memory allocation, as according to the array type.
     int GetLength() const { return m_size; }

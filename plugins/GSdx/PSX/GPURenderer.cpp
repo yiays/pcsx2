@@ -104,7 +104,7 @@ bool GPURenderer::Create(void* hWnd)
 
 bool GPURenderer::Merge()
 {
-	GSTexture* st[3] = {GetOutput(), NULL, NULL};
+	GSTexture* st[3] = {GetOutput(), nullptr, nullptr};
 
 	if(!st[0])
 	{
@@ -210,7 +210,7 @@ void GPURenderer::VSync()
 
 bool GPURenderer::MakeSnapshot(const std::string& path)
 {
-	time_t t = time(NULL);
+	time_t t = time(nullptr);
 
 	char buff[16];
 

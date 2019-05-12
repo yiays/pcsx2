@@ -86,7 +86,7 @@ void _platform_InstallSignalHandler()
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = SysPageFaultSignalFilter;
-    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGSEGV, &sa, nullptr);
 }
 
 static __ri void PageSizeAssertionTest(size_t size)

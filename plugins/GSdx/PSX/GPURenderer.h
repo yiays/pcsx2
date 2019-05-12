@@ -123,13 +123,13 @@ protected:
 		int maxcount = std::max<int>(m_maxcount * 3 / 2, 10000);
 		Vertex* vertices = (Vertex*)_aligned_malloc(sizeof(Vertex) * maxcount, 32);
 
-		if(vertices == NULL)
+		if(vertices == nullptr)
 		{
 			printf("GSdx: failed to allocate %d bytes for verticles.\n", (int)sizeof(Vertex) * maxcount);
 			throw GSDXError();
 		}
 
-		if(m_vertices != NULL)
+		if(m_vertices != nullptr)
 		{
 			memcpy(vertices, m_vertices, sizeof(Vertex) * m_maxcount);
 			_aligned_free(m_vertices);
@@ -145,7 +145,7 @@ protected:
 
 		if(m_vl.GetCount() < count)
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		if(m_count >= m_maxcount)
@@ -176,7 +176,7 @@ protected:
 		default:
 			ASSERT(0);
 			m_vl.RemoveAll();
-			return NULL;
+			return nullptr;
 		}
 
 		return v;
@@ -189,7 +189,7 @@ protected:
 public:
 	GPURendererT(GSDevice* dev)
 		: GPURenderer(dev)
-		, m_vertices(NULL)
+		, m_vertices(nullptr)
 		, m_count(0)
 		, m_maxcount(0)
 	{

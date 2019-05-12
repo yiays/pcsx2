@@ -244,7 +244,7 @@ public:
 	EventListenerHelper_AppStatus( TypeToDispatchTo* dispatchTo )
 		: Owner( *dispatchTo )
 	{
-		pxAssert(dispatchTo != NULL);
+		pxAssert(dispatchTo != nullptr);
 	}
 
 	virtual ~EventListenerHelper_AppStatus() = default;
@@ -271,7 +271,7 @@ public:
 	virtual ~CoreThreadStatusEvent() = default;
 	CoreThreadStatusEvent* Clone() const { return new CoreThreadStatusEvent( *this ); }
 
-	explicit CoreThreadStatusEvent( CoreThreadStatus evt, SynchronousActionState* sema=NULL );
+	explicit CoreThreadStatusEvent( CoreThreadStatus evt, SynchronousActionState* sema=nullptr );
 	explicit CoreThreadStatusEvent( CoreThreadStatus evt, SynchronousActionState& sema );
 
 	void SetEventType( CoreThreadStatus evt ) { m_evt = evt; }

@@ -43,8 +43,8 @@ void vuMemoryReserve::Release()
 {
 	_parent::Release();
 
-	VU0.Micro	= VU0.Mem	= NULL;
-	VU1.Micro	= VU1.Mem	= NULL;
+	VU0.Micro	= VU0.Mem	= nullptr;
+	VU1.Micro	= VU1.Mem	= nullptr;
 }
 
 void vuMemoryReserve::Reset()

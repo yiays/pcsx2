@@ -37,7 +37,7 @@ GSRenderer::GSRenderer()
 	, m_texture_shuffle(false)
 	, m_real_size(0,0)
 	, m_wnd()
-	, m_dev(NULL)
+	, m_dev(nullptr)
 {
 	m_GStitleInfoBuffer[0] = 0;
 
@@ -171,7 +171,7 @@ bool GSRenderer::Merge(int field)
 	GSVector2i fs(0, 0);
 	GSVector2i ds(0, 0);
 
-	GSTexture* tex[3] = {NULL, NULL, NULL};
+	GSTexture* tex[3] = {nullptr, nullptr, nullptr};
 	int y_offset[3]   = {0, 0, 0};
 
 	s_n++;
@@ -257,7 +257,7 @@ bool GSRenderer::Merge(int field)
 		{
 			// the two outputs are identical, skip drawing one of them (the one that is alpha blended)
 
-			tex[0] = NULL;
+			tex[0] = nullptr;
 		}
 
 		GSVector4 c = GSVector4((int)m_regs->BGCOLOR.R, (int)m_regs->BGCOLOR.G, (int)m_regs->BGCOLOR.B, (int)m_regs->PMODE.ALP) / 255;

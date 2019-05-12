@@ -38,7 +38,7 @@ public:
 	public:
 		SharedData()
 		{
-			global.clut = NULL;
+			global.clut = nullptr;
 		}
 
 		virtual ~SharedData()

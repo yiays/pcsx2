@@ -281,7 +281,7 @@ void MainEmuFrame::InitLogBoxPosition( AppConfig::ConsoleLogOptions& conf )
 
 void MainEmuFrame::DispatchEvent( const PluginEventType& plugin_evt )
 {
-	if( !pxAssertMsg( GetMenuBar()!=NULL, "Mainframe menu bar is NULL!" ) ) return;
+	if( !pxAssertMsg( GetMenuBar()!=nullptr, "Mainframe menu bar is NULL!" ) ) return;
 
 	//ApplyCoreStatus();
 
@@ -303,7 +303,7 @@ void MainEmuFrame::DispatchEvent( const PluginEventType& plugin_evt )
 
 void MainEmuFrame::DispatchEvent( const CoreThreadStatus& status )
 {
-	if( !pxAssertMsg( GetMenuBar()!=NULL, "Mainframe menu bar is NULL!" ) ) return;
+	if( !pxAssertMsg( GetMenuBar()!=nullptr, "Mainframe menu bar is NULL!" ) ) return;
 	ApplyCoreStatus();
 }
 

@@ -141,7 +141,7 @@ FirstTimeWizard::FirstTimeWizard( wxWindow* parent )
 	) | StdExpand();
 
 	// Assign page indexes as client data
-	m_page_intro	.SetClientData( (void*)0 );
+	m_page_intro	.SetClientData( (void*)nullptr );
 	m_page_plugins	.SetClientData( (void*)1 );
 	m_page_bios		.SetClientData( (void*)2 );
 
@@ -184,7 +184,7 @@ int FirstTimeWizard::ShowModal()
 void FirstTimeWizard::OnDoubleClicked( wxCommandEvent& evt )
 {
 	wxWindow* forwardButton = FindWindow( wxID_FORWARD );
-	if( forwardButton == NULL ) return;
+	if( forwardButton == nullptr ) return;
 
 	wxCommandEvent nextpg( wxEVT_BUTTON, wxID_FORWARD );
 	nextpg.SetEventObject( forwardButton );
@@ -193,7 +193,7 @@ void FirstTimeWizard::OnDoubleClicked( wxCommandEvent& evt )
 
 void FirstTimeWizard::OnPageChanging( wxWizardEvent& evt )
 {
-	if( evt.GetPage() == NULL ) return;		// safety valve!
+	if( evt.GetPage() == nullptr ) return;		// safety valve!
 
 	sptr page = (sptr)evt.GetPage()->GetClientData();
 

@@ -42,7 +42,7 @@ public:
     pxCheckBox(wxWindow *parent, const wxString &label, int flags);
     virtual ~pxCheckBox() = default;
 
-    bool HasSubText() const { return m_subtext != NULL; }
+    bool HasSubText() const { return m_subtext != nullptr; }
     const pxStaticText *GetSubText() const { return m_subtext; }
 
     pxCheckBox &SetSubPadding(int pad);
@@ -53,32 +53,32 @@ public:
 
     wxCheckBoxState GetState() const
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return m_checkbox->Get3StateValue();
     }
     bool GetValue() const
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return m_checkbox->GetValue();
     }
     bool IsChecked() const
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return m_checkbox->IsChecked();
     }
     bool IsIndeterminate() const
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return m_checkbox->Get3StateValue() == wxCHK_UNDETERMINED;
     }
     operator wxCheckBox &()
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return *m_checkbox;
     }
     operator const wxCheckBox &() const
     {
-        pxAssert(m_checkbox != NULL);
+        pxAssert(m_checkbox != nullptr);
         return *m_checkbox;
     }
 

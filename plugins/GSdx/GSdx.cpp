@@ -145,7 +145,7 @@ bool GSdxApp::WritePrivateProfileString(const char* lpAppName, const char* lpKey
 	// Save config to a file
 	FILE* f = fopen(lpFileName, "w");
 
-	if (f == NULL) return false; // FIXME print a nice message
+	if (f == nullptr) return false; // FIXME print a nice message
 
 	for (const auto& entry : m_configuration_map) {
 		// Do not save the inifile key which is not an option
@@ -495,7 +495,7 @@ void GSdxApp::BuildConfigurationMap(const char* lpFileName)
 	char key[256];
 	FILE* f = fopen(lpFileName, "r");
 
-	if (f == NULL) return; // FIXME print a nice message
+	if (f == nullptr) return; // FIXME print a nice message
 
 	while( fscanf(f, "%255s = %255s\n", key, value) != EOF ) {
 		std::string key_s(key);
@@ -516,7 +516,7 @@ void* GSdxApp::GetModuleHandlePtr()
 
 void GSdxApp::SetConfigDir(const char* dir)
 {
-	if( dir == NULL )
+	if( dir == nullptr )
 	{
 		m_ini = "inis/GSdx.ini";
 	}

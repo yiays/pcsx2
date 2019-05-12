@@ -99,7 +99,7 @@ protected:
 public:
     BaseScopedAlloc()
     {
-        m_buffer = NULL;
+        m_buffer = nullptr;
         m_size = 0;
     }
 

@@ -20,7 +20,7 @@ FlatFileReader::FlatFileReader(bool shareWrite) : shareWrite(shareWrite)
 {
 	m_blocksize = 2048;
 	m_fd = -1;
-	m_aio_context = 0;
+	m_aio_context = nullptr;
 }
 
 FlatFileReader::~FlatFileReader(void)
@@ -66,7 +66,7 @@ int FlatFileReader::FinishRead(void)
 	int max_nr = 1;
 	struct io_event events[max_nr];
 
-	int event = io_getevents(m_aio_context, min_nr, max_nr, events, NULL);
+	int event = io_getevents(m_aio_context, min_nr, max_nr, events, nullptr);
 	if (event < 1) {
 		return -1;
 	}
@@ -90,7 +90,7 @@ void FlatFileReader::Close(void)
 	io_destroy(m_aio_context);
 
 	m_fd = -1;
-	m_aio_context = 0;
+	m_aio_context = nullptr;
 }
 
 uint FlatFileReader::GetBlockCount(void) const

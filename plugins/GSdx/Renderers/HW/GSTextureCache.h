@@ -199,7 +199,7 @@ protected:
 	bool m_texture_inside_rt;
 	static bool m_wrap_gs_mem;
 
-	virtual Source* CreateSource(const GIFRegTEX0& TEX0, const GIFRegTEXA& TEXA, Target* t = NULL, bool half_right = false, int x_offset = 0, int y_offset = 0);
+	virtual Source* CreateSource(const GIFRegTEX0& TEX0, const GIFRegTEXA& TEXA, Target* t = nullptr, bool half_right = false, int x_offset = 0, int y_offset = 0);
 	virtual Target* CreateTarget(const GIFRegTEX0& TEX0, int w, int h, int type);
 
 	virtual int Get8bitFormat() = 0;

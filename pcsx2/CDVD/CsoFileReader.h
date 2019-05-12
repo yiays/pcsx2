@@ -40,13 +40,13 @@ public:
 		m_frameSize(0),
 		m_frameShift(0),
 		m_indexShift(0),
-		m_readBuffer(0),
-		m_zlibBuffer(0),
+		m_readBuffer(nullptr),
+		m_zlibBuffer(nullptr),
 		m_zlibBufferFrame(0),
-		m_index(0),
+		m_index(nullptr),
 		m_totalSize(0),
-		m_src(0),
-		m_z_stream(0),
+		m_src(nullptr),
+		m_z_stream(nullptr),
 #if CSO_USE_CHUNKSCACHE
 		m_cache(CSO_CHUNKCACHE_SIZE_MB),
 #endif

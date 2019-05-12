@@ -69,7 +69,7 @@ struct PluginLog
         LogFile = px_fopen(logname, "w");
 
         if (LogFile) {
-            setvbuf(LogFile, NULL, _IONBF, 0);
+            setvbuf(LogFile, nullptr, _IONBF, 0);
             return true;
         }
         return false;
@@ -79,13 +79,13 @@ struct PluginLog
     {
         if (LogFile) {
             fclose(LogFile);
-            LogFile = NULL;
+            LogFile = nullptr;
         }
     }
 
     void Write(const char *fmt, ...)
     {
-        if (LogFile == NULL)
+        if (LogFile == nullptr)
             return;
 
         va_list list;
@@ -103,7 +103,7 @@ struct PluginLog
 
     void WriteLn(const char *fmt, ...)
     {
-        if (LogFile == NULL)
+        if (LogFile == nullptr)
             return;
 
         va_list list;
@@ -127,7 +127,7 @@ struct PluginLog
         va_list list;
         char buf[256];
 
-        if (LogFile == NULL)
+        if (LogFile == nullptr)
             return;
 
         va_start(list, fmt);
@@ -167,7 +167,7 @@ struct PluginConf
             ConfFile = px_fopen(name, "w");
         }
 
-        if (ConfFile == NULL)
+        if (ConfFile == nullptr)
             return false;
 
         return true;
@@ -177,7 +177,7 @@ struct PluginConf
     {
         if (ConfFile) {
             fclose(ConfFile);
-            ConfFile = NULL;
+            ConfFile = nullptr;
         }
     }
 
@@ -217,7 +217,7 @@ static void SysMessage(const char *fmt, ...)
         msg[strlen(msg) - 1] = 0;
 
     GtkWidget *dialog;
-    dialog = gtk_message_dialog_new(NULL,
+    dialog = gtk_message_dialog_new(nullptr,
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
                                     GTK_MESSAGE_INFO,
                                     GTK_BUTTONS_OK,

@@ -176,7 +176,7 @@ public:
     virtual void ForbidModification();
     virtual void AllowModification();
 
-    bool IsOk() const { return m_baseptr != NULL; }
+    bool IsOk() const { return m_baseptr != nullptr; }
     wxString GetName() const { return m_name; }
 
     uptr GetReserveSizeInBytes() const { return m_pages_reserved * __pagesize; }

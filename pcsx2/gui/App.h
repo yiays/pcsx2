@@ -574,7 +574,7 @@ public:
 	void leaveDebugMode();
 	void resetDebugger();
 
-	bool HasMainFrame() const	{ return GetMainFramePtr() != NULL; }
+	bool HasMainFrame() const	{ return GetMainFramePtr() != nullptr; }
 
 	void OpenGsPanel();
 	void CloseGsPanel();
@@ -740,7 +740,7 @@ wxDECLARE_APP(Pcsx2App);
 // Returns a wxWindow handle to the opened window.
 //
 template<typename DialogType>
-wxWindow* AppOpenDialog( wxWindow* parent=NULL )
+wxWindow* AppOpenDialog( wxWindow* parent=nullptr )
 {
 	wxWindow* window = wxFindWindowByName( L"Dialog:" + DialogType::GetNameStatic() );
 	
@@ -757,7 +757,7 @@ wxWindow* AppOpenDialog( wxWindow* parent=NULL )
 // Returns the ID of the button used to close the dialog.
 //
 template<typename DialogType>
-int AppOpenModalDialog(wxString panel_name, wxWindow* parent = NULL)
+int AppOpenModalDialog(wxString panel_name, wxWindow* parent = nullptr)
 {
 	if (wxWindow* window = wxFindWindowByName(L"Dialog:" + DialogType::GetNameStatic()))
 	{

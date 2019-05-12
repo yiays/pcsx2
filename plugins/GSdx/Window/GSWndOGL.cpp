@@ -24,7 +24,7 @@
 
 #if defined(__unix__)
 GSWndOGL::GSWndOGL()
-	: m_NativeWindow(0), m_NativeDisplay(nullptr), m_context(0), m_has_late_vsync(false), m_swapinterval_ext(nullptr), m_swapinterval_mesa(nullptr)
+	: m_NativeWindow(0), m_NativeDisplay(nullptr), m_context(nullptr), m_has_late_vsync(false), m_swapinterval_ext(nullptr), m_swapinterval_mesa(nullptr)
 {
 }
 
@@ -89,7 +89,7 @@ void GSWndOGL::CreateContext(int major, int minor)
 		None
 	};
 
-	m_context = glX_CreateContextAttribsARB(m_NativeDisplay, fbc[0], 0, true, context_attribs);
+	m_context = glX_CreateContextAttribsARB(m_NativeDisplay, fbc[0], nullptr, true, context_attribs);
 	XFree(fbc);
 
 	// Don't forget to reinstall the older Handler
@@ -117,7 +117,7 @@ void GSWndOGL::DetachContext()
 {
 	if (IsContextAttached()) {
 		//fprintf(stderr, "Detach the context\n");
-		glXMakeCurrent(m_NativeDisplay, None, NULL);
+		glXMakeCurrent(m_NativeDisplay, None, nullptr);
 		m_ctx_attached = false;
 	}
 }
@@ -136,7 +136,7 @@ bool GSWndOGL::Attach(void* handle, bool managed)
 	m_NativeWindow = *(Window*)handle;
 	m_managed = managed;
 
-	m_NativeDisplay = XOpenDisplay(NULL);
+	m_NativeDisplay = XOpenDisplay(nullptr);
 
 	FullContextInit();
 
@@ -152,7 +152,7 @@ void GSWndOGL::Detach()
 
 	if (m_NativeDisplay) {
 		XCloseDisplay(m_NativeDisplay);
-		m_NativeDisplay = NULL;
+		m_NativeDisplay = nullptr;
 	}
 }
 
@@ -169,7 +169,7 @@ bool GSWndOGL::Create(const std::string& title, int w, int h)
 	m_managed = true;
 
 	// note this part must be only executed when replaying .gs debug file
-	m_NativeDisplay = XOpenDisplay(NULL);
+	m_NativeDisplay = XOpenDisplay(nullptr);
 
 	m_NativeWindow = XCreateSimpleWindow(m_NativeDisplay, DefaultRootWindow(m_NativeDisplay), 0, 0, w, h, 0, 0, 0);
 	XMapWindow (m_NativeDisplay, m_NativeWindow);
@@ -185,7 +185,7 @@ bool GSWndOGL::Create(const std::string& title, int w, int h)
 void* GSWndOGL::GetProcAddress(const char* name, bool opt)
 {
 	void* ptr = (void*)glXGetProcAddress((const GLubyte*)name);
-	if (ptr == NULL) {
+	if (ptr == nullptr) {
 		if (theApp.GetConfigB("debug_opengl"))
 			fprintf(stderr, "Failed to find %s\n", name);
 
@@ -212,7 +212,7 @@ GSVector4i GSWndOGL::GetClientRect()
     int xDummy;
     int yDummy;
 
-	if (!m_NativeDisplay) m_NativeDisplay = XOpenDisplay(NULL);
+	if (!m_NativeDisplay) m_NativeDisplay = XOpenDisplay(nullptr);
 	XGetGeometry(m_NativeDisplay, m_NativeWindow, &winDummy, &xDummy, &yDummy, &w, &h, &borderDummy, &depthDummy);
 
 	return GSVector4i(0, 0, (int)w, (int)h);

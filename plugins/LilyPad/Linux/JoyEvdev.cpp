@@ -67,12 +67,12 @@ JoyEvdev::JoyEvdev(int fd, bool ds3, const wchar_t *id)
                     AddPhysicalControl(ABSAXIS, last, 0);
                     last++;
 
-                    m_abs.push_back(abs_info(bit, info.minimum, info.value, type));
-                    m_abs.push_back(abs_info(bit, info.value, info.maximum, type));
+                    m_abs.emplace_back(bit, info.minimum, info.value, type);
+                    m_abs.emplace_back(bit, info.value, info.maximum, type);
                 } else {
                     fprintf(stderr, "FULL Axis info %d=>%d, current %d, flat %d, resolution %d\n", info.minimum, info.maximum, info.value, info.flat, info.resolution);
 
-                    m_abs.push_back(abs_info(bit, info.minimum, info.maximum, type));
+                    m_abs.emplace_back(bit, info.minimum, info.maximum, type);
                 }
             }
         }

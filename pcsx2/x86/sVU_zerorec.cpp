@@ -1233,7 +1233,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 		}
 		else pxAssert(prevbranch || pbh->pblock == nullptr);
 
-		pblock->insts.push_back(VuInstruction());
+		pblock->insts.emplace_back();
 
 		pprevinst = pinst;
 		pinst = &pblock->insts.back();
@@ -1397,7 +1397,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 					continue;
 				}
 
-				pblock->insts.push_back(VuInstruction());
+				pblock->insts.emplace_back();
 				itwriteback->InitInst(&pblock->insts.back(), vucycle);
 			}
 
@@ -1448,7 +1448,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 
 			if (itwriteback->cycle < vucycle || bFlushWritebacks)
 			{
-				pblock->insts.push_back(VuInstruction());
+				pblock->insts.emplace_back();
 				itwriteback->InitInst(&pblock->insts.back(), vucycle);
 			}
 			else

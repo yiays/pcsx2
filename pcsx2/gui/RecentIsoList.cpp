@@ -169,7 +169,7 @@ void RecentIsoManager::Add( const wxString& src )
 	//New item doesn't exist at the menu/internal-list - add it, and refresh the menu.
 	RemoveAllFromMenu();
 
-	m_Items.push_back( RecentItem( normalized ) );
+	m_Items.emplace_back( normalized );
 
 	while( m_Items.size() > m_MaxLength )
 		m_Items.erase( m_Items.begin() );

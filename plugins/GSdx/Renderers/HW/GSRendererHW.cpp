@@ -1269,25 +1269,25 @@ GSRendererHW::Hacks::Hacks()
 	, m_oo(nullptr)
 	, m_cu(nullptr)
 {
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::FFXII, CRC::EU, &GSRendererHW::OI_FFXII));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::FFX, CRC::RegionCount, &GSRendererHW::OI_FFX));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::MetalSlug6, CRC::RegionCount, &GSRendererHW::OI_MetalSlug6));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::RozenMaidenGebetGarden, CRC::RegionCount, &GSRendererHW::OI_RozenMaidenGebetGarden));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::SonicUnleashed, CRC::RegionCount, &GSRendererHW::OI_SonicUnleashed));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::StarWarsForceUnleashed, CRC::RegionCount, &GSRendererHW::OI_StarWarsForceUnleashed));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::SuperManReturns, CRC::RegionCount, &GSRendererHW::OI_SuperManReturns));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::ArTonelico2, CRC::RegionCount, &GSRendererHW::OI_ArTonelico2));
-	m_oi_list.push_back(HackEntry<OI_Ptr>(CRC::ItadakiStreet, CRC::RegionCount, &GSRendererHW::OI_ItadakiStreet));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::FFXII, CRC::EU, &GSRendererHW::OI_FFXII));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::FFX, CRC::RegionCount, &GSRendererHW::OI_FFX));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::MetalSlug6, CRC::RegionCount, &GSRendererHW::OI_MetalSlug6));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::RozenMaidenGebetGarden, CRC::RegionCount, &GSRendererHW::OI_RozenMaidenGebetGarden));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::SonicUnleashed, CRC::RegionCount, &GSRendererHW::OI_SonicUnleashed));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::StarWarsForceUnleashed, CRC::RegionCount, &GSRendererHW::OI_StarWarsForceUnleashed));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::SuperManReturns, CRC::RegionCount, &GSRendererHW::OI_SuperManReturns));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::ArTonelico2, CRC::RegionCount, &GSRendererHW::OI_ArTonelico2));
+	m_oi_list.emplace_back(HackEntry<OI_Ptr>(CRC::ItadakiStreet, CRC::RegionCount, &GSRendererHW::OI_ItadakiStreet));
 
-	m_oo_list.push_back(HackEntry<OO_Ptr>(CRC::DBZBT2, CRC::RegionCount, &GSRendererHW::OO_DBZBT2));
-	m_oo_list.push_back(HackEntry<OO_Ptr>(CRC::MajokkoALaMode2, CRC::RegionCount, &GSRendererHW::OO_MajokkoALaMode2));
-	m_oo_list.push_back(HackEntry<OO_Ptr>(CRC::Jak2, CRC::RegionCount, &GSRendererHW::OO_JakGames));
-	m_oo_list.push_back(HackEntry<OO_Ptr>(CRC::Jak3, CRC::RegionCount, &GSRendererHW::OO_JakGames));
-	m_oo_list.push_back(HackEntry<OO_Ptr>(CRC::JakX, CRC::RegionCount, &GSRendererHW::OO_JakGames));
+	m_oo_list.emplace_back(HackEntry<OO_Ptr>(CRC::DBZBT2, CRC::RegionCount, &GSRendererHW::OO_DBZBT2));
+	m_oo_list.emplace_back(HackEntry<OO_Ptr>(CRC::MajokkoALaMode2, CRC::RegionCount, &GSRendererHW::OO_MajokkoALaMode2));
+	m_oo_list.emplace_back(HackEntry<OO_Ptr>(CRC::Jak2, CRC::RegionCount, &GSRendererHW::OO_JakGames));
+	m_oo_list.emplace_back(HackEntry<OO_Ptr>(CRC::Jak3, CRC::RegionCount, &GSRendererHW::OO_JakGames));
+	m_oo_list.emplace_back(HackEntry<OO_Ptr>(CRC::JakX, CRC::RegionCount, &GSRendererHW::OO_JakGames));
 
-	m_cu_list.push_back(HackEntry<CU_Ptr>(CRC::DBZBT2, CRC::RegionCount, &GSRendererHW::CU_DBZBT2));
-	m_cu_list.push_back(HackEntry<CU_Ptr>(CRC::MajokkoALaMode2, CRC::RegionCount, &GSRendererHW::CU_MajokkoALaMode2));
-	m_cu_list.push_back(HackEntry<CU_Ptr>(CRC::TalesOfAbyss, CRC::RegionCount, &GSRendererHW::CU_TalesOfAbyss));
+	m_cu_list.emplace_back(HackEntry<CU_Ptr>(CRC::DBZBT2, CRC::RegionCount, &GSRendererHW::CU_DBZBT2));
+	m_cu_list.emplace_back(HackEntry<CU_Ptr>(CRC::MajokkoALaMode2, CRC::RegionCount, &GSRendererHW::CU_MajokkoALaMode2));
+	m_cu_list.emplace_back(HackEntry<CU_Ptr>(CRC::TalesOfAbyss, CRC::RegionCount, &GSRendererHW::CU_TalesOfAbyss));
 }
 
 void GSRendererHW::Hacks::SetGameCRC(const CRC::Game& game)

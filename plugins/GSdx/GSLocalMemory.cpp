@@ -703,7 +703,7 @@ std::vector<GSVector2i>* GSLocalMemory::GetPage2TileMap(const GIFRegTEX0& TEX0)
 
 		for(const auto &j : m)
 		{
-			p2t[page].push_back(GSVector2i(j.first, ~j.second));
+			p2t[page].emplace_back(j.first, ~j.second);
 		}
 
 		std::sort(p2t[page].begin(), p2t[page].end(), cmp_vec2x);

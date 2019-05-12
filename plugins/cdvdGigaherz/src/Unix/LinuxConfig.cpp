@@ -41,7 +41,7 @@ std::vector<std::string> GetOpticalDriveList()
             udev_device *device = udev_device_new_from_syspath(udev_context, path);
             const char *devnode = udev_device_get_devnode(device);
             if (devnode)
-                drives.push_back(devnode);
+                drives.emplace_back(devnode);
             udev_device_unref(device);
         }
         udev_enumerate_unref(enumerate);

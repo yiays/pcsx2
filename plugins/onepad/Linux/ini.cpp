@@ -123,7 +123,7 @@ void LoadConfig()
 
     char sdl2[512];
     while (fscanf(f, "SDL2 = %511[^\n]\n", sdl2) == 1)
-        g_conf.sdl2_mapping.push_back(std::string(sdl2));
+        g_conf.sdl2_mapping.emplace_back(sdl2);
 
     if (!have_user_setting)
         DefaultKeyboardValues();

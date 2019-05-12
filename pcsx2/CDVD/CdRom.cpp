@@ -596,7 +596,7 @@ cdrRead0:
 	bit 7 - 1 command being processed
 */
 
-u8 cdrRead0(void) {
+u8 cdrRead0() {
 	if (cdr.ResultReady)
 		cdr.Ctrl |= 0x20;
 	else
@@ -640,7 +640,7 @@ void setPsxSpeed()
 	cdReadTime = ((PSXCLK / 75) / BIAS) * 2;
 }
 
-u8 cdrRead1(void) {
+u8 cdrRead1() {
 	if (cdr.ResultReady && cdr.Ctrl & 0x1) {
 		psxHu8(0x1801) = cdr.Result[cdr.ResultP++];
 		if (cdr.ResultP == cdr.ResultC) cdr.ResultReady = 0;
@@ -885,7 +885,7 @@ void cdrWrite1(u8 rt) {
 		iopIntcIrq( 2 );
 }
 
-u8 cdrRead2(void) {
+u8 cdrRead2() {
 	u8 ret;
 
 	if (cdr.Readed == 0) {
@@ -924,7 +924,7 @@ void cdrWrite2(u8 rt) {
 	}
 }
 
-u8 cdrRead3(void) {
+u8 cdrRead3() {
 	if (cdr.Stat) {
 		if (cdr.Ctrl & 0x1)
 			psxHu8(0x1803) = cdr.Stat | 0xE0;

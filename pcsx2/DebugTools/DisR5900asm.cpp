@@ -1265,7 +1265,7 @@ void P_BC2TL( std::string& output ){   output += "bc2tl\t";     offset_decode(ou
 #define _Z ((disasmOpcode>>22) & 1)
 #define _W ((disasmOpcode>>21) & 1)
 
-const char *dest_string(void)
+const char *dest_string()
 {
 	static char str[5];
 	int i = 0;

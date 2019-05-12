@@ -50,7 +50,7 @@ HINSTANCE hInst=NULL;
 
 #if defined(__i386__) && !defined(_WIN32)
 
-static __inline__ unsigned long long GetTickCount(void)
+static __inline__ unsigned long long GetTickCount()
 {
 	unsigned long long int x;
 	__asm__ volatile ("rdtsc" : "=A" (x));

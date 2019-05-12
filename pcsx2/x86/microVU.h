@@ -256,7 +256,7 @@ extern void* __fastcall mVUexecuteVU1(u32 startPC, u32 cycles);
 
 // recCall Function Pointer
 typedef void (__fastcall *mVUrecCall)(u32, u32);
-typedef void (*mVUrecCallXG)(void);
+typedef void (*mVUrecCallXG)();
 
 template<typename T>
 void makeUnique(T& v) { // Removes Duplicates

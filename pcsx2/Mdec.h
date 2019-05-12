@@ -97,7 +97,7 @@ extern void psxDma1(u32 madr, u32 bcr, u32 chcr);
 
 u16* rl2blk(int *blk,u16 *mdec_rl);
 void iqtab_init(int *iqtab,unsigned char *iq_y);
-void round_init(void);
+void round_init();
 void yuv2rgb24(int *blk,unsigned char *image);
 void yuv2rgb15(int *blk,u16 *image);
 

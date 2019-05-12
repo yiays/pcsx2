@@ -168,7 +168,7 @@ void idct(int *block,int k)
   }
 }
 
-void mdecInit(void) {
+void mdecInit() {
 
 	Config.Mdec = 0; //XXXXXXXXXXXXXXXXX  0 or 1 // 1 is black and white decoding
 
@@ -198,13 +198,13 @@ void mdecWrite1(u32 data) {
 	}
 }
 
-u32 mdecRead0(void) {
+u32 mdecRead0() {
 	MDEC_LOG("mdec0 read %lx", mdec.command);
 
 	return mdec.command;
 }
 
-u32 mdecRead1(void) {
+u32 mdecRead1() {
 	MDEC_LOG("mdec1 read %lx", mdec.status);
 
 	return mdec.status;
@@ -347,7 +347,7 @@ unsigned short* rl2blk(int *blk,unsigned short *mdec_rl) {
 
 unsigned char roundtbl[256*3];
 
-void round_init(void) {
+void round_init() {
 	int i;
 	for(i=0;i<256;i++) {
 		roundtbl[i]=0;

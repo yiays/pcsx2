@@ -36,19 +36,19 @@ protected:
 	uint m_blocksize;
 
 public:
-	virtual ~AsyncFileReader(void) = default;;
+	virtual ~AsyncFileReader() = default;;
 
 	virtual bool Open(const wxString& fileName)=0;
 
 	virtual int ReadSync(void* pBuffer, uint sector, uint count)=0;
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count)=0;
-	virtual int FinishRead(void)=0;
-	virtual void CancelRead(void)=0;
+	virtual int FinishRead()=0;
+	virtual void CancelRead()=0;
 
-	virtual void Close(void)=0;
+	virtual void Close()=0;
 
-	virtual uint GetBlockCount(void) const=0;
+	virtual uint GetBlockCount() const=0;
 
 	virtual void SetBlockSize(uint bytes) {}
 	virtual void SetDataOffset(int bytes) {}
@@ -86,19 +86,19 @@ class FlatFileReader : public AsyncFileReader
 
 public:
 	FlatFileReader(bool shareWrite = false);
-	virtual ~FlatFileReader(void);
+	virtual ~FlatFileReader();
 
 	virtual bool Open(const wxString& fileName);
 
 	virtual int ReadSync(void* pBuffer, uint sector, uint count);
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count);
-	virtual int FinishRead(void);
-	virtual void CancelRead(void);
+	virtual int FinishRead();
+	virtual void CancelRead();
 
-	virtual void Close(void);
+	virtual void Close();
 
-	virtual uint GetBlockCount(void) const;
+	virtual uint GetBlockCount() const;
 
 	virtual void SetBlockSize(uint bytes) { m_blocksize = bytes; }
 	virtual void SetDataOffset(int bytes) { m_dataoffset = bytes; }
@@ -123,19 +123,19 @@ class MultipartFileReader : public AsyncFileReader
 
 public:
 	MultipartFileReader(AsyncFileReader* firstPart);
-	virtual ~MultipartFileReader(void);
+	virtual ~MultipartFileReader();
 
 	virtual bool Open(const wxString& fileName);
 
 	virtual int ReadSync(void* pBuffer, uint sector, uint count);
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count);
-	virtual int FinishRead(void);
-	virtual void CancelRead(void);
+	virtual int FinishRead();
+	virtual void CancelRead();
 
-	virtual void Close(void);
+	virtual void Close();
 
-	virtual uint GetBlockCount(void) const;
+	virtual uint GetBlockCount() const;
 
 	virtual void SetBlockSize(uint bytes);
 
@@ -159,20 +159,20 @@ class BlockdumpFileReader : public AsyncFileReader
 	int m_lresult;
 
 public:
-	BlockdumpFileReader(void);
-	virtual ~BlockdumpFileReader(void);
+	BlockdumpFileReader();
+	virtual ~BlockdumpFileReader();
 
 	virtual bool Open(const wxString& fileName);
 
 	virtual int ReadSync(void* pBuffer, uint sector, uint count);
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count);
-	virtual int FinishRead(void);
-	virtual void CancelRead(void);
+	virtual int FinishRead();
+	virtual void CancelRead();
 
-	virtual void Close(void);
+	virtual void Close();
 
-	virtual uint GetBlockCount(void) const;
+	virtual uint GetBlockCount() const;
 
 	static bool DetectBlockdump(AsyncFileReader* reader);
 

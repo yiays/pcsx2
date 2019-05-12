@@ -29,9 +29,9 @@ class GzippedFileReader : public AsyncFileReader
 {
 	DeclareNoncopyableObject(GzippedFileReader) = delete;
 public:
-	GzippedFileReader(void);
+	GzippedFileReader();
 
-	virtual ~GzippedFileReader(void) { Close(); };
+	virtual ~GzippedFileReader() { Close(); };
 
 	static  bool CanHandle(const wxString& fileName);
 	virtual bool Open(const wxString& fileName);
@@ -39,12 +39,12 @@ public:
 	virtual int ReadSync(void* pBuffer, uint sector, uint count);
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count);
-	virtual int FinishRead(void);
-	virtual void CancelRead(void) {};
+	virtual int FinishRead();
+	virtual void CancelRead() {};
 
-	virtual void Close(void);
+	virtual void Close();
 
-	virtual uint GetBlockCount(void) const {
+	virtual uint GetBlockCount() const {
 		// type and formula copied from FlatFileReader
 		// FIXME? : Shouldn't it be uint and (size - m_dataoffset) / m_blocksize ?
 		return (int)((m_pIndex ? m_pIndex->uncompressed_size : 0) / m_blocksize);

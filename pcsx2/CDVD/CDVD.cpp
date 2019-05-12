@@ -1010,7 +1010,7 @@ void cdvdVsync() {
 	cdvd.RTC.year = 0;
 }
 
-static __fi u8 cdvdRead18(void)  // SDATAOUT
+static __fi u8 cdvdRead18()  // SDATAOUT
 {
 	u8 ret = 0;
 

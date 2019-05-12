@@ -176,11 +176,11 @@ u32 addrNdma = 0;
 
 
 
-void fillFifoOnDrain(void);
+void fillFifoOnDrain();
 
-void drainPgpuDmaLl(void);
-void drainPgpuDmaNrToGpu(void);
-void drainPgpuDmaNrToIop(void);
+void drainPgpuDmaLl();
+void drainPgpuDmaNrToGpu();
+void drainPgpuDmaNrToIop();
 
 //u32 getUpdPgifCtrlReg(void);
 

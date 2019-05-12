@@ -101,13 +101,13 @@ void recADD_(int info)
 EERECOMPILE_CODE0(ADD, XMMINFO_WRITED|XMMINFO_READS|XMMINFO_READT);
 
 //// ADDU
-void recADDU(void)
+void recADDU()
 {
 	recADD();
 }
 
 //// DADD
-void recDADD_const(void)
+void recDADD_const()
 {
 	g_cpuConstRegs[_Rd_].SD[0] = g_cpuConstRegs[_Rs_].SD[0] + g_cpuConstRegs[_Rt_].SD[0];
 }
@@ -182,7 +182,7 @@ void recDADD_(int info)
 EERECOMPILE_CODE0(DADD, XMMINFO_WRITED|XMMINFO_READS|XMMINFO_READT);
 
 //// DADDU
-void recDADDU(void)
+void recDADDU()
 {
 	recDADD();
 }
@@ -235,7 +235,7 @@ void recSUB_(int info)
 EERECOMPILE_CODE0(SUB, XMMINFO_READS|XMMINFO_READT|XMMINFO_WRITED);
 
 //// SUBU
-void recSUBU(void)
+void recSUBU()
 {
 	recSUB();
 }
@@ -320,7 +320,7 @@ void recDSUB_(int info)
 EERECOMPILE_CODE0(DSUB, XMMINFO_READS|XMMINFO_READT|XMMINFO_WRITED);
 
 //// DSUBU
-void recDSUBU(void)
+void recDSUBU()
 {
 	recDSUB();
 }

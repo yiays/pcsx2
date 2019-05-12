@@ -37,7 +37,7 @@
 #define IPU_BCB_COEFF 0x102	//  2.015625
 
 // conforming implementation for reference, do not optimise
-void yuv2rgb_reference(void)
+void yuv2rgb_reference()
 {
 	const macroblock_8& mb8 = decoder.mb8;
 	macroblock_rgb32& rgb32 = decoder.rgb32;

@@ -177,7 +177,7 @@ static wxString iso2indexname(const wxString& isoname) {
 	return ApplyTemplate(L"gzip index", appRoot, g_Conf->GzipIsoIndexTemplate, isoname, false);
 }
 
-GzippedFileReader::GzippedFileReader(void) :
+GzippedFileReader::GzippedFileReader() :
 	mBytesRead(0),
 	m_pIndex(nullptr),
 	m_zstates(nullptr),
@@ -344,7 +344,7 @@ void GzippedFileReader::BeginRead(void* pBuffer, uint sector, uint count) {
 	return;
 };
 
-int GzippedFileReader::FinishRead(void) {
+int GzippedFileReader::FinishRead() {
 	int res = mBytesRead;
 	mBytesRead = -1;
 	return res;

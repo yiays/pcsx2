@@ -175,9 +175,9 @@ ATTR_DEP extern void FMUL32(u32 from);
 // fdiv m32 to fpu reg stack
 ATTR_DEP extern void FDIV32(u32 from);
 // ftan fpu reg stack
-ATTR_DEP extern void FPATAN(void);
+ATTR_DEP extern void FPATAN();
 // fsin fpu reg stack
-ATTR_DEP extern void FSIN(void);
+ATTR_DEP extern void FSIN();
 
 //*********************
 // SSE   instructions *

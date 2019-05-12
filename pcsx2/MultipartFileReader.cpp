@@ -59,7 +59,7 @@ MultipartFileReader::MultipartFileReader(AsyncFileReader* firstPart)
 	m_parts[0].end = firstPart->GetBlockCount();
 }
 
-MultipartFileReader::~MultipartFileReader(void)
+MultipartFileReader::~MultipartFileReader()
 {
 	Close();
 }
@@ -181,7 +181,7 @@ void MultipartFileReader::BeginRead(void* pBuffer, uint sector, uint count)
 	}
 }
 
-int MultipartFileReader::FinishRead(void)
+int MultipartFileReader::FinishRead()
 {
 	int ret = 0;
 	for(uint i=0;i<m_numparts;i++)
@@ -199,7 +199,7 @@ int MultipartFileReader::FinishRead(void)
 	return ret;
 }
 
-void MultipartFileReader::CancelRead(void)
+void MultipartFileReader::CancelRead()
 {
 	for(uint i=0;i<m_numparts;i++)
 	{
@@ -211,7 +211,7 @@ void MultipartFileReader::CancelRead(void)
 	}
 }
 
-void MultipartFileReader::Close(void)
+void MultipartFileReader::Close()
 {
 	for(uint i=0;i<m_numparts;i++)
 	{
@@ -223,7 +223,7 @@ void MultipartFileReader::Close(void)
 	}
 }
 
-uint MultipartFileReader::GetBlockCount(void) const
+uint MultipartFileReader::GetBlockCount() const
 {
 	return m_parts[m_numparts-1].end;
 }

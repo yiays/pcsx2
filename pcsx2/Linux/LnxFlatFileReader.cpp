@@ -23,7 +23,7 @@ FlatFileReader::FlatFileReader(bool shareWrite) : shareWrite(shareWrite)
 	m_aio_context = nullptr;
 }
 
-FlatFileReader::~FlatFileReader(void)
+FlatFileReader::~FlatFileReader()
 {
 	Close();
 }
@@ -60,7 +60,7 @@ void FlatFileReader::BeginRead(void* pBuffer, uint sector, uint count)
 	io_submit(m_aio_context, 1, &iocbs);
 }
 
-int FlatFileReader::FinishRead(void)
+int FlatFileReader::FinishRead()
 {
 	int min_nr = 1;
 	int max_nr = 1;
@@ -74,7 +74,7 @@ int FlatFileReader::FinishRead(void)
 	return 1;
 }
 
-void FlatFileReader::CancelRead(void)
+void FlatFileReader::CancelRead()
 {
 	// Will be done when m_aio_context context is destroyed
 	// Note: io_cancel exists but need the iocb structure as parameter
@@ -82,7 +82,7 @@ void FlatFileReader::CancelRead(void)
 	//                struct io_event *result);
 }
 
-void FlatFileReader::Close(void)
+void FlatFileReader::Close()
 {
 
 	if (m_fd != -1) close(m_fd);
@@ -93,7 +93,7 @@ void FlatFileReader::Close(void)
 	m_aio_context = nullptr;
 }
 
-uint FlatFileReader::GetBlockCount(void) const
+uint FlatFileReader::GetBlockCount() const
 {
 	return (int)(Path::GetFileSize(m_filename) / m_blocksize);
 }

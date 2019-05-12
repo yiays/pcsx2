@@ -103,8 +103,8 @@ protected:
 	IMcdList*		m_CardProvider;
 
 public:
-	void (*m_externHandler)(void);
-	void setExternHandler(void (*f)(void)){m_externHandler=f;};
+	void (*m_externHandler)();
+	void setExternHandler(void (*f)()){m_externHandler=f;};
 	void OnChanged(wxEvent& evt){if (m_externHandler) m_externHandler(); evt.Skip();}
 
 	virtual ~BaseMcdListView() = default;

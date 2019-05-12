@@ -47,8 +47,8 @@ emitterT void FRNDINT() { xWrite16(0xfcd9); }
 emitterT void FXCH(int st) { xWrite16(0xc8d9 + (st << 8)); }
 emitterT void F2XM1() { xWrite16(0xf0d9); }
 emitterT void FSCALE() { xWrite16(0xfdd9); }
-emitterT void FPATAN(void) { xWrite16(0xf3d9); }
-emitterT void FSIN(void) { xWrite16(0xfed9); }
+emitterT void FPATAN() { xWrite16(0xf3d9); }
+emitterT void FSIN() { xWrite16(0xfed9); }
 
 /* fadd ST(0) to fpu reg stack ST(src) */
 emitterT void FADD320toR(x86IntRegType src)

@@ -45,7 +45,7 @@ bool BlockdumpFileReader::DetectBlockdump(AsyncFileReader* reader)
 	return isbd;
 }
 
-BlockdumpFileReader::BlockdumpFileReader(void) :
+BlockdumpFileReader::BlockdumpFileReader() :
 	m_file(nullptr),
 	m_blocks(0),
 	m_blockofs(0),
@@ -54,7 +54,7 @@ BlockdumpFileReader::BlockdumpFileReader(void) :
 {
 }
 
-BlockdumpFileReader::~BlockdumpFileReader(void)
+BlockdumpFileReader::~BlockdumpFileReader()
 {
 	Close();
 }
@@ -164,16 +164,16 @@ void BlockdumpFileReader::BeginRead(void* pBuffer, uint sector, uint count)
 	m_lresult = ReadSync(pBuffer, sector, count);
 }
 
-int BlockdumpFileReader::FinishRead(void)
+int BlockdumpFileReader::FinishRead()
 {
 	return m_lresult;
 }
 
-void BlockdumpFileReader::CancelRead(void)
+void BlockdumpFileReader::CancelRead()
 {
 }
 
-void BlockdumpFileReader::Close(void)
+void BlockdumpFileReader::Close()
 {
 	if(m_file)
 	{
@@ -182,7 +182,7 @@ void BlockdumpFileReader::Close(void)
 	}
 }
 
-uint BlockdumpFileReader::GetBlockCount(void) const
+uint BlockdumpFileReader::GetBlockCount() const
 {
 	return m_blocks;
 }

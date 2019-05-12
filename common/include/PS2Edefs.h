@@ -195,10 +195,10 @@ typedef struct _cdvdTN
 //	CDROM_DATA_TRACK	0x04	//do not enable this! (from linux kernel)
 
 typedef void (*DEV9callback)(int cycles);
-typedef int (*DEV9handler)(void);
+typedef int (*DEV9handler)();
 
 typedef void (*USBcallback)(int cycles);
-typedef int (*USBhandler)(void);
+typedef int (*USBhandler)();
 
 typedef struct _GSdriverInfo
 {

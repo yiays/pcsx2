@@ -285,7 +285,7 @@ DEV9irqCallback(DEV9callback callback)
     DEV9irq = callback;
 }
 
-int _DEV9irqHandler(void)
+int _DEV9irqHandler()
 {
     // And this gets called when the irq is triggered.
     return 0;

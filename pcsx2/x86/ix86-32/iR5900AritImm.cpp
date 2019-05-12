@@ -50,7 +50,7 @@ REC_FUNC_DEL(SLTIU, _Rt_);
 #else
 
 //// ADDI
-void recADDI_const( void )
+void recADDI_const( )
 {
 	g_cpuConstRegs[_Rt_].SD[0] = (s64)(g_cpuConstRegs[_Rs_].SL[0] + (s32)_Imm_);
 }

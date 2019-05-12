@@ -36,7 +36,7 @@ class CsoFileReader : public AsyncFileReader
 {
 	DeclareNoncopyableObject(CsoFileReader) = delete;
 public:
-	CsoFileReader(void) :
+	CsoFileReader() :
 		m_frameSize(0),
 		m_frameShift(0),
 		m_indexShift(0),
@@ -54,7 +54,7 @@ public:
 		m_blocksize = 2048;
 	};
 
-	virtual ~CsoFileReader(void) { Close(); };
+	virtual ~CsoFileReader() { Close(); };
 
 	static  bool CanHandle(const wxString& fileName);
 	virtual bool Open(const wxString& fileName);
@@ -62,12 +62,12 @@ public:
 	virtual int ReadSync(void* pBuffer, uint sector, uint count);
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count);
-	virtual int FinishRead(void);
-	virtual void CancelRead(void);
+	virtual int FinishRead();
+	virtual void CancelRead();
 
-	virtual void Close(void);
+	virtual void Close();
 
-	virtual uint GetBlockCount(void) const {
+	virtual uint GetBlockCount() const {
 		return (m_totalSize - m_dataoffset) / m_blocksize;
 	};
 

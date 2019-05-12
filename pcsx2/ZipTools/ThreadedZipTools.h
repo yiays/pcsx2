@@ -85,7 +85,7 @@ protected:
 public:
 	virtual ~ArchiveEntryList() = default;
 
-	ArchiveEntryList() {}
+	ArchiveEntryList() = default;
 
 	ArchiveEntryList( ArchiveDataBuffer* data )
 		: m_data(data)

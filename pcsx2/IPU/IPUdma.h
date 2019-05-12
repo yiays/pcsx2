@@ -56,7 +56,7 @@ union tIPU_DMA
 	u32 _u32;
 
 	tIPU_DMA( u32 val ){ _u32 = val; }
-	tIPU_DMA() { }
+	tIPU_DMA() = default;
 
 	bool test(u32 flags) const { return !!(_u32 & flags); }
 	void set_flags(u32 flags) { _u32 |= flags; }

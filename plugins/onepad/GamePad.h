@@ -36,8 +36,7 @@ public:
     }
 
     virtual ~GamePad()
-    {
-    }
+    = default;
 
     GamePad(const GamePad &);            // copy constructor
     GamePad &operator=(const GamePad &); // assignment

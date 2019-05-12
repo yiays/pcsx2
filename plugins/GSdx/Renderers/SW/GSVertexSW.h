@@ -27,7 +27,7 @@ struct alignas(32) GSVertexSW
 {
 	GSVector4 p, _pad, t, c;
 
-	__forceinline GSVertexSW() {}
+	__forceinline GSVertexSW() = default;
 	__forceinline GSVertexSW(const GSVertexSW& v) {*this = v;}
 
 	__forceinline static GSVertexSW zero()
@@ -242,7 +242,7 @@ struct alignas(32) GSVertexSW2
 	GSVector4 p, _pad;
 	GSVector8 tc;
 
-	__forceinline GSVertexSW2() {}
+	__forceinline GSVertexSW2() = default;
 	__forceinline GSVertexSW2(const GSVertexSW2& v) {*this = v;}
 
 	__forceinline void operator = (const GSVertexSW2& v) 

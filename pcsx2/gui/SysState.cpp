@@ -59,7 +59,7 @@ public:
 class MemorySavestateEntry : public BaseSavestateEntry
 {
 protected:
-	MemorySavestateEntry() {}
+	MemorySavestateEntry() = default;
 	virtual ~MemorySavestateEntry() = default;
 
 public:

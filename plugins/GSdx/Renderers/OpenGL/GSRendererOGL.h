@@ -80,7 +80,7 @@ class GSRendererOGL final : public GSRendererHW
 
 	public:
 		GSRendererOGL();
-		virtual ~GSRendererOGL() {};
+		virtual ~GSRendererOGL() = default;;
 
 		bool CreateDevice(GSDevice* dev);
 

@@ -44,7 +44,7 @@ struct InputRecordingSavestate
 class InputRecordingFile
 {
 public:
-	InputRecordingFile() {}
+	InputRecordingFile() = default;
 	~InputRecordingFile() { Close(); }
 
 	// Movie File Manipulation

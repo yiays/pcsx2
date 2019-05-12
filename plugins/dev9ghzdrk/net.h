@@ -37,7 +37,7 @@ public:
 	virtual bool isInitialised() = 0;
 	virtual bool recv(NetPacket* pkt)=0;	//gets a packet
 	virtual bool send(NetPacket* pkt)=0;	//sends the packet and deletes it when done
-	virtual ~NetAdapter(){}
+	virtual ~NetAdapter()= default;
 };
 
 void tx_put(NetPacket* ptr);

@@ -86,7 +86,7 @@ template <typename EvtParams>
 class IEventDispatcher
 {
 protected:
-    IEventDispatcher() {}
+    IEventDispatcher() = default;
 
 public:
     virtual ~IEventDispatcher() = default;

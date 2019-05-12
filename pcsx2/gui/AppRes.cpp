@@ -51,8 +51,7 @@ RecentIsoList::RecentIsoList(int firstIdForMenuItems_or_wxID_ANY)
 }
 
 pxAppResources::pxAppResources()
-{
-}
+= default;
 
 pxAppResources::~pxAppResources() = default;
 

@@ -52,7 +52,7 @@ struct BranchLine
 class DisassemblyEntry
 {
 public:
-	virtual ~DisassemblyEntry() { };
+	virtual ~DisassemblyEntry() = default;;
 	virtual void recheck() = 0;
 	virtual int getNumLines() = 0;
 	virtual int getLineNum(u32 address, bool findStart) = 0;
@@ -92,7 +92,7 @@ class DisassemblyOpcode: public DisassemblyEntry
 {
 public:
 	DisassemblyOpcode(DebugInterface* _cpu, u32 _address, int _num): cpu(_cpu), address(_address), num(_num) { };
-	virtual ~DisassemblyOpcode() { };
+	virtual ~DisassemblyOpcode() = default;;
 	virtual void recheck() { };
 	virtual int getNumLines() { return num; };
 	virtual int getLineNum(u32 address, bool findStart) { return (address-this->address)/4; };
@@ -112,7 +112,7 @@ class DisassemblyMacro: public DisassemblyEntry
 public:
 	DisassemblyMacro(DebugInterface* _cpu, u32 _address):
 		cpu(_cpu), type(MACRO_LI), name(), immediate(0), address(_address), numOpcodes(0), rt(0), dataSize(0) { };
-	virtual ~DisassemblyMacro() { };
+	virtual ~DisassemblyMacro() = default;;
 
 	void setMacroLi(u32 _immediate, u8 _rt);
 	void setMacroMemory(std::string _name, u32 _immediate, u8 _rt, int _dataSize);
@@ -141,7 +141,7 @@ class DisassemblyData: public DisassemblyEntry
 {
 public:
 	DisassemblyData(DebugInterface* _cpu, u32 _address, u32 _size, DataType _type);
-	virtual ~DisassemblyData() { };
+	virtual ~DisassemblyData() = default;;
 
 	virtual void recheck();
 	virtual int getNumLines() { return (int)lines.size(); };
@@ -172,7 +172,7 @@ class DisassemblyComment: public DisassemblyEntry
 {
 public:
 	DisassemblyComment(DebugInterface* _cpu, u32 _address, u32 _size, std::string name, std::string param);
-	virtual ~DisassemblyComment() { };
+	virtual ~DisassemblyComment() = default;;
 
 	virtual void recheck() { };
 	virtual int getNumLines() { return 1; };

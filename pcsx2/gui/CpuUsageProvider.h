@@ -21,7 +21,7 @@
 class BaseCpuUsageProvider
 {
 public:
-	BaseCpuUsageProvider() {}
+	BaseCpuUsageProvider() = default;
 	virtual ~BaseCpuUsageProvider() = default;
 
 	virtual bool IsImplemented() const=0;

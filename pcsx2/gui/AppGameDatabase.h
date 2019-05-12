@@ -42,7 +42,7 @@
 class AppGameDatabase : public BaseGameDatabaseImpl
 {
 public:
-	AppGameDatabase() {}
+	AppGameDatabase() = default;
 	virtual ~AppGameDatabase() {
 		try {
 			Console.WriteLn( "(GameDB) Unloading..." );

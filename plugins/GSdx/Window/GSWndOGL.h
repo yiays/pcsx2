@@ -43,7 +43,7 @@ class GSWndOGL final : public GSWndGL
 
 public:
 	GSWndOGL();
-	virtual ~GSWndOGL() {};
+	virtual ~GSWndOGL() = default;;
 
 	bool Create(const std::string& title, int w, int h);
 	bool Attach(void* handle, bool managed = true);

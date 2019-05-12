@@ -151,8 +151,7 @@ public:
     pxExceptionEvent(const BaseException &ex);
 
     virtual ~pxExceptionEvent()
-    {
-    }
+    = default;
 
     virtual pxExceptionEvent *Clone() const { return new pxExceptionEvent(*this); }
 
@@ -384,7 +383,7 @@ public:
     virtual ~pxMessageBoxEvent() = default;
     virtual pxMessageBoxEvent *Clone() const { return new pxMessageBoxEvent(*this); }
 
-    pxMessageBoxEvent() {}
+    pxMessageBoxEvent() = default;
     pxMessageBoxEvent(const wxString &title, const wxString &content, MsgButtons buttons, SynchronousActionState &instdata);
     pxMessageBoxEvent(const wxString &title, const wxString &content, MsgButtons buttons, SynchronousActionState *instdata = nullptr);
     pxMessageBoxEvent(const pxMessageBoxEvent &event) = default;

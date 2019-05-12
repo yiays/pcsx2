@@ -53,7 +53,7 @@ struct PadData
 {
 public:
 	PadData();
-	~PadData() {}
+	~PadData() = default;
 
 	bool fExistKey = false;
 	u8 buf[2][18];

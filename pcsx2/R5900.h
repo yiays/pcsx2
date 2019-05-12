@@ -36,19 +36,19 @@ namespace Exception
 	class ExitCpuExecute
 	{
 	public:
-		explicit ExitCpuExecute() { }
+		explicit ExitCpuExecute() = default;
 	};
 
 	class CancelInstruction
 	{
 	public:
-		explicit CancelInstruction() { }
+		explicit CancelInstruction() = default;
 	};
 
 	class FailedToAllocateRegister
 	{
 	public:
-		explicit FailedToAllocateRegister() { }
+		explicit FailedToAllocateRegister() = default;
 	};
 }
 

@@ -44,8 +44,7 @@ public:
 	GSDrawingContext	CTXT[2];
 
 	GSDrawingEnvironment()
-	{
-	}
+	= default;
 
 	void Reset()
 	{

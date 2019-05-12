@@ -83,7 +83,7 @@ protected:
 
 public:
 	IDrawScanline() : m_sp(nullptr), m_ds(nullptr), m_de(nullptr), m_dr(nullptr) {}
-	virtual ~IDrawScanline() {}
+	virtual ~IDrawScanline() = default;
 
 	virtual void BeginDraw(const GSRasterizerData* data) = 0;
 	virtual void EndDraw(uint64 frame, uint64 ticks, int actual, int total) = 0;
@@ -113,7 +113,7 @@ public:
 class IRasterizer : public GSAlignedClass<32>
 {
 public:
-	virtual ~IRasterizer() {}
+	virtual ~IRasterizer() = default;
 
 	virtual void Queue(const std::shared_ptr<GSRasterizerData>& data) = 0;
 	virtual void Sync() = 0;

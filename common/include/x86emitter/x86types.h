@@ -305,7 +305,7 @@ class xRegisterInt : public xRegisterBase
     typedef xRegisterBase _parent;
 
 public:
-    xRegisterInt() {}
+    xRegisterInt() = default;
     explicit xRegisterInt(const xRegisterBase &src)
         : _parent(src)
     {

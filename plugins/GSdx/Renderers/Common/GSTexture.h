@@ -41,7 +41,7 @@ public:
 
 public:
 	GSTexture();
-	virtual ~GSTexture() {}
+	virtual ~GSTexture() = default;
 
 	virtual operator bool() {ASSERT(0); return false;}
 

@@ -54,8 +54,7 @@ public:
 	static void InitVectors();
 
 	__forceinline GSVector4()
-	{
-	}
+	= default;
 
 	constexpr GSVector4(const GSVector4&) = default;
 

@@ -30,7 +30,7 @@ class Pcsx2AppTraits : public wxGUIAppTraits
     typedef wxGUIAppTraits _parent;
 
 public:
-    virtual ~Pcsx2AppTraits() {}
+    virtual ~Pcsx2AppTraits() = default;
     wxMessageOutput *CreateMessageOutput();
 
 #ifdef wxUSE_STDPATHS

@@ -162,7 +162,7 @@ protected:
 class IScopedCoreThread
 {
 protected:
-	IScopedCoreThread() {}
+	IScopedCoreThread() = default;
 
 public:
 	virtual ~IScopedCoreThread() = default;;

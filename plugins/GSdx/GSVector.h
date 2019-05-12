@@ -52,8 +52,7 @@ public:
 	};
 
 	GSVector2T()
-	{
-	}
+	= default;
 
 	GSVector2T(T x)
 	{

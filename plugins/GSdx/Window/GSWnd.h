@@ -32,7 +32,7 @@ protected:
 
 public:
 	GSWnd() : m_managed(false) {};
-	virtual ~GSWnd() {};
+	virtual ~GSWnd() = default;;
 
 	virtual bool Create(const std::string& title, int w, int h) = 0;
 	virtual bool Attach(void* handle, bool managed = true) = 0;
@@ -74,7 +74,7 @@ protected:
 
 public:
 	GSWndGL() : m_ctx_attached(false), m_vsync_change_requested(false), m_vsync(0) {};
-	virtual ~GSWndGL() {};
+	virtual ~GSWndGL() = default;;
 
 	virtual bool Create(const std::string& title, int w, int h) = 0;
 	virtual bool Attach(void* handle, bool managed = true) = 0;

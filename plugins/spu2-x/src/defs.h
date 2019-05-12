@@ -363,7 +363,7 @@ struct VoiceMixSet
     static const VoiceMixSet Empty;
     StereoOut32 Dry, Wet;
 
-    VoiceMixSet() {}
+    VoiceMixSet() = default;
     VoiceMixSet(const StereoOut32 &dry, const StereoOut32 &wet)
         : Dry(dry)
         , Wet(wet)

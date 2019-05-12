@@ -221,7 +221,7 @@ protected:
 
 struct SysStateUnlockedParams
 {
-	SysStateUnlockedParams() {}
+	SysStateUnlockedParams() = default;
 };
 
 // --------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ public:
 	typedef SysStateUnlockedParams EvtParams;
 
 public:
-	IEventListener_SysState() {}
+	IEventListener_SysState() = default;
 	virtual ~IEventListener_SysState() = default;
 
 	virtual void DispatchEvent( const SysStateUnlockedParams& status )

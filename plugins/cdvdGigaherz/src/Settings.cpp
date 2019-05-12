@@ -27,8 +27,7 @@
 #include <PluginCompatibility.h>
 
 Settings::Settings()
-{
-}
+= default;
 
 Settings::Settings(std::map<std::string, std::string> data)
     : m_data(std::move(data))

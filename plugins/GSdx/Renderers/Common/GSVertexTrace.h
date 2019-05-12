@@ -75,7 +75,7 @@ public:
 	static void InitVectors();
 
 	GSVertexTrace(const GSState* state);
-	virtual ~GSVertexTrace() {}
+	virtual ~GSVertexTrace() = default;
 
 	void Update(const void* vertex, const uint32* index, int v_count, int i_count, GS_PRIM_CLASS primclass);
 

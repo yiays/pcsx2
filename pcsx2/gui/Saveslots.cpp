@@ -46,7 +46,7 @@ public:
 	wxString GetEventName() const { return L"ClearSavingLoadingFlag"; }
 
 	virtual ~SysExecEvent_ClearSavingLoadingFlag() = default;
-	SysExecEvent_ClearSavingLoadingFlag() { }
+	SysExecEvent_ClearSavingLoadingFlag() = default;
 	SysExecEvent_ClearSavingLoadingFlag *Clone() const { return new SysExecEvent_ClearSavingLoadingFlag(); }
 
 protected:

@@ -55,7 +55,7 @@ enum DataType {
 
 class SymbolMap {
 public:
-	SymbolMap() {}
+	SymbolMap() = default;
 	void Clear();
 	void SortSymbols();
 

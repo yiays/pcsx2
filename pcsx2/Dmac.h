@@ -92,7 +92,7 @@ union tDMA_TAG {
 	};
 	u32 _u32;
 
-	tDMA_TAG() {}
+	tDMA_TAG() = default;
 
 	tDMA_TAG(u32 val) { _u32 = val; }
 	u16 upper() const { return (_u32 >> 16); }
@@ -449,7 +449,7 @@ union tDMAC_ADDR
 	};
 	u32 _u32;
 
-	tDMAC_ADDR() {}
+	tDMAC_ADDR() = default;
 	tDMAC_ADDR(u32 val) { _u32 = val; }
 
 	void clear() { _u32 = 0; }

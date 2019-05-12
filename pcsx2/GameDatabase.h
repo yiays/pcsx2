@@ -48,7 +48,7 @@ struct key_pair {
 	wxString key;
 	wxString value;
 	
-	key_pair() {}
+	key_pair() = default;
 	key_pair(const wxString& _key, const wxString& _value)
 		: key(_key) , value(_value) {}
 

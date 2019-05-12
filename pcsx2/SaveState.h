@@ -49,7 +49,7 @@ namespace Exception
 		u32 Version;		// version number of the unsupported state.
 
 	protected:
-		UnsupportedStateVersion() {}
+		UnsupportedStateVersion() = default;
 
 	public:
 		explicit UnsupportedStateVersion( int version )
@@ -75,7 +75,7 @@ namespace Exception
 		u32 Crc_Cdvd;
 
 	protected:
-		StateCrcMismatch() {}
+		StateCrcMismatch() = default;
 
 	public:
 		StateCrcMismatch( u32 crc_save, u32 crc_cdvd )
@@ -110,7 +110,7 @@ protected:
 public:
 	SaveStateBase( VmStateBuffer& memblock );
 	SaveStateBase( VmStateBuffer* memblock );
-	virtual ~SaveStateBase() { }
+	virtual ~SaveStateBase() = default;
 
 	static wxString GetFilename( int slot );
 

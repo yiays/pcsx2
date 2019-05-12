@@ -36,7 +36,7 @@ protected:
 	uint m_blocksize;
 
 public:
-	virtual ~AsyncFileReader(void) {};
+	virtual ~AsyncFileReader(void) = default;;
 
 	virtual bool Open(const wxString& fileName)=0;
 

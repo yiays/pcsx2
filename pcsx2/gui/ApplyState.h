@@ -117,7 +117,7 @@ class BaseApplicableDialog
 	wxDECLARE_DYNAMIC_CLASS_NO_COPY(BaseApplicableDialog);
 
 public:
-	BaseApplicableDialog() {}
+	BaseApplicableDialog() = default;
 	virtual ~BaseApplicableDialog();
 
 	// Must return the same thing as GetNameStatic; a name ideal for use in uniquely

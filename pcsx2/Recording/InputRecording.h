@@ -28,8 +28,8 @@ enum INPUT_RECORDING_MODE
 class InputRecording
 {
 public:
-	InputRecording() {}
-	~InputRecording(){}
+	InputRecording() = default;
+	~InputRecording()= default;
 
 	void ControllerInterrupt(u8 &data, u8 &port, u16 & BufCount, u8 buf[]);
 

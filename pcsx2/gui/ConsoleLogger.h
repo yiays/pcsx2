@@ -38,7 +38,7 @@ public:
 	virtual ~PipeRedirectionBase() =0;	// abstract destructor, forces abstract class behavior
 
 protected:
-	PipeRedirectionBase() {}
+	PipeRedirectionBase() = default;
 };
 
 extern PipeRedirectionBase* NewPipeRedir( FILE* stdstream );
@@ -53,7 +53,7 @@ extern PipeRedirectionBase* NewPipeRedir( FILE* stdstream );
 class pxLogConsole : public wxLog
 {
 public:
-	pxLogConsole() {}
+	pxLogConsole() = default;
 
 protected:
 	virtual void DoLogRecord(wxLogLevel level, const wxString &message, const wxLogRecordInfo &info);

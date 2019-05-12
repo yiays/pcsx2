@@ -92,7 +92,7 @@ namespace Exception
 		wxString	StreamName;
 
 	protected:
-		PluginLoadError() {}
+		PluginLoadError() = default;
 
 	public:
 		PluginLoadError( PluginsEnum_t pid );
@@ -113,7 +113,7 @@ namespace Exception
 		DEFINE_EXCEPTION_MESSAGES( PluginInitError )
 
 	protected:
-		PluginInitError() {}
+		PluginInitError() = default;
 
 	public:
 		PluginInitError( PluginsEnum_t pid );
@@ -127,7 +127,7 @@ namespace Exception
 		DEFINE_EXCEPTION_MESSAGES( PluginOpenError )
 
 	protected:
-		PluginOpenError() {}
+		PluginOpenError() = default;
 
 	public:
 		explicit PluginOpenError( PluginsEnum_t pid );
@@ -143,7 +143,7 @@ namespace Exception
 		DEFINE_EXCEPTION_MESSAGES( FreezePluginFailure )
 
 	protected:
-		FreezePluginFailure() {}
+		FreezePluginFailure() = default;
 
 	public:
 		explicit FreezePluginFailure( PluginsEnum_t pid )
@@ -164,7 +164,7 @@ namespace Exception
 		PluginsEnum_t PluginId;
 
 	protected:
-		ThawPluginFailure() {}
+		ThawPluginFailure() = default;
 
 	public:
 		explicit ThawPluginFailure( PluginsEnum_t pid )
@@ -257,8 +257,8 @@ class DynamicStaticLibrary
 {
 	public:
 
-	DynamicStaticLibrary() {};
-	virtual ~DynamicStaticLibrary() {};
+	DynamicStaticLibrary() = default;;
+	virtual ~DynamicStaticLibrary() = default;;
 
 	virtual bool Load(const wxString& name) = 0;
 	virtual void* GetSymbol(const wxString &name) = 0;
@@ -272,7 +272,7 @@ class StaticLibrary : public DynamicStaticLibrary
 	public:
 
 	StaticLibrary(PluginsEnum_t _pid);
-	virtual ~StaticLibrary() {};
+	virtual ~StaticLibrary() = default;;
 
 	bool Load(const wxString& name);
 	void* GetSymbol(const wxString &name);
@@ -286,7 +286,7 @@ class DynamicLibrary : public DynamicStaticLibrary
 	public:
 
 	DynamicLibrary();
-	virtual ~DynamicLibrary() {};
+	virtual ~DynamicLibrary() = default;;
 
 	bool Load(const wxString& name);
 	void* GetSymbol(const wxString &name);

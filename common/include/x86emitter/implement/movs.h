@@ -28,7 +28,7 @@ namespace x86Emitter
 //
 struct xImpl_Mov
 {
-    xImpl_Mov() {} // Satisfy GCC's whims.
+    xImpl_Mov() = default; // Satisfy GCC's whims.
 
     void operator()(const xRegisterInt &to, const xRegisterInt &from) const;
     void operator()(const xIndirectVoid &dest, const xRegisterInt &from) const;

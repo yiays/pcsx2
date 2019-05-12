@@ -347,7 +347,7 @@ public:
 	CpuInitializer<InterpVU1>		interpVU1;
 
 public:
-	CpuInitializerSet() {}
+	CpuInitializerSet() = default;
 	virtual ~CpuInitializerSet() = default;
 };
 
@@ -363,8 +363,7 @@ static wxString GetMemoryErrorVM()
 //  SysReserveVM  (implementations)
 // --------------------------------------------------------------------------------------
 SysMainMemory::SysMainMemory()
-{
-}
+= default;
 
 SysMainMemory::~SysMainMemory()
 {

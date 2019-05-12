@@ -34,7 +34,7 @@ private:
 	uint16 ConvertBlendEnum(uint16 generic) { return 0xFFFF; }
 
 public:
-	GSDeviceNull() {}
+	GSDeviceNull() = default;
 
 	bool Create(const std::shared_ptr<GSWnd> &wnd);
 	bool Reset(int w, int h);

@@ -29,12 +29,10 @@ class MtQueue
 
 public:
     MtQueue()
-    {
-    }
+    = default;
 
     ~MtQueue()
-    {
-    }
+    = default;
 
     void push(const T &e)
     {

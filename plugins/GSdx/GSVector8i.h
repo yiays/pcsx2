@@ -47,7 +47,7 @@ public:
 
 	static void InitVectors();
 
-	__forceinline GSVector8i() {}
+	__forceinline GSVector8i() = default;
 
 	__forceinline explicit GSVector8i(const GSVector8& v, bool truncate = true);
 

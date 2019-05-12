@@ -76,7 +76,7 @@ protected:
 
 public:
     wxAppWithHelpers();
-    virtual ~wxAppWithHelpers() {}
+    virtual ~wxAppWithHelpers() = default;
 
     wxAppTraits *CreateTraits();
 

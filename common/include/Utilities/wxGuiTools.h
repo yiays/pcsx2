@@ -745,7 +745,7 @@ protected:
     std::unique_ptr<wxCursor> m_arrowWait;
 
 public:
-    MoreStockCursors() {}
+    MoreStockCursors() = default;
     virtual ~MoreStockCursors() = default;
     const wxCursor &GetArrowWait();
 };

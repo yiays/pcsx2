@@ -474,7 +474,7 @@ struct MTGS_BufferedData
 	u128		m_Ring[RingBufferSize];
 	u8			Regs[Ps2MemSize::GSregs];
 
-	MTGS_BufferedData() {}
+	MTGS_BufferedData() = default;
 
 	u128& operator[]( uint idx )
 	{

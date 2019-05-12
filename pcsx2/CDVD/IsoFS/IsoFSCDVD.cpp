@@ -20,8 +20,7 @@
 #include "../CDVDaccess.h"
 
 IsoFSCDVD::IsoFSCDVD()
-{
-}
+= default;
 
 bool IsoFSCDVD::readSector(unsigned char* buffer, int lba)
 {

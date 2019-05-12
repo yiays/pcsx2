@@ -41,6 +41,6 @@ public:
 class GSDirtyRectList : public std::vector<GSDirtyRect>
 {
 public:
-	GSDirtyRectList() {}
+	GSDirtyRectList() = default;
 	const GSVector4i GetDirtyRectAndClear(const GIFRegTEX0& TEX0, const GSVector2i& size);
 };

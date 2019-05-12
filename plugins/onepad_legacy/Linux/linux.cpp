@@ -24,7 +24,7 @@
 #include "keyboard.h"
 #include "state_management.h"
 
-#include <string.h>
+#include <cstring>
 #include <gtk/gtk.h>
 #include "linux.h"
 

@@ -16,7 +16,7 @@
 
 #include "PrecompiledHeader.h"
 
-#include <time.h>
+#include <ctime>
 #include <cmath>
 
 #include "App.h"

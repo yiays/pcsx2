@@ -20,8 +20,8 @@
 
 #include "PrecompiledHeader.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #include "IopCommon.h"
 #include "Mdec.h"

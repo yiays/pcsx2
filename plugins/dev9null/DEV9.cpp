@@ -24,9 +24,9 @@
 // --arcum42
 
 
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
 #include <string>
 using namespace std;
 

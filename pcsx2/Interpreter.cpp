@@ -25,7 +25,7 @@
 
 #include "../DebugTools/Breakpoints.h"
 
-#include <float.h>
+#include <cfloat>
 
 using namespace R5900;		// for OPCODE and OpcodeImpl
 

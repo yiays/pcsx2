@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <limits.h>
+#include <climits>
 #include "GSTextureOGL.h"
 #include "GLState.h"
 #include "GSPng.h"

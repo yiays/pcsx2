@@ -18,7 +18,7 @@
 #include "AppConfig.h"
 
 #include <memory>
-#include <ctype.h>
+#include <cctype>
 #include <wx/datetime.h>
 
 #include "CdRom.h"

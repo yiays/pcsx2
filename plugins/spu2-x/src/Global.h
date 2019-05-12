@@ -33,7 +33,7 @@ namespace soundtouch
 class SoundTouch;
 }
 
-#include <assert.h>
+#include <cassert>
 #include <cstdlib>
 #include <cstdio>
 #include <cstdarg>

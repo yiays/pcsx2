@@ -51,7 +51,7 @@
 // (these compile lightning fast with or without PCH, but they never change so
 // might as well add them here)
 
-#include <stddef.h>
+#include <cstddef>
 #include <sys/stat.h>
 #include <pthread.h>
 

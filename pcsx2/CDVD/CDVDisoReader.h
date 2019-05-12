@@ -16,7 +16,7 @@
 #ifndef __CDVD_ISO_READER_H__
 #define __CDVD_ISO_READER_H__
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "IopCommon.h"
 #include "IsoFileFormats.h"

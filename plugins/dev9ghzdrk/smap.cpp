@@ -20,11 +20,11 @@
 #include <Winioctl.h>
 #include <windows.h>
 #endif
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
 #include <fcntl.h>
-#include <stdarg.h>
+#include <cstdarg>
 #include <mutex>
 
 #include "smap.h"

@@ -24,7 +24,7 @@
 #include "BaseblockEx.h"
 #include "System/RecTypes.h"
 
-#include <time.h>
+#include <ctime>
 
 #ifndef _WIN32
 #include <sys/types.h>

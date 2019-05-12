@@ -21,7 +21,7 @@
 #include "PrecompiledHeader.h"
 #include "IopCommon.h"
 
-#include <math.h>
+#include <cmath>
 
 /* Config.PsxType == 1: PAL:
 	 VBlank interlaced		50.00 Hz

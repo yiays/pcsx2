@@ -17,7 +17,7 @@
 #include "PrecompiledHeader.h"
 
 #ifdef __linux__
-#include <signal.h> // for pthread_kill, which is in pthread.h on w32-pthreads
+#include <csignal> // for pthread_kill, which is in pthread.h on w32-pthreads
 #endif
 
 #include "PersistentThread.h"

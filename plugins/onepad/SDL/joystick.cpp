@@ -21,7 +21,7 @@
 
 #include "joystick.h"
 #include "resources.h"
-#include <signal.h> // sigaction
+#include <csignal> // sigaction
 
 //////////////////////////
 // Joystick definitions //

@@ -28,7 +28,7 @@
 #endif
 
 #include <cstdarg>
-#include <ctype.h>
+#include <cctype>
 
 #include "R3000A.h"
 #include "iR5900.h"

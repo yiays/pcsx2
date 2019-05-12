@@ -14,7 +14,7 @@
  */
 
 
-#include <stdio.h>
+#include <cstdio>
 #include "CDVD.h"
 #include "svnrev.h"
 

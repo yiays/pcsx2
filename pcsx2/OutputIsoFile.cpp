@@ -18,7 +18,7 @@
 #include "IopCommon.h"
 #include "CDVD/IsoFileFormats.h"
 
-#include <errno.h>
+#include <cerrno>
 
 /*
 void pxStream_OpenCheck( const wxStreamBase& stream, const wxString& fname, const wxString& mode )

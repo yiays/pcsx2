@@ -14,7 +14,7 @@
  */
 
 
-#include <stdlib.h>
+#include <cstdlib>
 
 //#include <winsock2.h>
 #include "../DEV9.h"
@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include <string.h>
+#include <cstring>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>

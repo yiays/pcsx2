@@ -17,7 +17,7 @@
 #include "Common.h"
 
 #include <cmath>
-#include <float.h>
+#include <cfloat>
 
 #include "VUmicro.h"
 

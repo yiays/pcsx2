@@ -21,7 +21,7 @@
 #include "BreakpointWindow.h"
 #include "DebugEvents.h"
 #include "DisassemblyDialog.h"
-#include <wchar.h>
+#include <cwchar>
 #include <wx/clipbrd.h>
 
 

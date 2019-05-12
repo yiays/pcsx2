@@ -15,7 +15,7 @@
 
 
 #include "PrecompiledHeader.h"
-#include <time.h>
+#include <ctime>
 
 #include "IopCommon.h"
 #include "iR3000A.h"

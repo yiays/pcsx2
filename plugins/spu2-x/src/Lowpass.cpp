@@ -17,8 +17,8 @@
 
 #include "Global.h"
 #include "Lowpass.h"
-#include <math.h>
-#include <float.h>
+#include <cmath>
+#include <cfloat>
 
 template <typename FloatType>
 __forceinline LowPassFilter<FloatType>::LowPassFilter(FloatType freq, FloatType srate)

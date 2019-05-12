@@ -16,7 +16,7 @@
 #ifndef __DEV9_H__
 #define __DEV9_H__
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #ifndef EXTERN 
 #define EXTERN  extern

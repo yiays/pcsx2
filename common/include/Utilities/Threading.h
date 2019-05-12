@@ -16,7 +16,7 @@
 #pragma once
 
 #include <semaphore.h>
-#include <errno.h> // EBUSY
+#include <cerrno> // EBUSY
 #include <pthread.h>
 
 #ifdef __APPLE__

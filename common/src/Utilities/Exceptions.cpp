@@ -19,7 +19,7 @@
 #include "Threading.h"
 
 #if defined(__UNIX__)
-#include <signal.h>
+#include <csignal>
 #endif
 
 // for lack of a better place...

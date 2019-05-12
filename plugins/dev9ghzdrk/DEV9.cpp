@@ -29,10 +29,10 @@
 
 
 #include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <stdarg.h>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
+#include <cstdarg>
 #define EXTERN 
 #include "DEV9.h"
 #undef EXTERN 

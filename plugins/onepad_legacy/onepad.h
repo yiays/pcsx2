@@ -24,8 +24,8 @@
 
 #define GAMEPAD_NUMBER 2 // numbers of gamepad
 
-#include <stdio.h>
-#include <assert.h>
+#include <cstdio>
+#include <cassert>
 #include <queue>
 
 #ifdef _WIN32

@@ -34,7 +34,7 @@ class FastFormatUnicode;
 //  Basic Atomic Types
 // --------------------------------------------------------------------------------------
 
-#include <stdint.h>
+#include <cstdint>
 
 // Note: char does not have a default sign, unlike other types. As we actually want
 // char and not signed char in pcsx2, we define s8 to char

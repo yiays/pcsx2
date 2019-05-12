@@ -19,7 +19,7 @@
 
 #include <wx/stream.h>
 
-#include <errno.h>
+#include <cerrno>
 
 // --------------------------------------------------------------------------------------
 //  pxStreamBase  (implementations)

@@ -20,7 +20,7 @@
  */
 
 #pragma once
-#include <string.h> // for memset
+#include <cstring> // for memset
 #define MAX_KEYS 24
 
 enum KeyType {

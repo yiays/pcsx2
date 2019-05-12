@@ -14,8 +14,8 @@
  */
 
 #pragma once
-#include <stdlib.h>
-#include <string.h>  //uh isnt memcpy @ stdlib ?
+#include <cstdlib>
+#include <cstring>  //uh isnt memcpy @ stdlib ?
 
 struct NetPacket
 {

@@ -17,7 +17,7 @@
 #include "PrecompiledHeader.h"
 #include "Common.h"
 
-#include <float.h>
+#include <cfloat>
 
 #include "R5900.h"
 #include "R5900OpcodeTables.h"

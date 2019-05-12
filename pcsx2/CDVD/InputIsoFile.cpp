@@ -18,7 +18,7 @@
 #include "IopCommon.h"
 #include "IsoFileFormats.h"
 
-#include <errno.h>
+#include <cerrno>
 
 static const char* nameFromType(int type)
 {

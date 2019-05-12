@@ -19,12 +19,12 @@
 // Note the file is mostly a copy paste of the WavFile.h from SoundTouch library. It was
 // shrunken to support only output 16 bits wav files
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <string>
 #include <cstring>
-#include <assert.h>
-#include <limits.h>
+#include <cassert>
+#include <climits>
 
 #include "WavFile.h"
 

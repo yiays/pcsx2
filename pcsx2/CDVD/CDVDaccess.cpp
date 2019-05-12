@@ -23,8 +23,8 @@
 #	include <wx/msw/wrapwin.h>
 #endif
 
-#include <ctype.h>
-#include <time.h>
+#include <cctype>
+#include <ctime>
 #include <wx/datetime.h>
 #include <exception>
 #include <memory>

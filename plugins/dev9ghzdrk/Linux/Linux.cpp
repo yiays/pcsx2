@@ -13,14 +13,14 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <gtk/gtk.h>
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include <string.h>
+#include <cstring>
 
 #include "Config.h"
 #include "../DEV9.h"

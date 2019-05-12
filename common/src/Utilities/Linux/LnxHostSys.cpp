@@ -20,8 +20,8 @@
 #include <wx/thread.h>
 
 #include <sys/mman.h>
-#include <signal.h>
-#include <errno.h>
+#include <csignal>
+#include <cerrno>
 #include <unistd.h>
 
 // Apple uses the MAP_ANON define instead of MAP_ANONYMOUS, but they mean

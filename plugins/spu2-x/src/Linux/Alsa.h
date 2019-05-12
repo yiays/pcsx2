@@ -18,8 +18,8 @@
 #ifndef __LINUX_H__
 #define __LINUX_H__
 
-#include <assert.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdlib>
 
 #include <sys/ioctl.h>
 #include <fcntl.h>

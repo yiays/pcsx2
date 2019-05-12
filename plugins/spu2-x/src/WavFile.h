@@ -22,7 +22,7 @@
 #ifndef WAVFILE_H
 #define WAVFILE_H
 
-#include <stdio.h>
+#include <cstdio>
 
 #ifndef uint
 typedef unsigned int uint;

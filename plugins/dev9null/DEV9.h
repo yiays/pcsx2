@@ -19,7 +19,7 @@
 #ifndef __DEV9_H__
 #define __DEV9_H__
 
-#include <stdio.h>
+#include <cstdio>
 
 #define DEV9defs
 #include "PS2Edefs.h"

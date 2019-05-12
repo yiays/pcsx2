@@ -22,7 +22,7 @@
 
 #include "portaudio.h"
 
-#include "wchar.h"
+#include <cwchar>
 
 #include <vector>
 

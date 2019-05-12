@@ -17,7 +17,7 @@
 
 #include "PrecompiledHeader.h"
 
-#include <float.h>
+#include <cfloat>
 #include <list>
 #include <map>
 

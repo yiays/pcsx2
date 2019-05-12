@@ -16,7 +16,7 @@
 #ifndef __FW_H__
 #define __FW_H__
 
-#include <stdio.h>
+#include <cstdio>
 
 #define FWdefs
 #include "PS2Edefs.h"

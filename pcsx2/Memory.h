@@ -16,7 +16,7 @@
 #pragma once
 
 #ifdef __linux__
-#include <signal.h>
+#include <csignal>
 #endif
 
 #include "vtlb.h"

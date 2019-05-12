@@ -20,7 +20,7 @@
  */
 
 #include "joystick.h"
-#include <signal.h> // sigaction
+#include <csignal> // sigaction
 
 //////////////////////////
 // Joystick definitions //

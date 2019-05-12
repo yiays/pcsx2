@@ -19,7 +19,7 @@
 
 #ifdef __linux__
 // Seriously why there is no standard
-#include "stdint.h"
+#include <cstdint>
 typedef uint32_t DWORD;
 typedef uint16_t USHORT;
 #ifndef __INTEL_COMPILER
@@ -119,14 +119,14 @@ extern Window GSwin;
 
 #else
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <mutex>
 
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
 
 #ifdef _MSC_VER
 #include <commctrl.h>

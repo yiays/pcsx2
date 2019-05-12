@@ -18,8 +18,8 @@
 #include "IopCommon.h"
 #include "R5900.h" // for g_GameStarted
 
-#include <ctype.h>
-#include <string.h>
+#include <cctype>
+#include <cstring>
 
 #ifndef O_BINARY
 #define O_BINARY 0

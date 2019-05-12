@@ -15,8 +15,8 @@
 
 #include "../PrecompiledHeader.h"
 
-#include <ctype.h>
-#include <time.h>
+#include <cctype>
+#include <ctime>
 #include <unistd.h>
 #include <sys/time.h>
 #include <wx/utils.h>

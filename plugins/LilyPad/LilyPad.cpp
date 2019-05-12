@@ -18,7 +18,7 @@
 #include "Global.h"
 
 // For escape timer, so as not to break GSDX+DX9.
-#include <time.h>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <sstream>

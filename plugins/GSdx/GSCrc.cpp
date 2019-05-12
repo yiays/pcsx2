@@ -556,16 +556,16 @@ CRC::Game CRC::Lookup(uint32 crc)
 			printf( "GSdx: CrcHacksExclusions: %s\n", exclusions.c_str() );
 
 		int crcDups = 0;
-		for(size_t i = 0; i < countof(m_games); i++)
+		for(auto & m_game : m_games)
 		{
-			if( !IsCrcExcluded( exclusions, m_games[i].crc ) ){
-				if(m_map[m_games[i].crc]){
+			if( !IsCrcExcluded( exclusions, m_game.crc ) ){
+				if(m_map[m_game.crc]){
 					printf("[FIXME] GSdx: Duplicate CRC: 0x%x: (game-id/region-id) %d/%d overrides %d/%d\n"
-						, m_games[i].crc, m_games[i].title, m_games[i].region, m_map[m_games[i].crc]->title, m_map[m_games[i].crc]->region);
+						, m_game.crc, m_game.title, m_game.region, m_map[m_game.crc]->title, m_map[m_game.crc]->region);
 					crcDups++;
 				}
 
-				m_map[m_games[i].crc] = &m_games[i];
+				m_map[m_game.crc] = &m_game;
 			}
 			//else
 			//	printf( "GSdx: excluding CRC hack for 0x%08x\n", m_games[i].crc );

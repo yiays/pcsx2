@@ -150,9 +150,9 @@ struct VuFunctionHeader
 	VuFunctionHeader() : startpc(0xffffffff), pprogfunc(nullptr) {}
 	~VuFunctionHeader()
 	{
-		for (std::vector<RANGE>::iterator it = ranges.begin(); it != ranges.end(); ++it)
+		for (auto & range : ranges)
 		{
-			free(it->pmem);
+			free(range.pmem);
 		}
 	}
 
@@ -804,13 +804,13 @@ void VuBaseBlock::GetInstsAtPc(int instpc, std::list<VuInstruction*>& listinsts)
 	}
 
 	// look for the pc in other blocks
-	for (std::list<VuBaseBlock*>::iterator itblock = s_listBlocks.begin(); itblock != s_listBlocks.end(); ++itblock)
+	for (auto & s_listBlock : s_listBlocks)
 	{
-		if (*itblock == this) continue;
+		if (s_listBlock == this) continue;
 
-		if (instpc >= (*itblock)->startpc && instpc < (*itblock)->endpc)
+		if (instpc >= s_listBlock->startpc && instpc < s_listBlock->endpc)
 		{
-			listinsts.push_back(&(*(*itblock)->GetInstIterAtPc(instpc)));
+			listinsts.push_back(&(*s_listBlock->GetInstIterAtPc(instpc)));
 		}
 	}
 
@@ -913,9 +913,9 @@ static VuFunctionHeader* SuperVURecompileProgram(u32 startpc, int vuindex)
 #endif
 
 	// destroy
-	for (std::list<VuBaseBlock*>::iterator itblock = s_listBlocks.begin(); itblock != s_listBlocks.end(); ++itblock)
+	for (auto & s_listBlock : s_listBlocks)
 	{
-		delete *itblock;
+		delete s_listBlock;
 	}
 	s_listBlocks.clear();
 
@@ -2065,18 +2065,18 @@ void VuBaseBlock::AssignVFRegs()
 
 
 			// redo the counters so that the proper regs are released
-			for (u32 j = 0; j < iREGCNT_XMM; ++j)
+			for (auto & xmmreg : xmmregs)
 			{
-				if (xmmregs[j].inuse)
+				if (xmmreg.inuse)
 				{
-					if (xmmregs[j].type == XMMTYPE_VFREG)
+					if (xmmreg.type == XMMTYPE_VFREG)
 					{
 						int count = 0;
 						itinst2 = itinst;
 
 						if (i)
 						{
-							if (itinst2->regs[0].VFread0 == xmmregs[j].reg || itinst2->regs[0].VFread1 == xmmregs[j].reg || itinst2->regs[0].VFwrite == xmmregs[j].reg)
+							if (itinst2->regs[0].VFread0 == xmmreg.reg || itinst2->regs[0].VFread1 == xmmreg.reg || itinst2->regs[0].VFwrite == xmmreg.reg)
 							{
 								itinst2 = insts.end();
 								break;
@@ -2090,18 +2090,18 @@ void VuBaseBlock::AssignVFRegs()
 
 						while (itinst2 != insts.end())
 						{
-							if (itinst2->regs[0].VFread0 == xmmregs[j].reg || itinst2->regs[0].VFread1 == xmmregs[j].reg || itinst2->regs[0].VFwrite == xmmregs[j].reg ||
-							        itinst2->regs[1].VFread0 == xmmregs[j].reg || itinst2->regs[1].VFread1 == xmmregs[j].reg || itinst2->regs[1].VFwrite == xmmregs[j].reg)
+							if (itinst2->regs[0].VFread0 == xmmreg.reg || itinst2->regs[0].VFread1 == xmmreg.reg || itinst2->regs[0].VFwrite == xmmreg.reg ||
+							        itinst2->regs[1].VFread0 == xmmreg.reg || itinst2->regs[1].VFread1 == xmmreg.reg || itinst2->regs[1].VFwrite == xmmreg.reg)
 								break;
 
 							++count;
 							++itinst2;
 						}
-						xmmregs[j].counter = 1000 - count;
+						xmmreg.counter = 1000 - count;
 					}
 					else
 					{
-						pxAssert(xmmregs[j].type == XMMTYPE_ACC);
+						pxAssert(xmmreg.type == XMMTYPE_ACC);
 
 						int count = 0;
 						itinst2 = itinst;
@@ -2119,7 +2119,7 @@ void VuBaseBlock::AssignVFRegs()
 							++itinst2;
 						}
 
-						xmmregs[j].counter = 1000 - count;
+						xmmreg.counter = 1000 - count;
 					}
 				}
 			}
@@ -2312,9 +2312,9 @@ void VuBaseBlock::AssignVIRegs(int parent)
 
 		type |= BLOCKTYPE_ANALYZEDPARENT;
 		s_markov.parents.push_back(this);
-		for (LISTBLOCKS::iterator it = blocks.begin(); it != blocks.end(); ++it)
+		for (auto & block : blocks)
 		{
-			(*it)->AssignVIRegs(0);
+			block->AssignVIRegs(0);
 		}
 		return;
 	}

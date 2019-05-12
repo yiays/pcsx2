@@ -1533,11 +1533,9 @@ EXPORT_C GSReplay(char* lpszCmdLine, int renderer)
 
 	while(finished > 0)
 	{
-		for(auto i = packets.begin(); i != packets.end(); i++)
+		for(auto p : packets)
 		{
-			Packet* p = *i;
-
-			switch(p->type)
+				switch(p->type)
 			{
 				case 0:
 
@@ -1594,9 +1592,9 @@ EXPORT_C GSReplay(char* lpszCmdLine, int renderer)
 		   );
 #endif
 
-	for(auto i = packets.begin(); i != packets.end(); i++)
+	for(auto & packet : packets)
 	{
-		delete *i;
+		delete packet;
 	}
 
 	packets.clear();

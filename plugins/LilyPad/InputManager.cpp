@@ -93,14 +93,14 @@ Device::~Device()
     // Generally called by deactivate, but just in case...
     FreeState();
     int i;
-    for (int port = 0; port < 2; port++) {
+    for (auto & pad : pads) {
         for (int slot = 0; slot < 4; slot++) {
             for (int padtype = 0; padtype < numPadTypes; padtype++) {
-                free(pads[port][slot][padtype].bindings);
-                for (i = 0; i < pads[port][slot][padtype].numFFBindings; i++) {
-                    free(pads[port][slot][padtype].ffBindings[i].axes);
+                free(pad[slot][padtype].bindings);
+                for (i = 0; i < pad[slot][padtype].numFFBindings; i++) {
+                    free(pad[slot][padtype].ffBindings[i].axes);
                 }
-                free(pads[port][slot][padtype].ffBindings);
+                free(pad[slot][padtype].ffBindings);
             }
         }
     }
@@ -146,11 +146,11 @@ void Device::AddFFAxis(const wchar_t *displayName, int id)
     ffAxes[numFFAxes].displayName = wcsdup(displayName);
     numFFAxes++;
     int bindingsExist = 0;
-    for (int port = 0; port < 2; port++) {
+    for (auto & pad : pads) {
         for (int slot = 0; slot < 4; slot++) {
             for (int padtype = 0; padtype < numPadTypes; padtype++) {
-                for (int i = 0; i < pads[port][slot][padtype].numFFBindings; i++) {
-                    ForceFeedbackBinding *b = pads[port][slot][padtype].ffBindings + i;
+                for (int i = 0; i < pad[slot][padtype].numFFBindings; i++) {
+                    ForceFeedbackBinding *b = pad[slot][padtype].ffBindings + i;
                     b->axes = (AxisEffectInfo *)realloc(b->axes, sizeof(AxisEffectInfo) * (numFFAxes));
                     memset(b->axes + (numFFAxes - 1), 0, sizeof(AxisEffectInfo));
                     bindingsExist = 1;

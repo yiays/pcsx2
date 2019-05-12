@@ -60,8 +60,8 @@ class GSBufferOGL {
 		m_limit = 1u << (1u + (size_t)std::log2(count - 1u));
 		m_quarter_shift = (size_t)std::log2(m_limit * STRIDE) - 2;
 
-		for (size_t i = 0; i < 5; i++) {
-			m_fence[i] = nullptr;
+		for (auto & i : m_fence) {
+			i = nullptr;
 		}
 
 		// TODO: if we do manually the synchronization, I'm not sure size is important. It worths to investigate it.
@@ -87,8 +87,8 @@ class GSBufferOGL {
 	}
 
 	~GSBufferOGL() {
-		for (size_t i = 0; i < 5; i++) {
-			glDeleteSync(m_fence[i]);
+		for (auto & i : m_fence) {
+			glDeleteSync(i);
 		}
 		glDeleteBuffers(1, &m_buffer_name);
 	}

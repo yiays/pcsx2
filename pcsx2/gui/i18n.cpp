@@ -336,12 +336,12 @@ bool i18n_SetLanguage( wxLanguage wxLangId, const wxString& langCode )
 	};
 	
 	bool foundone = false;
-	for (uint i=0; i<ArraySize(dictFiles); ++i)
+	for (auto & dictFile : dictFiles)
 	{
-		if (!dictFiles[i]) continue;
+		if (!dictFile) continue;
 
-		if (!locale->AddCatalog(dictFiles[i]))
-			Console.Indent().WriteLn(Color_StrongYellow, "%ls not found -- translation dictionary may be incomplete.", dictFiles[i]);
+		if (!locale->AddCatalog(dictFile))
+			Console.Indent().WriteLn(Color_StrongYellow, "%ls not found -- translation dictionary may be incomplete.", dictFile);
 		else
 			foundone = true;
 	}

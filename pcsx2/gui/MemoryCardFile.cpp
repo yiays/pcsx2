@@ -414,8 +414,8 @@ u64 FileMemoryCard::GetCRC( uint slot )
 		for( uint i=filesize; i; --i )
 		{
 			mcfp.Read( &buffer, sizeof(buffer) );
-			for( uint t=0; t<ArraySize(buffer); ++t )
-				retval ^= buffer[t];
+			for(unsigned long long t : buffer)
+				retval ^= t;
 		}
 	}
 	else

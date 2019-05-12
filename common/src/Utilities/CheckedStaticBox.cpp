@@ -44,8 +44,7 @@ void CheckedStaticBox::SetValue(bool val)
 {
     wxWindowList &list = GetChildren();
 
-    for (wxWindowList::iterator iter = list.begin(); iter != list.end(); ++iter) {
-        wxWindow *current = *iter;
+    for (auto current : list) {
         if (current != &ThisToggle)
             current->Enable(IsEnabled() && val);
     }
@@ -67,8 +66,7 @@ bool CheckedStaticBox::Enable(bool enable)
     bool val = enable && ThisToggle.GetValue();
     wxWindowList &list = GetChildren();
 
-    for (wxWindowList::iterator iter = list.begin(); iter != list.end(); ++iter) {
-        wxWindow *current = *iter;
+    for (auto current : list) {
         if (current != &ThisToggle)
             current->Enable(val);
     }

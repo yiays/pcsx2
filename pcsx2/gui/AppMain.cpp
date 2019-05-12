@@ -479,8 +479,8 @@ void FramerateManager::Reset()
 	m_initpause = FramerateQueueDepth;
 	m_fpsqueue_writepos = 0;
 
-	for( uint i=0; i<FramerateQueueDepth; ++i )
-		m_fpsqueue[i] = GetCPUTicks();
+	for(unsigned long long & i : m_fpsqueue)
+		i = GetCPUTicks();
 
 	Resume();
 }

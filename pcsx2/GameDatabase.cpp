@@ -42,8 +42,8 @@ Game_Data* BaseGameDatabaseImpl::createNewGame( const wxString& id )
 
 // Searches the current game's data to see if the given key exists
 bool Game_Data::keyExists(const wxString& key) const {
-	for (auto it = kList.begin(); it != kList.end(); ++it) {
-		if (it->CompareKey(key)) {
+	for (const auto & it : kList) {
+		if (it.CompareKey(key)) {
 			return true;
 		}
 	}
@@ -52,9 +52,9 @@ bool Game_Data::keyExists(const wxString& key) const {
 
 // Gets a string representation of the 'value' for the given key
 wxString Game_Data::getString(const wxString& key) const {
-	for (auto it = kList.begin(); it != kList.end(); ++it) {
-		if (it->CompareKey(key)) {
-			return it->value;
+	for (const auto & it : kList) {
+		if (it.CompareKey(key)) {
+			return it.value;
 		}
 	}
 	return wxString();

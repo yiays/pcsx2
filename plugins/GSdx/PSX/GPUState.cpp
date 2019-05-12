@@ -27,9 +27,9 @@ GPUState::GPUState()
 {
 	memset(m_status, 0, sizeof(m_status));
 
-	for(size_t i = 0; i < countof(m_fpGPUStatusCommandHandlers); i++)
+	for(auto & m_fpGPUStatusCommandHandler : m_fpGPUStatusCommandHandlers)
 	{
-		m_fpGPUStatusCommandHandlers[i] = &GPUState::SCH_Null;
+		m_fpGPUStatusCommandHandler = &GPUState::SCH_Null;
 	}
 
 	m_fpGPUStatusCommandHandlers[0x00] = &GPUState::SCH_ResetGPU;

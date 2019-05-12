@@ -303,11 +303,11 @@ void LoadBIOS()
 			LoadIrx(g_Conf->CurrentIRX, &eeMem->ROM[0x3C0000]);
 
 		CurrentBiosInformation = nullptr;
-		for (size_t i = 0; i < sizeof(biosVersions)/sizeof(biosVersions[0]); i++)
+		for (const auto & biosVersion : biosVersions)
 		{
-			if (biosVersions[i].biosChecksum == BiosChecksum && biosVersions[i].biosVersion == BiosVersion)
+			if (biosVersion.biosChecksum == BiosChecksum && biosVersion.biosVersion == BiosVersion)
 			{
-				CurrentBiosInformation = &biosVersions[i];
+				CurrentBiosInformation = &biosVersion;
 				break;
 			}
 		}

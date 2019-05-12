@@ -325,8 +325,8 @@ namespace ioman {
 
 	void reset()
 	{
-		for (int i = 0; i < maxfds; i++)
-			fds[i].close();
+		for (auto & fd : fds)
+			fd.close();
 	}
 
 	bool is_host(const std::string path)

@@ -163,8 +163,8 @@ PADinit(u32 flags)
 
     query.reset();
 
-    for (int port = 0; port < 2; port++)
-    slots[port] = 0;
+    for (int & slot : slots)
+    slot = 0;
 
     return 0;
 }

@@ -219,31 +219,31 @@ GSLocalMemory::GSLocalMemory()
 		blockOffset4[x] = (short)((int)BlockNumber4(x << 3, 0, 0, 32) - (int)BlockNumber4(0, 0, 0, 32));
 	}
 
-	for(size_t i = 0; i < countof(m_psm); i++)
+	for(auto & i : m_psm)
 	{
-		m_psm[i].pa = &GSLocalMemory::PixelAddress32;
-		m_psm[i].bn = &GSLocalMemory::BlockNumber32;
-		m_psm[i].rp = &GSLocalMemory::ReadPixel32;
-		m_psm[i].rpa = &GSLocalMemory::ReadPixel32;
-		m_psm[i].wp = &GSLocalMemory::WritePixel32;
-		m_psm[i].wpa = &GSLocalMemory::WritePixel32;
-		m_psm[i].rt = &GSLocalMemory::ReadTexel32;
-		m_psm[i].rta = &GSLocalMemory::ReadTexel32;
-		m_psm[i].wfa = &GSLocalMemory::WritePixel32;
-		m_psm[i].wi = &GSLocalMemory::WriteImage<PSM_PSMCT32, 8, 8, 32>;
-		m_psm[i].ri = &GSLocalMemory::ReadImageX; // TODO
-		m_psm[i].rtx = &GSLocalMemory::ReadTexture32;
-		m_psm[i].rtxP = &GSLocalMemory::ReadTexture32;
-		m_psm[i].rtxb = &GSLocalMemory::ReadTextureBlock32;
-		m_psm[i].rtxbP = &GSLocalMemory::ReadTextureBlock32;
-		m_psm[i].bpp = m_psm[i].trbpp = 32;
-		m_psm[i].pal = 0;
-		m_psm[i].bs = GSVector2i(8, 8);
-		m_psm[i].pgs = GSVector2i(64, 32);
-		for(int j = 0; j < 8; j++) m_psm[i].rowOffset[j] = rowOffset32;
-		m_psm[i].blockOffset = blockOffset32;
-		m_psm[i].msk = 0xff;
-		m_psm[i].depth = 0;
+		i.pa = &GSLocalMemory::PixelAddress32;
+		i.bn = &GSLocalMemory::BlockNumber32;
+		i.rp = &GSLocalMemory::ReadPixel32;
+		i.rpa = &GSLocalMemory::ReadPixel32;
+		i.wp = &GSLocalMemory::WritePixel32;
+		i.wpa = &GSLocalMemory::WritePixel32;
+		i.rt = &GSLocalMemory::ReadTexel32;
+		i.rta = &GSLocalMemory::ReadTexel32;
+		i.wfa = &GSLocalMemory::WritePixel32;
+		i.wi = &GSLocalMemory::WriteImage<PSM_PSMCT32, 8, 8, 32>;
+		i.ri = &GSLocalMemory::ReadImageX; // TODO
+		i.rtx = &GSLocalMemory::ReadTexture32;
+		i.rtxP = &GSLocalMemory::ReadTexture32;
+		i.rtxb = &GSLocalMemory::ReadTextureBlock32;
+		i.rtxbP = &GSLocalMemory::ReadTextureBlock32;
+		i.bpp = i.trbpp = 32;
+		i.pal = 0;
+		i.bs = GSVector2i(8, 8);
+		i.pgs = GSVector2i(64, 32);
+		for(int j = 0; j < 8; j++) i.rowOffset[j] = rowOffset32;
+		i.blockOffset = blockOffset32;
+		i.msk = 0xff;
+		i.depth = 0;
 	}
 
 	m_psm[PSM_PSGPU24].pa = &GSLocalMemory::PixelAddress16;
@@ -435,7 +435,7 @@ GSLocalMemory::GSLocalMemory()
 	m_psm[PSM_PSMT8].pal = m_psm[PSM_PSMT8H].pal = 256;
 	m_psm[PSM_PSMT4].pal = m_psm[PSM_PSMT4HL].pal = m_psm[PSM_PSMT4HH].pal = 16;
 
-	for(size_t i = 0; i < countof(m_psm); i++) m_psm[i].fmt = 3;
+	for(auto & i : m_psm) i.fmt = 3;
 	m_psm[PSM_PSMCT32].fmt = m_psm[PSM_PSMZ32].fmt = 0;
 	m_psm[PSM_PSMCT24].fmt = m_psm[PSM_PSMZ24].fmt = 1;
 	m_psm[PSM_PSMCT16].fmt = m_psm[PSM_PSMZ16].fmt = 2;
@@ -454,15 +454,15 @@ GSLocalMemory::GSLocalMemory()
 	m_psm[PSM_PSMT4].pgs = GSVector2i(128, 128);
 	m_psm[PSM_PSMZ16].pgs = m_psm[PSM_PSMZ16S].pgs = GSVector2i(64, 64);
 
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSGPU24].rowOffset[i] = rowOffset16;
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMCT16].rowOffset[i] = rowOffset16;
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMCT16S].rowOffset[i] = rowOffset16S;
+	for(auto & i : m_psm[PSM_PSGPU24].rowOffset) i = rowOffset16;
+	for(auto & i : m_psm[PSM_PSMCT16].rowOffset) i = rowOffset16;
+	for(auto & i : m_psm[PSM_PSMCT16S].rowOffset) i = rowOffset16S;
 	for(int i = 0; i < 8; i++) m_psm[PSM_PSMT8].rowOffset[i] = rowOffset8[((i + 2) >> 2) & 1];
 	for(int i = 0; i < 8; i++) m_psm[PSM_PSMT4].rowOffset[i] = rowOffset4[((i + 2) >> 2) & 1];
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMZ32].rowOffset[i] = rowOffset32Z;
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMZ24].rowOffset[i] = rowOffset32Z;
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMZ16].rowOffset[i] = rowOffset16Z;
-	for(int i = 0; i < 8; i++) m_psm[PSM_PSMZ16S].rowOffset[i] = rowOffset16SZ;
+	for(auto & i : m_psm[PSM_PSMZ32].rowOffset) i = rowOffset32Z;
+	for(auto & i : m_psm[PSM_PSMZ24].rowOffset) i = rowOffset32Z;
+	for(auto & i : m_psm[PSM_PSMZ16].rowOffset) i = rowOffset16Z;
+	for(auto & i : m_psm[PSM_PSMZ16S].rowOffset) i = rowOffset16SZ;
 
 	m_psm[PSM_PSGPU24].blockOffset = blockOffset16;
 	m_psm[PSM_PSMCT16].blockOffset = blockOffset16;

@@ -23,14 +23,14 @@
 PadData::PadData()
 {
 	// TODO - multi-tap support eventually?
-	for (int port = 0; port < 2; port++)
+	for (auto & port : buf)
 	{
-		buf[port][0] = 255;
-		buf[port][1] = 255;
-		buf[port][2] = 127;
-		buf[port][3] = 127;
-		buf[port][4] = 127;
-		buf[port][5] = 127;
+		port[0] = 255;
+		port[1] = 255;
+		port[2] = 127;
+		port[3] = 127;
+		port[4] = 127;
+		port[5] = 127;
 	}
 }
 

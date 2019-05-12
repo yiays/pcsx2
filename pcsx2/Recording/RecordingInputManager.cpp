@@ -23,9 +23,9 @@ RecordingInputManager g_RecordingInput;
 
 RecordingInputManager::RecordingInputManager()
 {
-	for (u8 i = 0; i < 2; i++)
+	for (bool & i : virtualPad)
 	{
-		virtualPad[i] = false;
+		i = false;
 	}
 }
 

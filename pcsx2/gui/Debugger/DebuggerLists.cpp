@@ -627,10 +627,10 @@ void ThreadList::onDoubleClick(int itemIndex, const wxPoint& point)
 
 EEThread ThreadList::getRunningThread()
 {
-	for (size_t i = 0; i < threads.size(); i++)
+	for (auto & thread : threads)
 	{
-		if (threads[i].data.status == THS_RUN)
-			return threads[i];
+		if (thread.data.status == THS_RUN)
+			return thread;
 	}
 
 	EEThread thread;

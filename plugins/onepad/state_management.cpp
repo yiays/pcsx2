@@ -139,16 +139,16 @@ void Pad::stop_vibrate_all()
 	}
 #endif
     // FIXME equivalent ?
-    for (int port = 0; port < 2; port++)
+    for (auto & pad : pads)
         for (int slot = 0; slot < 4; slot++)
-            pads[port][slot].reset_vibrate();
+            pad[slot].reset_vibrate();
 }
 
 void Pad::reset_all()
 {
-    for (int port = 0; port < 2; port++)
+    for (auto & pad : pads)
         for (int slot = 0; slot < 4; slot++)
-            pads[port][slot].reset();
+            pad[slot].reset();
 }
 
 void Pad::rumble_all()

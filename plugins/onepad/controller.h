@@ -64,8 +64,8 @@ public:
         packed_options = 0;
         ff_intensity = 0x7FFF; // set it at max value by default
         sensibility = 100;
-        for (int pad = 0; pad < GAMEPAD_NUMBER; pad++) {
-            keysym_map[pad].clear();
+        for (auto & pad : keysym_map) {
+            pad.clear();
         }
         unique_id.fill(0);
         sdl2_mapping.clear();

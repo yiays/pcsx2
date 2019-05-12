@@ -1191,31 +1191,31 @@ void recMemcheck(u32 op, u32 bits, bool store)
 	// edx = access address+size
 
 	auto checks = CBreakPoints::GetMemChecks();
-	for (size_t i = 0; i < checks.size(); i++)
+	for (auto & check : checks)
 	{
-		if (checks[i].result == 0)
+		if (check.result == 0)
 			continue;
-		if ((checks[i].cond & MEMCHECK_WRITE) == 0 && store)
+		if ((check.cond & MEMCHECK_WRITE) == 0 && store)
 			continue;
-		if ((checks[i].cond & MEMCHECK_READ) == 0 && !store)
+		if ((check.cond & MEMCHECK_READ) == 0 && !store)
 			continue;
 
 		// logic: memAddress < bpEnd && bpStart < memAddress+memSize
 
-		xMOV(eax,standardizeBreakpointAddress(checks[i].end));
+		xMOV(eax,standardizeBreakpointAddress(check.end));
 		xCMP(ecx,eax);				// address < end
 		xForwardJGE8 next1;			// if address >= end then goto next1
 
-		xMOV(eax,standardizeBreakpointAddress(checks[i].start));
+		xMOV(eax,standardizeBreakpointAddress(check.start));
 		xCMP(eax,edx);				// start < address+size
 		xForwardJGE8 next2;			// if start >= address+size then goto next2
 
 		// hit the breakpoint
-		if (checks[i].result & MEMCHECK_LOG) {
+		if (check.result & MEMCHECK_LOG) {
 			xMOV(edx, store);
 			xFastCall((void*)dynarecMemLogcheck, ecx, edx);
 		}
-		if (checks[i].result & MEMCHECK_BREAK) {
+		if (check.result & MEMCHECK_BREAK) {
 			xFastCall((void*)dynarecMemcheck);
 		}
 

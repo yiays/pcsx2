@@ -53,11 +53,11 @@ GSRendererSW::GSRendererSW(int threads)
 
 	m_output = (uint8*)_aligned_malloc(1024 * 1024 * sizeof(uint32), 32);
 
-	for (uint32 i = 0; i < countof(m_fzb_pages); i++) {
-		m_fzb_pages[i] = 0;
+	for (auto & m_fzb_page : m_fzb_pages) {
+		m_fzb_page = 0;
 	}
-	for (uint32 i = 0; i < countof(m_tex_pages); i++) {
-		m_tex_pages[i] = 0;
+	for (auto & m_tex_page : m_tex_pages) {
+		m_tex_page = 0;
 	}
 
 	#define InitCVB2(P, Q) \
@@ -89,9 +89,9 @@ GSRendererSW::~GSRendererSW()
 {
 	delete m_tc;
 
-	for(size_t i = 0; i < countof(m_texture); i++)
+	for(auto & i : m_texture)
 	{
-		delete m_texture[i];
+		delete i;
 	}
 
 	delete m_rl;
@@ -154,11 +154,11 @@ void GSRendererSW::VSync(int field)
 
 void GSRendererSW::ResetDevice()
 {
-	for(size_t i = 0; i < countof(m_texture); i++)
+	for(auto & i : m_texture)
 	{
-		delete m_texture[i];
+		delete i;
 
-		m_texture[i] = nullptr;
+		i = nullptr;
 	}
 }
 

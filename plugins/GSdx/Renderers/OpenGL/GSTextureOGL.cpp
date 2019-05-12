@@ -60,8 +60,8 @@ namespace PboPool {
 		m_map    = (char*)glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, m_pbo_size, map_flags);
 		m_offset = 0;
 
-		for (size_t i = 0; i < countof(m_fence); i++) {
-			m_fence[i] = nullptr;
+		for (auto & i : m_fence) {
+			i = nullptr;
 		}
 
 		UnbindPbo();
@@ -98,8 +98,8 @@ namespace PboPool {
 		m_map    = nullptr;
 		m_offset = 0;
 
-		for (size_t i = 0; i < countof(m_fence); i++) {
-			glDeleteSync(m_fence[i]);
+		for (auto & i : m_fence) {
+			glDeleteSync(i);
 		}
 
 		glDeleteBuffers(1, &m_buffer);
@@ -329,9 +329,9 @@ GSTextureOGL::~GSTextureOGL()
 		GLState::rt = 0;
 	if (m_texture_id == GLState::ds)
 		GLState::ds = 0;
-	for (size_t i = 0; i < countof(GLState::tex_unit); i++) {
-		if (m_texture_id == GLState::tex_unit[i])
-			GLState::tex_unit[i] = 0;
+	for (unsigned int & i : GLState::tex_unit) {
+		if (m_texture_id == i)
+			i = 0;
 	}
 
 	glDeleteTextures(1, &m_texture_id);

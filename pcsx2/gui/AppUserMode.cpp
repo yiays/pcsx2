@@ -76,9 +76,9 @@ bool Pcsx2App::TestUserPermissionsRights( const wxDirName& testFolder, wxString&
 
 	FastFormatUnicode createme, accessme;
 
-	for (uint i=0; i<ArraySize(PermissionFolders); ++i)
+	for (const auto & PermissionFolder : PermissionFolders)
 	{
-		wxDirName folder( testFolder + PermissionFolders[i] );
+		wxDirName folder( testFolder + PermissionFolder );
 
 		if (!folder.Mkdir())
 			createme += L"\t" + folder.ToString() + L"\n";

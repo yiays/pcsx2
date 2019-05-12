@@ -287,13 +287,13 @@ void MainEmuFrame::DispatchEvent( const PluginEventType& plugin_evt )
 
 	if( plugin_evt == CorePlugins_Unloaded )
 	{
-		for( int i=0; i<PluginId_Count; ++i )
-			m_PluginMenuPacks[i].OnUnloaded();
+		for(auto & m_PluginMenuPack : m_PluginMenuPacks)
+			m_PluginMenuPack.OnUnloaded();
 	}
 	else if( plugin_evt == CorePlugins_Loaded )
 	{
-		for( int i=0; i<PluginId_Count; ++i )
-			m_PluginMenuPacks[i].OnLoaded();
+		for(auto & m_PluginMenuPack : m_PluginMenuPacks)
+			m_PluginMenuPack.OnLoaded();
 
 		// bleh this makes the menu too cluttered. --air
 		//m_menuCDVD.SetLabel( MenuId_Src_Plugin, wxsFormat( L"%s (%s)", _("Plugin"),
@@ -774,11 +774,11 @@ void MainEmuFrame::CommitPreset_noTrigger()
 static void AppendShortcutToMenuOption( wxMenuItem& item, const char* id ) {
 	// this is NOT how a dictionary works but it has like 30 entries so this should still perform okay
 	auto* dict = &wxGetApp().GlobalAccels;
-	for ( auto it = ( *dict )->begin(); it != ( *dict )->end(); ++it ) {
-		if ( strcmp( it->second->Id, id ) == 0 ) {
+	for (auto & it : *( *dict )) {
+		if ( strcmp( it.second->Id, id ) == 0 ) {
 			wxString text = item.GetItemLabel();
 			size_t tabPos = text.rfind( L'\t' );
-			KeyAcceleratorCode keycode( (wxKeyCode)it->first );
+			KeyAcceleratorCode keycode( (wxKeyCode)it.first );
 			item.SetItemLabel( text.Mid( 0, tabPos ) + L"\t" + keycode.ToString() );
 		}
 	}
@@ -830,8 +830,8 @@ void PerPluginMenuInfo::OnUnloaded()
 	// not trust them, shall we?)
 
 	MenuItemAddonList& curlist( m_PluginMenuItems );
-	for( uint mx=0; mx<curlist.size(); ++mx )
-		MyMenu.Delete( curlist[mx].Item );
+	for(auto & mx : curlist)
+		MyMenu.Delete( mx.Item );
 
 	curlist.clear();
 

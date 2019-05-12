@@ -401,8 +401,8 @@ public:
 
 	bool HasPluginsOverride() const
 	{
-		for( int i=0; i<PluginId_Count; ++i )
-			if( Filenames.Plugins[i].IsOk() ) return true;
+		for(const auto & Plugin : Filenames.Plugins)
+			if( Plugin.IsOk() ) return true;
 
 		return false;
 	}

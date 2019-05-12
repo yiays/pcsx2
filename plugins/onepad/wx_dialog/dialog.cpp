@@ -300,9 +300,9 @@ Dialog::Dialog()
 
     Bind(wxEVT_BUTTON, &Dialog::OnButtonClicked, this);
 
-    for (int i = 0; i < GAMEPAD_NUMBER; ++i) {
+    for (auto & i : m_pressed) {
         for (int j = 0; j < NB_IMG; ++j) {
-            m_pressed[i][j] = false;
+            i[j] = false;
         }
     }
 }

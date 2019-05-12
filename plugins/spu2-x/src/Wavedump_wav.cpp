@@ -74,9 +74,9 @@ void Close()
 {
     if (!IsDevBuild)
         return;
-    for (uint cidx = 0; cidx < 2; cidx++) {
+    for (auto & cidx : m_CoreWav) {
         for (int srcidx = 0; srcidx < CoreSrc_Count; srcidx++) {
-            safe_delete(m_CoreWav[cidx][srcidx]);
+            safe_delete(cidx[srcidx]);
         }
     }
 }

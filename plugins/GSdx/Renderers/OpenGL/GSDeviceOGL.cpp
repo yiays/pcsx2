@@ -143,7 +143,7 @@ GSDeviceOGL::~GSDeviceOGL()
 
 	glDeleteSamplers(countof(m_ps_ss), m_ps_ss);
 
-	for (uint32 key = 0; key < countof(m_om_dss); key++) delete m_om_dss[key];
+	for (auto & m_om_ds : m_om_dss) delete m_om_ds;
 
 	PboPool::Destroy();
 

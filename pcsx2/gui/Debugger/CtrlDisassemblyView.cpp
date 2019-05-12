@@ -552,9 +552,9 @@ void CtrlDisassemblyView::render(wxDC& dc)
 	}
 
 	std::vector<BranchLine> branchLines = manager.getBranchLines(windowStart,address-windowStart);
-	for (size_t i = 0; i < branchLines.size(); i++)
+	for (auto & branchLine : branchLines)
 	{
-		drawBranchLine(dc,addressPositions,branchLines[i]);
+		drawBranchLine(dc,addressPositions,branchLine);
 	}
 	
 }
@@ -1269,11 +1269,11 @@ void CtrlDisassemblyView::editBreakpoint()
 	if (CBreakPoints::IsAddressBreakPoint(curAddress))
 	{
 		auto breakpoints = CBreakPoints::GetBreakpoints();
-		for (size_t i = 0; i < breakpoints.size(); i++)
+		for (auto & breakpoint : breakpoints)
 		{
-			if (breakpoints[i].addr == curAddress)
+			if (breakpoint.addr == curAddress)
 			{
-				win.loadFromBreakpoint(breakpoints[i]);
+				win.loadFromBreakpoint(breakpoint);
 				exists = true;
 				break;
 			}

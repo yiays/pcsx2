@@ -313,11 +313,11 @@ namespace MIPSAnalyst
 		currentFunction.end = addr + 4;
 		functions.push_back(currentFunction);
 
-		for (auto iter = functions.begin(); iter != functions.end(); iter++) {
-			iter->size = iter->end - iter->start + 4;
+		for (auto & function : functions) {
+			function.size = function.end - function.start + 4;
 			if (insertSymbols) {
 				char temp[256];
-				symbolMap.AddFunction(DefaultFunctionName(temp, iter->start), iter->start, iter->end - iter->start + 4);
+				symbolMap.AddFunction(DefaultFunctionName(temp, function.start), function.start, function.end - function.start + 4);
 			}
 		}
 	}

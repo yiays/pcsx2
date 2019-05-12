@@ -172,9 +172,9 @@ void SysTraceLog_LoadSaveSettings( IniInterface& ini )
 {
 	ScopedIniGroup path(ini, L"TraceLogSources");
 
-	for (uint i=0; i<traceLogCount; ++i)
+	for (auto log : traceLogList)
 	{
-		if (SysTraceLog* log = traceLogList[i])
+		if (log)
 		{
 			pxAssertMsg(log->GetName(), "Trace log without a name!" );
 			ini.Entry( log->GetCategory() + L"." + log->GetShortName(), log->Enabled, false );
@@ -189,10 +189,10 @@ static bool traceLogEnabled( const wxString& ident )
 	// type from the current simple array initializer requires effort to
 	// avoid C++ global initializer dependency hell.
 
-	for( uint i=0; i<traceLogCount; ++i )
+	for(auto i : traceLogList)
 	{
-		if( 0 == ident.CmpNoCase(traceLogList[i]->GetCategory()) )
-			return traceLogList[i]->Enabled;
+		if( 0 == ident.CmpNoCase(i->GetCategory()) )
+			return i->Enabled;
 	}
 
 	pxFailDev( wxsFormat(L"Invalid or unknown TraceLog identifier: %s", ident.c_str()) );

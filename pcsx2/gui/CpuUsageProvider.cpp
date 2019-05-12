@@ -60,8 +60,8 @@ DefaultCpuUsageProvider::DefaultCpuUsageProvider()
 
 void DefaultCpuUsageProvider::Reset()
 {
-	for( uint i=0; i<QueueDepth; ++i )
-		m_queue[i].LoadWithCurrentTimes();
+	for(auto & i : m_queue)
+		i.LoadWithCurrentTimes();
 }
 
 bool DefaultCpuUsageProvider::IsImplemented() const

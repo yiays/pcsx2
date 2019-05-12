@@ -1072,9 +1072,9 @@ void Panels::MemoryCardListPanel_Simple::ReadFilesAtMcdFolder(){
 	}
 	
 
-	for(uint i = 0; i < memcardList.size(); i++) {
+	for(const auto & i : memcardList) {
 		McdSlotItem currentCardFile;
-		bool isOk=EnumerateMemoryCard( currentCardFile, memcardList[i], m_FolderPicker->GetPath() );
+		bool isOk=EnumerateMemoryCard( currentCardFile, i, m_FolderPicker->GetPath() );
 		if( isOk && !isFileAssignedAndVisibleOnList( currentCardFile.Filename ) )
 		{
 			currentCardFile.Slot		= -1;

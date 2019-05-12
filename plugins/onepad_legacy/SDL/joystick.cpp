@@ -86,7 +86,7 @@ void JoystickInfo::EnumerateJoysticks(std::vector<GamePad *> &vjoysticks)
 void JoystickInfo::GenerateDefaultEffect()
 {
 #if SDL_MAJOR_VERSION >= 2
-    for (int i = 0; i < NB_EFFECT; i++)
+    for (auto & i : effects)
     {
         SDL_HapticEffect effect;
         memset(&effect, 0, sizeof(SDL_HapticEffect)); // 0 is safe default
@@ -101,7 +101,7 @@ void JoystickInfo::GenerateDefaultEffect()
         effect.periodic.length = 125; // 125ms feels quite near to original
         effect.periodic.delay = 0;
         effect.periodic.attack_length = 0;
-        effects[i] = effect;
+        i = effect;
     }
 #endif
 }

@@ -1180,9 +1180,9 @@ void GSRasterizerList::Sync()
 {
 	if(!IsSynced())
 	{
-		for(size_t i = 0; i < m_workers.size(); i++)
+		for(auto & m_worker : m_workers)
 		{
-			m_workers[i]->Wait();
+			m_worker->Wait();
 		}
 
 		m_perfmon->Put(GSPerfMon::SyncPoint, 1);
@@ -1191,9 +1191,9 @@ void GSRasterizerList::Sync()
 
 bool GSRasterizerList::IsSynced() const
 {
-	for(size_t i = 0; i < m_workers.size(); i++)
+	for(const auto & m_worker : m_workers)
 	{
-		if(!m_workers[i]->IsEmpty())
+		if(!m_worker->IsEmpty())
 		{
 			return false;
 		}

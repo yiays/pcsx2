@@ -1010,9 +1010,9 @@ void SIODMAWrite(u8 value) //Why does the SIO2 FIFO handler call this function..
 }
 
 void sioNextFrame() {
-	for ( uint port = 0; port < 2; ++port ) {
+	for (auto & mcd : mcds) {
 		for ( uint slot = 0; slot < 4; ++slot ) {
-			mcds[port][slot].NextFrame();
+			mcd[slot].NextFrame();
 		}
 	}
 }

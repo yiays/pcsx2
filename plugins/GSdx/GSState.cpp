@@ -122,21 +122,21 @@ GSState::GSState()
 	m_sssize += sizeof(m_env.TRXREG);
 	m_sssize += sizeof(m_env.TRXREG); // obsolete
 
-	for(int i = 0; i < 2; i++)
+	for(auto & i : m_env.CTXT)
 	{
-		m_sssize += sizeof(m_env.CTXT[i].XYOFFSET);
-		m_sssize += sizeof(m_env.CTXT[i].TEX0);
-		m_sssize += sizeof(m_env.CTXT[i].TEX1);
-		m_sssize += sizeof(m_env.CTXT[i].TEX2);
-		m_sssize += sizeof(m_env.CTXT[i].CLAMP);
-		m_sssize += sizeof(m_env.CTXT[i].MIPTBP1);
-		m_sssize += sizeof(m_env.CTXT[i].MIPTBP2);
-		m_sssize += sizeof(m_env.CTXT[i].SCISSOR);
-		m_sssize += sizeof(m_env.CTXT[i].ALPHA);
-		m_sssize += sizeof(m_env.CTXT[i].TEST);
-		m_sssize += sizeof(m_env.CTXT[i].FBA);
-		m_sssize += sizeof(m_env.CTXT[i].FRAME);
-		m_sssize += sizeof(m_env.CTXT[i].ZBUF);
+		m_sssize += sizeof(i.XYOFFSET);
+		m_sssize += sizeof(i.TEX0);
+		m_sssize += sizeof(i.TEX1);
+		m_sssize += sizeof(i.TEX2);
+		m_sssize += sizeof(i.CLAMP);
+		m_sssize += sizeof(i.MIPTBP1);
+		m_sssize += sizeof(i.MIPTBP2);
+		m_sssize += sizeof(i.SCISSOR);
+		m_sssize += sizeof(i.ALPHA);
+		m_sssize += sizeof(i.TEST);
+		m_sssize += sizeof(i.FBA);
+		m_sssize += sizeof(i.FRAME);
+		m_sssize += sizeof(i.ZBUF);
 	}
 
 	m_sssize += sizeof(m_v.RGBAQ);
@@ -250,15 +250,15 @@ void GSState::Reset()
 
 	m_env.UpdateDIMX();
 
-	for(size_t i = 0; i < 2; i++)
+	for(auto & i : m_env.CTXT)
 	{
-		m_env.CTXT[i].UpdateScissor();
+		i.UpdateScissor();
 
-		m_env.CTXT[i].offset.fb = m_mem.GetOffset(m_env.CTXT[i].FRAME.Block(), m_env.CTXT[i].FRAME.FBW, m_env.CTXT[i].FRAME.PSM);
-		m_env.CTXT[i].offset.zb = m_mem.GetOffset(m_env.CTXT[i].ZBUF.Block(), m_env.CTXT[i].FRAME.FBW, m_env.CTXT[i].ZBUF.PSM);
-		m_env.CTXT[i].offset.tex = m_mem.GetOffset(m_env.CTXT[i].TEX0.TBP0, m_env.CTXT[i].TEX0.TBW, m_env.CTXT[i].TEX0.PSM);
-		m_env.CTXT[i].offset.fzb = m_mem.GetPixelOffset(m_env.CTXT[i].FRAME, m_env.CTXT[i].ZBUF);
-		m_env.CTXT[i].offset.fzb4 = m_mem.GetPixelOffset4(m_env.CTXT[i].FRAME, m_env.CTXT[i].ZBUF);
+		i.offset.fb = m_mem.GetOffset(i.FRAME.Block(), i.FRAME.FBW, i.FRAME.PSM);
+		i.offset.zb = m_mem.GetOffset(i.ZBUF.Block(), i.FRAME.FBW, i.ZBUF.PSM);
+		i.offset.tex = m_mem.GetOffset(i.TEX0.TBP0, i.TEX0.TBW, i.TEX0.PSM);
+		i.offset.fzb = m_mem.GetPixelOffset(i.FRAME, i.ZBUF);
+		i.offset.fzb4 = m_mem.GetPixelOffset4(i.FRAME, i.ZBUF);
 	}
 
 	UpdateScissor();
@@ -273,9 +273,9 @@ void GSState::Reset()
 
 void GSState::ResetHandlers()
 {
-	for(size_t i = 0; i < countof(m_fpGIFPackedRegHandlers); i++)
+	for(auto & m_fpGIFPackedRegHandler : m_fpGIFPackedRegHandlers)
 	{
-		m_fpGIFPackedRegHandlers[i] = &GSState::GIFPackedRegHandlerNull;
+		m_fpGIFPackedRegHandler = &GSState::GIFPackedRegHandlerNull;
 	}
 
 	m_fpGIFPackedRegHandlers[GIF_REG_PRIM] = (GIFPackedRegHandler)(GIFRegHandler)&GSState::GIFRegHandlerPRIM;
@@ -322,9 +322,9 @@ void GSState::ResetHandlers()
 		SetHandlerXYZ(GS_INVALID, false);
 	}
 
-	for(size_t i = 0; i < countof(m_fpGIFRegHandlers); i++)
+	for(auto & m_fpGIFRegHandler : m_fpGIFRegHandlers)
 	{
-		m_fpGIFRegHandlers[i] = &GSState::GIFRegHandlerNull;
+		m_fpGIFRegHandler = &GSState::GIFRegHandlerNull;
 	}
 
 	m_fpGIFRegHandlers[GIF_A_D_REG_PRIM] = &GSState::GIFRegHandlerPRIM;
@@ -2388,21 +2388,21 @@ int GSState::Freeze(GSFreezeData* fd, bool sizeonly)
 	WriteState(data, &m_env.TRXREG);
 	WriteState(data, &m_env.TRXREG); // obsolete
 
-	for(int i = 0; i < 2; i++)
+	for(auto & i : m_env.CTXT)
 	{
-		WriteState(data, &m_env.CTXT[i].XYOFFSET);
-		WriteState(data, &m_env.CTXT[i].TEX0);
-		WriteState(data, &m_env.CTXT[i].TEX1);
-		WriteState(data, &m_env.CTXT[i].TEX2);
-		WriteState(data, &m_env.CTXT[i].CLAMP);
-		WriteState(data, &m_env.CTXT[i].MIPTBP1);
-		WriteState(data, &m_env.CTXT[i].MIPTBP2);
-		WriteState(data, &m_env.CTXT[i].SCISSOR);
-		WriteState(data, &m_env.CTXT[i].ALPHA);
-		WriteState(data, &m_env.CTXT[i].TEST);
-		WriteState(data, &m_env.CTXT[i].FBA);
-		WriteState(data, &m_env.CTXT[i].FRAME);
-		WriteState(data, &m_env.CTXT[i].ZBUF);
+		WriteState(data, &i.XYOFFSET);
+		WriteState(data, &i.TEX0);
+		WriteState(data, &i.TEX1);
+		WriteState(data, &i.TEX2);
+		WriteState(data, &i.CLAMP);
+		WriteState(data, &i.MIPTBP1);
+		WriteState(data, &i.MIPTBP2);
+		WriteState(data, &i.SCISSOR);
+		WriteState(data, &i.ALPHA);
+		WriteState(data, &i.TEST);
+		WriteState(data, &i.FBA);
+		WriteState(data, &i.FRAME);
+		WriteState(data, &i.ZBUF);
 	}
 
 	WriteState(data, &m_v.RGBAQ);
@@ -2415,19 +2415,19 @@ int GSState::Freeze(GSFreezeData* fd, bool sizeonly)
 	WriteState(data, &m_tr.y);
 	WriteState(data, m_mem.m_vm8, m_mem.m_vmsize);
 
-	for(size_t i = 0; i < countof(m_path); i++)
+	for(auto & i : m_path)
 	{
-		m_path[i].tag.NREG = m_path[i].nreg;
-		m_path[i].tag.NLOOP = m_path[i].nloop;
-		m_path[i].tag.REGS = 0;
+		i.tag.NREG = i.nreg;
+		i.tag.NLOOP = i.nloop;
+		i.tag.REGS = 0;
 
-		for(size_t j = 0; j < countof(m_path[i].regs.u8); j++)
+		for(size_t j = 0; j < countof(i.regs.u8); j++)
 		{
-			m_path[i].tag.u32[2 + (j >> 3)] |= m_path[i].regs.u8[j] << ((j & 7) << 2);
+			i.tag.u32[2 + (j >> 3)] |= i.regs.u8[j] << ((j & 7) << 2);
 		}
 
-		WriteState(data, &m_path[i].tag);
-		WriteState(data, &m_path[i].reg);
+		WriteState(data, &i.tag);
+		WriteState(data, &i.reg);
 	}
 
 	WriteState(data, &m_q);
@@ -2487,24 +2487,24 @@ int GSState::Defrost(const GSFreezeData* fd)
 	// will be set again properly
 	m_tr.m_blit = m_env.BITBLTBUF;
 
-	for(int i = 0; i < 2; i++)
+	for(auto & i : m_env.CTXT)
 	{
-		ReadState(&m_env.CTXT[i].XYOFFSET, data);
-		ReadState(&m_env.CTXT[i].TEX0, data);
-		ReadState(&m_env.CTXT[i].TEX1, data);
-		ReadState(&m_env.CTXT[i].TEX2, data);
-		ReadState(&m_env.CTXT[i].CLAMP, data);
-		ReadState(&m_env.CTXT[i].MIPTBP1, data);
-		ReadState(&m_env.CTXT[i].MIPTBP2, data);
-		ReadState(&m_env.CTXT[i].SCISSOR, data);
-		ReadState(&m_env.CTXT[i].ALPHA, data);
-		ReadState(&m_env.CTXT[i].TEST, data);
-		ReadState(&m_env.CTXT[i].FBA, data);
-		ReadState(&m_env.CTXT[i].FRAME, data);
-		ReadState(&m_env.CTXT[i].ZBUF, data);
+		ReadState(&i.XYOFFSET, data);
+		ReadState(&i.TEX0, data);
+		ReadState(&i.TEX1, data);
+		ReadState(&i.TEX2, data);
+		ReadState(&i.CLAMP, data);
+		ReadState(&i.MIPTBP1, data);
+		ReadState(&i.MIPTBP2, data);
+		ReadState(&i.SCISSOR, data);
+		ReadState(&i.ALPHA, data);
+		ReadState(&i.TEST, data);
+		ReadState(&i.FBA, data);
+		ReadState(&i.FRAME, data);
+		ReadState(&i.ZBUF, data);
 
-		m_env.CTXT[i].XYOFFSET.OFX &= 0xffff;
-		m_env.CTXT[i].XYOFFSET.OFY &= 0xffff;
+		i.XYOFFSET.OFX &= 0xffff;
+		i.XYOFFSET.OFY &= 0xffff;
 
 		if(version <= 4)
 		{
@@ -2524,12 +2524,12 @@ int GSState::Defrost(const GSFreezeData* fd)
 
 	m_tr.total = 0; // TODO: restore transfer state
 
-	for(size_t i = 0; i < countof(m_path); i++)
+	for(auto & i : m_path)
 	{
-		ReadState(&m_path[i].tag, data);
-		ReadState(&m_path[i].reg, data);
+		ReadState(&i.tag, data);
+		ReadState(&i.reg, data);
 
-		m_path[i].SetTag(&m_path[i].tag); // expand regs
+		i.SetTag(&i.tag); // expand regs
 	}
 
 	ReadState(&m_q, data);
@@ -2542,15 +2542,15 @@ int GSState::Defrost(const GSFreezeData* fd)
 
 	m_env.UpdateDIMX();
 
-	for(size_t i = 0; i < 2; i++)
+	for(auto & i : m_env.CTXT)
 	{
-		m_env.CTXT[i].UpdateScissor();
+		i.UpdateScissor();
 
-		m_env.CTXT[i].offset.fb = m_mem.GetOffset(m_env.CTXT[i].FRAME.Block(), m_env.CTXT[i].FRAME.FBW, m_env.CTXT[i].FRAME.PSM);
-		m_env.CTXT[i].offset.zb = m_mem.GetOffset(m_env.CTXT[i].ZBUF.Block(), m_env.CTXT[i].FRAME.FBW, m_env.CTXT[i].ZBUF.PSM);
-		m_env.CTXT[i].offset.tex = m_mem.GetOffset(m_env.CTXT[i].TEX0.TBP0, m_env.CTXT[i].TEX0.TBW, m_env.CTXT[i].TEX0.PSM);
-		m_env.CTXT[i].offset.fzb = m_mem.GetPixelOffset(m_env.CTXT[i].FRAME, m_env.CTXT[i].ZBUF);
-		m_env.CTXT[i].offset.fzb4 = m_mem.GetPixelOffset4(m_env.CTXT[i].FRAME, m_env.CTXT[i].ZBUF);
+		i.offset.fb = m_mem.GetOffset(i.FRAME.Block(), i.FRAME.FBW, i.FRAME.PSM);
+		i.offset.zb = m_mem.GetOffset(i.ZBUF.Block(), i.FRAME.FBW, i.ZBUF.PSM);
+		i.offset.tex = m_mem.GetOffset(i.TEX0.TBP0, i.TEX0.TBW, i.TEX0.PSM);
+		i.offset.fzb = m_mem.GetPixelOffset(i.FRAME, i.ZBUF);
+		i.offset.fzb4 = m_mem.GetPixelOffset4(i.FRAME, i.ZBUF);
 	}
 
 	UpdateScissor();

@@ -626,15 +626,15 @@ void Update(unsigned int port, unsigned int slot)
                             s[port][slot].buttons[id] = values[i];
                         }
                         if (s[port][slot].buttons[14] <= 48 && s[port][slot].buttons[12] <= 48) {
-                            for (int i = 0; i < 5; i++) {
-                                unsigned int id = idList[i] - ID_DPAD_UP;
+                            for (unsigned int i : idList) {
+                                unsigned int id = i - ID_DPAD_UP;
                                 if (pads[port][slot].sum.buttons[id] < s[port][slot].buttons[id]) {
                                     s[port][slot].buttons[id] = pads[port][slot].sum.buttons[id];
                                 }
                             }
                         } else if (pads[port][slot].sum.buttons[14] <= 48 && pads[port][slot].sum.buttons[12] <= 48) {
-                            for (int i = 0; i < 5; i++) {
-                                unsigned int id = idList[i] - ID_DPAD_UP;
+                            for (unsigned int i : idList) {
+                                unsigned int id = i - ID_DPAD_UP;
                                 if (pads[port][slot].sum.buttons[id]) {
                                     s[port][slot].buttons[id] = 0;
                                 }

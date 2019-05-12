@@ -443,12 +443,12 @@ __forceinline void TimeUpdate(u32 cClocks)
         lClocks += TickInterval;
         Cycles++;
 
-        for (int i = 0; i < 2; i++)
-            if (Cores[i].KeyOn)
+        for (auto & Core : Cores)
+            if (Core.KeyOn)
                 for (int j = 0; j < 24; j++)
-                    if (Cores[i].KeyOn >> j & 1)
-                        if (Cores[i].Voices[j].Start())
-                            Cores[i].KeyOn &= ~(1 << j);
+                    if (Core.KeyOn >> j & 1)
+                        if (Core.Voices[j].Start())
+                            Core.KeyOn &= ~(1 << j);
 
         // Note: IOP does not use MMX regs, so no need to save them.
         //SaveMMXRegs();
@@ -1377,17 +1377,17 @@ static void __fastcall RegWrite_Core(u16 value)
                 Cores[1].RevBuffers.NeedsUpdated = true;
                 Cores[0].ReverbX = 0;
                 Cores[0].RevBuffers.NeedsUpdated = true;
-                for (uint v = 0; v < 24; ++v) {
-                    Cores[1].Voices[v].Volume = V_VolumeSlideLR(0, 0); // V_VolumeSlideLR::Max;
-                    Cores[1].Voices[v].SCurrent = 28;
+                for (auto & Voice : Cores[1].Voices) {
+                    Voice.Volume = V_VolumeSlideLR(0, 0); // V_VolumeSlideLR::Max;
+                    Voice.SCurrent = 28;
 
-                    Cores[1].Voices[v].ADSR.Value = 0;
-                    Cores[1].Voices[v].ADSR.Phase = 0;
-                    Cores[1].Voices[v].Pitch = 0x0;
-                    Cores[1].Voices[v].NextA = 0x6FFFF;
-                    Cores[1].Voices[v].StartA = 0x6FFFF;
-                    Cores[1].Voices[v].LoopStartA = 0x6FFFF;
-                    Cores[1].Voices[v].Modulated = 0;
+                    Voice.ADSR.Value = 0;
+                    Voice.ADSR.Phase = 0;
+                    Voice.Pitch = 0x0;
+                    Voice.NextA = 0x6FFFF;
+                    Voice.StartA = 0x6FFFF;
+                    Voice.LoopStartA = 0x6FFFF;
+                    Voice.Modulated = 0;
                 }
                 return;
             }

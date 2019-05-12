@@ -136,10 +136,10 @@ void CpuTabPage::reloadSymbolMap()
 	functionList->Clear();
 
 	auto funcs = symbolMap.GetAllSymbols(ST_FUNCTION);
-	for (size_t i = 0; i < funcs.size(); i++)
+	for (auto & func : funcs)
 	{
-		wxString name = wxString(funcs[i].name.c_str(),wxConvUTF8);
-		functionList->Append(name,(void*)funcs[i].address);
+		wxString name = wxString(func.name.c_str(),wxConvUTF8);
+		functionList->Append(name,(void*)func.address);
 	}
 }
 

@@ -343,11 +343,11 @@ protected:
 		internals.SetDataSize( saveme.GetCurrentPos() - internals.GetDataIndex() );
 		m_dest_list->Add( internals );
 
-		for (uint i=0; i<ArraySize(SavestateEntries); ++i)
+		for (const auto & SavestateEntrie : SavestateEntries)
 		{
 			uint startpos = saveme.GetCurrentPos();
-			SavestateEntries[i]->FreezeOut( saveme );
-			m_dest_list->Add( ArchiveEntry( SavestateEntries[i]->GetFilename() )
+			SavestateEntrie->FreezeOut( saveme );
+			m_dest_list->Add( ArchiveEntry( SavestateEntrie->GetFilename() )
 				.SetDataIndex( startpos )
 				.SetDataSize( saveme.GetCurrentPos() - startpos )
 			);

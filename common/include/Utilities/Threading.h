@@ -320,7 +320,7 @@ public:
 //
 class ScopedLock
 {
-    DeclareNoncopyableObject(ScopedLock);
+    DeclareNoncopyableObject(ScopedLock) = delete;
 
 protected:
     Mutex *m_lock;
@@ -364,7 +364,7 @@ public:
 //
 class ScopedNonblockingLock
 {
-    DeclareNoncopyableObject(ScopedNonblockingLock);
+    DeclareNoncopyableObject(ScopedNonblockingLock) = delete;
 
 protected:
     NonblockingMutex &m_lock;

@@ -26,7 +26,7 @@ typedef void FnType_Void();
 // --------------------------------------------------------------------------------------
 class SynchronousActionState
 {
-    DeclareNoncopyableObject(SynchronousActionState);
+    DeclareNoncopyableObject(SynchronousActionState) = delete;
 
 protected:
     bool m_posted;

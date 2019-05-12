@@ -28,7 +28,7 @@ using namespace Xbyak;
 
 class GPUDrawScanlineCodeGenerator : public GSCodeGenerator
 {
-	void operator = (const GPUDrawScanlineCodeGenerator&);
+	void operator = (const GPUDrawScanlineCodeGenerator&) = delete;
 
 	GPUScanlineSelector m_sel;
 	GPUScanlineLocalData& m_local;

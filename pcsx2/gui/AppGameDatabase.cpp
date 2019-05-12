@@ -20,7 +20,7 @@
 
 class DBLoaderHelper
 {
-	DeclareNoncopyableObject( DBLoaderHelper );
+	DeclareNoncopyableObject( DBLoaderHelper ) = delete;
 
 protected:
 	IGameDatabase&	m_gamedb;

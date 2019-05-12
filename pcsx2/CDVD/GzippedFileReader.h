@@ -27,7 +27,7 @@ typedef struct zstate Zstate;
 
 class GzippedFileReader : public AsyncFileReader
 {
-	DeclareNoncopyableObject(GzippedFileReader);
+	DeclareNoncopyableObject(GzippedFileReader) = delete;
 public:
 	GzippedFileReader(void);
 

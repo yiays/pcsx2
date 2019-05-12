@@ -179,7 +179,7 @@ struct NullConsoleWriter
 //
 class ConsoleIndentScope
 {
-    DeclareNoncopyableObject(ConsoleIndentScope);
+    DeclareNoncopyableObject(ConsoleIndentScope) = delete;
 
 protected:
     int m_amount;
@@ -199,7 +199,7 @@ public:
 // --------------------------------------------------------------------------------------
 class ConsoleColorScope
 {
-    DeclareNoncopyableObject(ConsoleColorScope);
+    DeclareNoncopyableObject(ConsoleColorScope) = delete;
 
 protected:
     ConsoleColors m_newcolor;
@@ -220,7 +220,7 @@ public:
 //
 class ConsoleAttrScope
 {
-    DeclareNoncopyableObject(ConsoleAttrScope);
+    DeclareNoncopyableObject(ConsoleAttrScope) = delete;
 
 protected:
     ConsoleColors m_old_color;

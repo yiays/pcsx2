@@ -63,7 +63,7 @@ public:
 
 class FlatFileReader : public AsyncFileReader
 {
-	DeclareNoncopyableObject( FlatFileReader );
+	DeclareNoncopyableObject( FlatFileReader ) = delete;
 
 #ifdef _WIN32
 	HANDLE hOverlappedFile;
@@ -106,7 +106,7 @@ public:
 
 class MultipartFileReader : public AsyncFileReader
 {
-	DeclareNoncopyableObject( MultipartFileReader );
+	DeclareNoncopyableObject( MultipartFileReader ) = delete;
 
 	static const int MaxParts = 8;
 
@@ -144,7 +144,7 @@ public:
 
 class BlockdumpFileReader : public AsyncFileReader
 {
-	DeclareNoncopyableObject( BlockdumpFileReader );
+	DeclareNoncopyableObject( BlockdumpFileReader ) = delete;
 
 	wxFileInputStream* m_file;
 

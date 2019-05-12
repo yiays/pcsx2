@@ -23,7 +23,7 @@
 // --------------------------------------------------------------------------------------
 class pxStreamBase
 {
-    DeclareNoncopyableObject(pxStreamBase);
+    DeclareNoncopyableObject(pxStreamBase) = delete;
 
 protected:
     // Filename of the stream, provided by the creator/caller.  This is typically used *only*
@@ -53,7 +53,7 @@ public:
 // --------------------------------------------------------------------------------------
 class pxOutputStream : public pxStreamBase
 {
-    DeclareNoncopyableObject(pxOutputStream);
+    DeclareNoncopyableObject(pxOutputStream) = delete;
 
 protected:
     std::unique_ptr<wxOutputStream> m_stream_out;
@@ -87,7 +87,7 @@ public:
 // --------------------------------------------------------------------------------------
 class pxInputStream : public pxStreamBase
 {
-    DeclareNoncopyableObject(pxInputStream);
+    DeclareNoncopyableObject(pxInputStream) = delete;
 
 protected:
     std::unique_ptr<wxInputStream> m_stream_in;

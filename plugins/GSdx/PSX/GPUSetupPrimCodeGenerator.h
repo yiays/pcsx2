@@ -26,7 +26,7 @@
 
 class GPUSetupPrimCodeGenerator : public GSCodeGenerator
 {
-	void operator = (const GPUSetupPrimCodeGenerator&);
+	void operator = (const GPUSetupPrimCodeGenerator&) = delete;
 
 	GPUScanlineSelector m_sel;
 	GPUScanlineLocalData& m_local;

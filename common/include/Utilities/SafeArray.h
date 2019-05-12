@@ -35,7 +35,7 @@
 template <typename T>
 class SafeArray
 {
-    DeclareNoncopyableObject(SafeArray);
+    DeclareNoncopyableObject(SafeArray) = delete;
 
 public:
     static const int DefaultChunkSize = 0x1000 * sizeof(T);
@@ -116,7 +116,7 @@ public:
 template <typename T>
 class SafeList
 {
-    DeclareNoncopyableObject(SafeList);
+    DeclareNoncopyableObject(SafeList) = delete;
 
 public:
     static const int DefaultChunkSize = 0x80 * sizeof(T);

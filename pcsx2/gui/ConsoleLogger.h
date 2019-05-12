@@ -32,7 +32,7 @@ class LogWriteEvent;
 //
 class PipeRedirectionBase
 {
-	DeclareNoncopyableObject( PipeRedirectionBase );
+	DeclareNoncopyableObject( PipeRedirectionBase ) = delete;
 
 public:
 	virtual ~PipeRedirectionBase() =0;	// abstract destructor, forces abstract class behavior
@@ -90,7 +90,7 @@ public:
 // --------------------------------------------------------------------------------------
 class ConsoleLogFrame : public wxFrame
 {
-	DeclareNoncopyableObject(ConsoleLogFrame);
+	DeclareNoncopyableObject(ConsoleLogFrame) = delete;
 
 public:
 	typedef AppConfig::ConsoleLogOptions ConLogConfig;
@@ -98,7 +98,7 @@ public:
 protected:
 	class ColorArray
 	{
-		DeclareNoncopyableObject(ColorArray);
+		DeclareNoncopyableObject(ColorArray) = delete;
 
 	protected:
 		std::array<wxTextAttr, ConsoleColors_Count> m_table;

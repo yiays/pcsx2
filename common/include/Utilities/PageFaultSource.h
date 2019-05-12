@@ -127,7 +127,7 @@ protected:
 // --------------------------------------------------------------------------------------
 class VirtualMemoryReserve
 {
-    DeclareNoncopyableObject(VirtualMemoryReserve);
+    DeclareNoncopyableObject(VirtualMemoryReserve) = delete;
 
 protected:
     wxString m_name;

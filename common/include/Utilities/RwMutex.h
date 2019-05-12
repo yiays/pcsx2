@@ -24,7 +24,7 @@ namespace Threading
 // --------------------------------------------------------------------------------------
 class RwMutex
 {
-    DeclareNoncopyableObject(RwMutex);
+    DeclareNoncopyableObject(RwMutex) = delete;
 
 protected:
     pthread_rwlock_t m_rwlock;
@@ -46,7 +46,7 @@ public:
 // --------------------------------------------------------------------------------------
 class BaseScopedReadWriteLock
 {
-    DeclareNoncopyableObject(BaseScopedReadWriteLock);
+    DeclareNoncopyableObject(BaseScopedReadWriteLock) = delete;
 
 protected:
     RwMutex &m_lock;

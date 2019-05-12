@@ -279,7 +279,7 @@ void vifMFIFOInterrupt()
 		gifRegs.stat.APATH = 0;
 		gifRegs.stat.OPH = 0;
 
-		if(gifUnit.checkPaths(1,0,1)) gifUnit.Execute(false, true);
+		if(gifUnit.checkPaths(true,false,true)) gifUnit.Execute(false, true);
 	}
 
 	if (vif1ch.chcr.DIR) {
@@ -364,7 +364,7 @@ void vifMFIFOInterrupt()
 
 	vif1.vifstalled.enabled = false;
 	vif1.irqoffset.enabled = false;
-	vif1.done = 1;
+	vif1.done = true;
 
 	if (spr0ch.madr == vif1ch.tadr) {
 		FireMFIFOEmpty();

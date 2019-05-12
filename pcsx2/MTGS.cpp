@@ -104,7 +104,7 @@ void SysMtgsThread::ResetGS()
 
 	m_ReadPos             = m_WritePos.load();
 	m_QueuedFrameCount    = 0;
-	m_VsyncSignalListener = 0;
+	m_VsyncSignalListener = false;
 
 	MTGS_LOG( "MTGS: Sending Reset..." );
 	SendSimplePacket( GS_RINGTYPE_RESET, 0, 0, 0 );

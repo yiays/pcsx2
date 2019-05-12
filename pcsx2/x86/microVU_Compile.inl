@@ -138,7 +138,7 @@ void doSwapOp(mV) {
 
 		mVUopL(mVU, 1);
 
-		const xmm& t3 = mVU.regAlloc->allocReg(mVUlow.VF_write.reg, mVUlow.VF_write.reg, 0xf, 0);
+		const xmm& t3 = mVU.regAlloc->allocReg(mVUlow.VF_write.reg, mVUlow.VF_write.reg, 0xf, false);
 		xXOR.PS(t2, t3); // Swap new and old values of the register
 		xXOR.PS(t3, t2); // Uses xor swap trick...
 		xXOR.PS(t2, t3);
@@ -283,7 +283,7 @@ void mVUincCycles(mV, int x) {
 		calcCycles(mVUregs.VI[z], x);
 	}
 	if (mVUregs.q) {
-		if (mVUregs.q > 4) { calcCycles(mVUregs.q, x); if (mVUregs.q <= 4) { mVUinfo.doDivFlag = 1; } }
+		if (mVUregs.q > 4) { calcCycles(mVUregs.q, x); if (mVUregs.q <= 4) { mVUinfo.doDivFlag = true; } }
 		else			   { calcCycles(mVUregs.q, x); }
 		if (!mVUregs.q)    { incQ(mVU); }
 	}
@@ -293,7 +293,7 @@ void mVUincCycles(mV, int x) {
 	}
 	if (mVUregs.xgkick) {
 		calcCycles(mVUregs.xgkick, x);
-		if (!mVUregs.xgkick) { mVUinfo.doXGKICK = 1; mVUinfo.XGKICKPC = xPC;}
+		if (!mVUregs.xgkick) { mVUinfo.doXGKICK = true; mVUinfo.XGKICKPC = xPC;}
 	}
 	calcCycles(mVUregs.r, x);
 }
@@ -303,7 +303,7 @@ void cmpVFregs(microVFreg& VFreg1, microVFreg& VFreg2, bool& xVar) {
 	if (VFreg1.reg == VFreg2.reg) {
 		if ((VFreg1.x && VFreg2.x) || (VFreg1.y && VFreg2.y)
 		||	(VFreg1.z && VFreg2.z) || (VFreg1.w && VFreg2.w))
-		{ xVar = 1; }
+		{ xVar = true; }
 	}
 }
 
@@ -542,7 +542,7 @@ void* mVUcompile(microVU& mVU, u32 startPC, uptr pState) {
 
 	// First Pass
 	iPC = startPC / 4;
-	mVUsetupRange(mVU, startPC, 1); // Setup Program Bounds/Range
+	mVUsetupRange(mVU, startPC, true); // Setup Program Bounds/Range
 	mVU.regAlloc->reset(); // Reset regAlloc
 	mVUinitFirstPass(mVU, pState, thisPtr);
 	mVUbranch = 0;

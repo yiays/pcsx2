@@ -264,7 +264,7 @@ static int loadGameSettings(Pcsx2Config& dest, const Game_Data& game) {
 
 
 	if (game.keyExists("mvuFlagSpeedHack")) {
-		bool vuFlagHack = game.getInt("mvuFlagSpeedHack") ? 1 : 0;
+		bool vuFlagHack = game.getInt("mvuFlagSpeedHack") ? true : false;
 		PatchesCon->WriteLn("(GameDB) Changing mVU flag speed hack [mode=%d]", vuFlagHack);
 		dest.Speedhacks.vuFlagHack = vuFlagHack;
 		gf++;

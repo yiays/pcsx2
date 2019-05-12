@@ -251,7 +251,7 @@ __fi void vif1VUFinish()
 
 		if(!vif1.waitforvu) 
 		{
-			if(gifUnit.checkPaths(0,1,1)) gifUnit.Execute(false, true);
+			if(gifUnit.checkPaths(false,true,true)) gifUnit.Execute(false, true);
 		}
 
 	}
@@ -284,7 +284,7 @@ __fi void vif1Interrupt()
 		gifRegs.stat.OPH = 0;
 		vif1Regs.stat.VGW = false; //Let vif continue if it's stuck on a flush
 
-		if(gifUnit.checkPaths(1,0,1)) gifUnit.Execute(false, true);
+		if(gifUnit.checkPaths(true,false,true)) gifUnit.Execute(false, true);
 	}
 	//Some games (Fahrenheit being one) start vif first, let it loop through blankness while it sets MFIFO mode, so we need to check it here.
 	if (dmacRegs.ctrl.MFD == MFD_VIF1) {

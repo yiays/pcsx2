@@ -192,7 +192,7 @@ __fi void vif1FBRST(u32 value) {
 				gifRegs.stat.OPH = 0;
 				vif1Regs.stat.VGW = false; //Let vif continue if it's stuck on a flush
 
-				if(gifUnit.checkPaths(1,0,1)) gifUnit.Execute(false, true);
+				if(gifUnit.checkPaths(true,false,true)) gifUnit.Execute(false, true);
 			}
 		}
 

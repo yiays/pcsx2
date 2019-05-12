@@ -111,8 +111,8 @@ void Panels::FramelimiterPanel::ApplyConfigToGui( AppConfig& configToApply, int 
 		m_spin_TurboPct		->SetValue( appfps.TurboScalar.Raw );
 		m_spin_SlomoPct		->SetValue( appfps.SlomoScalar.Raw );
 
-		m_spin_TurboPct		->Enable( 1 );
-		m_spin_SlomoPct		->Enable( 1 );
+		m_spin_TurboPct		->Enable( true );
+		m_spin_SlomoPct		->Enable( true );
 	}
 
 	m_text_BaseNtsc		->ChangeValue( gsconf.FramerateNTSC.ToString() );

@@ -163,7 +163,7 @@ void V_Core::StartADMAWrite(u16 *pMem, u32 sz)
                 DMAICounter = size;
         }
 
-        AdmaInProgress = 1;
+        AdmaInProgress = true;
     } else {
         InputDataLeft = 0;
         DMAICounter = 1;

@@ -719,7 +719,7 @@ __fi bool mpeg2sliceIDEC()
 
 	case 2:
 		ipu_cmd.pos[0] = 2;
-		while (1)
+		while (true)
 		{
 			macroblock_8& mb8 = decoder.mb8;
 			macroblock_rgb16& rgb16 = decoder.rgb16;
@@ -842,7 +842,7 @@ __fi bool mpeg2sliceIDEC()
 			// Fall through
 
 			case 3:
-				while (1)
+				while (true)
 				{
 					if (!GETWORD())
 					{
@@ -912,7 +912,7 @@ finish_idec:
 	case 3:
 	{
 		u8 bit8;
-		if (!getBits8((u8*)&bit8, 0))
+		if (!getBits8((u8*)&bit8, false))
 		{
 			ipu_cmd.pos[0] = 3;
 			return false;
@@ -927,7 +927,7 @@ finish_idec:
 	// Fall through
 
 	case 4:
-		if (!getBits32((u8*)&ipuRegs.top, 0))
+		if (!getBits32((u8*)&ipuRegs.top, false))
 		{
 			ipu_cmd.pos[0] = 4;
 			return false;
@@ -1181,7 +1181,7 @@ __fi bool mpeg2_slice()
 	case 4:
 	{
 		u8 bit8;
-		if (!getBits8((u8*)&bit8, 0))
+		if (!getBits8((u8*)&bit8, false))
 		{
 			ipu_cmd.pos[0] = 4;
 			return false;
@@ -1196,7 +1196,7 @@ __fi bool mpeg2_slice()
 	// Fall through
 	
 	case 5:
-		if (!getBits32((u8*)&ipuRegs.top, 0))
+		if (!getBits32((u8*)&ipuRegs.top, false))
 		{
 			ipu_cmd.pos[0] = 5;
 			return false;

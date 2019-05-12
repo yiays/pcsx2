@@ -66,14 +66,14 @@ StereoOut32 V_Core::ReadInput_HiFi()
     //  One of these seems wrong, they should be the same.  Since standard ADMA checks too I'm assuming that as default. -- air
 
     if ((InputPosRead == 0x100) || (InputPosRead >= 0x200)) {
-        AdmaInProgress = 0;
+        AdmaInProgress = false;
         if (InputDataLeft >= 0x200) {
 #ifdef PCM24_S1_INTERLEAVE
             AutoDMAReadBuffer(1);
 #else
             AutoDMAReadBuffer(0);
 #endif
-            AdmaInProgress = 1;
+            AdmaInProgress = true;
 
             TSA = (Index << 10) + InputPosRead;
 
@@ -129,13 +129,13 @@ StereoOut32 V_Core::ReadInput()
     InputPosRead++;
 
     if (AutoDMACtrl & (Index + 1) && (InputPosRead == 0x100 || InputPosRead == 0x200)) {
-        AdmaInProgress = 0;
+        AdmaInProgress = false;
         if (InputDataLeft >= 0x200) {
             //u8 k=InputDataLeft>=InputDataProgress;
 
             AutoDMAReadBuffer(0);
 
-            AdmaInProgress = 1;
+            AdmaInProgress = true;
             TSA = (Index << 10) + InputPosRead;
 
             if (InputDataLeft < 0x200) {

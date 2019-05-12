@@ -84,16 +84,16 @@ bool Gif_HandlerAD(u8* pMem) {
 // Returns true if pcsx2 needed to process the packet...
 bool Gif_HandlerAD_Debug(u8* pMem) {
 	u32   reg = pMem[8];
-	if   (reg == 0x50) { Console.Error("GIF Handler Debug - BITBLTBUF"); return 1; }
-	else if (reg == 0x52) { Console.Error("GIF Handler Debug - TRXREG");    return 1; }
-	else if (reg == 0x53) { Console.Error("GIF Handler Debug - TRXDIR");    return 1; }
-	else if (reg == 0x60) { Console.Error("GIF Handler Debug - SIGNAL");    return 1; }
-	else if (reg == 0x61) { Console.Error("GIF Handler Debug - FINISH");    return 1; }
-	else if (reg == 0x62) { Console.Error("GIF Handler Debug - LABEL");     return 1; }
+	if   (reg == 0x50) { Console.Error("GIF Handler Debug - BITBLTBUF"); return true; }
+	else if (reg == 0x52) { Console.Error("GIF Handler Debug - TRXREG");    return true; }
+	else if (reg == 0x53) { Console.Error("GIF Handler Debug - TRXDIR");    return true; }
+	else if (reg == 0x60) { Console.Error("GIF Handler Debug - SIGNAL");    return true; }
+	else if (reg == 0x61) { Console.Error("GIF Handler Debug - FINISH");    return true; }
+	else if (reg == 0x62) { Console.Error("GIF Handler Debug - LABEL");     return true; }
 	else if (reg >= 0x63 && reg != 0x7f) {
 		DevCon.Warning("GIF Handler Debug - Write to unknown register! [reg=%x]", reg);
 	}
-	return 0;
+	return false;
 }
 
 void Gif_FinishIRQ() {

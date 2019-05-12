@@ -39,7 +39,7 @@ void Gif_ParsePacket(u8* data, u32 size, GIF_PATH path) {
 		if (!gifTag.isValid) { // Need new Gif Tag
 			if (offset + 16 > size) return;
 
-			gifTag.setTag(&buffer[offset], 1);
+			gifTag.setTag(&buffer[offset], true);
 			
 			GIF_PARSE("--Gif Tag [mode=%s][pre=%d][prim=%d][nregs=%d][nloop=%d][qwc=%d][EOP=%d]",
 				GifTag_ModeStr[gifTag.tag.FLG], gifTag.tag.PRE, gifTag.tag.PRIM,

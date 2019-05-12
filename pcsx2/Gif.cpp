@@ -157,7 +157,7 @@ __fi void gifCheckPathStatus() {
 		gifRegs.stat.OPH = 0;
 		if (gifUnit.gifPath[GIF_PATH_3].state == GIF_PATH_IDLE || gifUnit.gifPath[GIF_PATH_3].state == GIF_PATH_WAIT)
 		{
-			if (gifUnit.checkPaths(1, 1, 0)) gifUnit.Execute(false, true);
+			if (gifUnit.checkPaths(true, true, false)) gifUnit.Execute(false, true);
 		}
 	}
 

@@ -133,10 +133,10 @@ __ri void analyzeVIreg2(mV, int xReg, microVIreg& viWrite, int aCycles) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeFMAC1(mV, int Fd, int Fs, int Ft) {
-	sFLAG.doFlag = 1;
+	sFLAG.doFlag = true;
 	analyzeReg1(mVU, Fs, mVUup.VF_read[0]);
 	analyzeReg1(mVU, Ft, mVUup.VF_read[1]);
-	analyzeReg2(mVU, Fd, mVUup.VF_write, 0);
+	analyzeReg2(mVU, Fd, mVUup.VF_write, false);
 }
 
 //------------------------------------------------------------------
@@ -145,7 +145,7 @@ __fi void mVUanalyzeFMAC1(mV, int Fd, int Fs, int Ft) {
 
 __fi void mVUanalyzeFMAC2(mV, int Fs, int Ft) {
 	analyzeReg1(mVU, Fs, mVUup.VF_read[0]);
-	analyzeReg2(mVU, Ft, mVUup.VF_write, 0);
+	analyzeReg2(mVU, Ft, mVUup.VF_write, false);
 }
 
 //------------------------------------------------------------------
@@ -153,10 +153,10 @@ __fi void mVUanalyzeFMAC2(mV, int Fs, int Ft) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeFMAC3(mV, int Fd, int Fs, int Ft) {
-	sFLAG.doFlag = 1;
+	sFLAG.doFlag = true;
 	analyzeReg1(mVU, Fs, mVUup.VF_read[0]);
 	analyzeReg3(mVU, Ft, mVUup.VF_read[1]);
-	analyzeReg2(mVU, Fd, mVUup.VF_write, 0);
+	analyzeReg2(mVU, Fd, mVUup.VF_write, false);
 }
 
 //------------------------------------------------------------------
@@ -164,7 +164,7 @@ __fi void mVUanalyzeFMAC3(mV, int Fd, int Fs, int Ft) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeFMAC4(mV, int Fs, int Ft) {
-	cFLAG.doFlag = 1;
+	cFLAG.doFlag = true;
 	analyzeReg1(mVU, Fs, mVUup.VF_read[0]);
 	analyzeReg4(mVU, Ft, mVUup.VF_read[1]);
 }
@@ -174,14 +174,14 @@ __fi void mVUanalyzeFMAC4(mV, int Fs, int Ft) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeIALU1(mV, int Id, int Is, int It) {
-	if (!Id) mVUlow.isNOP = 1;
+	if (!Id) mVUlow.isNOP = true;
 	analyzeVIreg1(mVU, Is, mVUlow.VI_read[0]);
 	analyzeVIreg1(mVU, It, mVUlow.VI_read[1]);
 	analyzeVIreg2(mVU, Id, mVUlow.VI_write, 1);
 }
 
 __fi void mVUanalyzeIALU2(mV, int Is, int It) {
-	if (!It) mVUlow.isNOP = 1;
+	if (!It) mVUlow.isNOP = true;
 	analyzeVIreg1(mVU, Is, mVUlow.VI_read[0]);
 	analyzeVIreg2(mVU, It, mVUlow.VI_write, 1);
 }
@@ -196,9 +196,9 @@ __fi void mVUanalyzeIADDI(mV, int Is, int It, s16 imm) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeMR32(mV, int Fs, int Ft) {
-	if (!Ft) { mVUlow.isNOP = 1; }
+	if (!Ft) { mVUlow.isNOP = true; }
 	analyzeReg6(mVU, Fs, mVUlow.VF_read[0]);
-	analyzeReg2(mVU, Ft, mVUlow.VF_write, 1);
+	analyzeReg2(mVU, Ft, mVUlow.VF_write, true);
 }
 
 //------------------------------------------------------------------
@@ -230,8 +230,8 @@ __fi void mVUanalyzeEFU2(mV, int Fs, u8 xCycles) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeMFP(mV, int Ft) {
-	if (!Ft) mVUlow.isNOP = 1;
-	analyzeReg2(mVU, Ft, mVUlow.VF_write, 1);
+	if (!Ft) mVUlow.isNOP = true;
+	analyzeReg2(mVU, Ft, mVUlow.VF_write, true);
 }
 
 //------------------------------------------------------------------
@@ -239,9 +239,9 @@ __fi void mVUanalyzeMFP(mV, int Ft) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeMOVE(mV, int Fs, int Ft) {
-	if (!Ft||(Ft == Fs)) mVUlow.isNOP = 1;
+	if (!Ft||(Ft == Fs)) mVUlow.isNOP = true;
 	analyzeReg1(mVU, Fs, mVUlow.VF_read[0]);
-	analyzeReg2(mVU, Ft, mVUlow.VF_write, 1);
+	analyzeReg2(mVU, Ft, mVUlow.VF_write, true);
 }
 
 //------------------------------------------------------------------
@@ -250,8 +250,8 @@ __fi void mVUanalyzeMOVE(mV, int Fs, int Ft) {
 
 __fi void mVUanalyzeLQ(mV, int Ft, int Is, bool writeIs) {
 	analyzeVIreg1(mVU, Is, mVUlow.VI_read[0]);
-	analyzeReg2  (mVU, Ft, mVUlow.VF_write, 1);
-	if (!Ft)	 { if (writeIs && Is) { mVUlow.noWriteVF = 1; } else { mVUlow.isNOP = 1; } }
+	analyzeReg2  (mVU, Ft, mVUlow.VF_write, true);
+	if (!Ft)	 { if (writeIs && Is) { mVUlow.noWriteVF = true; } else { mVUlow.isNOP = true; } }
 	if (writeIs) { analyzeVIreg2(mVU, Is, mVUlow.VI_write, 1); }
 }
 
@@ -276,10 +276,10 @@ __fi void mVUanalyzeR1(mV, int Fs, int Fsf) {
 
 __fi void mVUanalyzeR2(mV, int Ft, bool canBeNOP) {
 	if (!Ft) {
-		if (canBeNOP) mVUlow.isNOP = 1;
-		else		  mVUlow.noWriteVF = 1;
+		if (canBeNOP) mVUlow.isNOP = true;
+		else		  mVUlow.noWriteVF = true;
 	}
-	analyzeReg2(mVU, Ft, mVUlow.VF_write, 1);
+	analyzeReg2(mVU, Ft, mVUlow.VF_write, true);
 	analyzeRreg();
 }
 
@@ -300,8 +300,8 @@ __ri void flagSet(mV, bool setMacFlag) {
 
 		if (sFLAG.doFlag && (j >= 3))
 		{
-			if (setMacFlag) mFLAG.doFlag = 1;
-			sFLAG.doNonSticky = 1;
+			if (setMacFlag) mFLAG.doFlag = true;
+			sFLAG.doNonSticky = true;
 			calcOPS++;
 		}
 	}
@@ -313,11 +313,11 @@ __ri void flagSet(mV, bool setMacFlag) {
 __ri void mVUanalyzeSflag(mV, int It) {
 	mVUlow.readFlags = true;
 	analyzeVIreg2(mVU, It, mVUlow.VI_write, 1);
-	if (!It) { mVUlow.isNOP = 1; }
+	if (!It) { mVUlow.isNOP = true; }
 	else {
 		//mVUsFlagHack = 0; // Don't Optimize Out Status Flags for this block
-		mVUinfo.swapOps = 1;
-		flagSet(mVU, 0);
+		mVUinfo.swapOps = true;
+		flagSet(mVU, false);
 		if (mVUcount < 4) {
 			if (!(mVUpBlock->pState.needExactMatch & 1)) // The only time this should happen is on the first program block
 				DevCon.WriteLn(Color_Green, "microVU%d: pState's sFlag Info was expected to be set [%04x]", getIndex, xPC);
@@ -326,7 +326,7 @@ __ri void mVUanalyzeSflag(mV, int It) {
 }
 
 __ri void mVUanalyzeFSSET(mV) {
-	mVUlow.isFSSET = 1;
+	mVUlow.isFSSET = true;
 	mVUlow.readFlags = true;
 }
 
@@ -338,10 +338,10 @@ __ri void mVUanalyzeMflag(mV, int Is, int It) {
 	mVUlow.readFlags = true;
 	analyzeVIreg1(mVU, Is, mVUlow.VI_read[0]);
 	analyzeVIreg2(mVU, It, mVUlow.VI_write, 1);
-	if (!It) { mVUlow.isNOP = 1; }
+	if (!It) { mVUlow.isNOP = true; }
 	else {
-		mVUinfo.swapOps = 1;
-		flagSet(mVU, 1);
+		mVUinfo.swapOps = true;
+		flagSet(mVU, true);
 		if (mVUcount < 4) { 
 			if (!(mVUpBlock->pState.needExactMatch & 2)) // The only time this should happen is on the first program block
 				DevCon.WriteLn(Color_Green, "microVU%d: pState's mFlag Info was expected to be set [%04x]", getIndex, xPC);
@@ -354,7 +354,7 @@ __ri void mVUanalyzeMflag(mV, int Is, int It) {
 //------------------------------------------------------------------
 
 __fi void mVUanalyzeCflag(mV, int It) {
-	mVUinfo.swapOps = 1;
+	mVUinfo.swapOps = true;
 	mVUlow.readFlags = true;
 	if (mVUcount < 4) { 
 		if (!(mVUpBlock->pState.needExactMatch & 4)) // The only time this should happen is on the first program block

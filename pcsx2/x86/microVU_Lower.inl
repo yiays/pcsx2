@@ -762,7 +762,7 @@ mVUop(mVU_MFIR) {
 			mVUlow.isNOP = true;
 		}
 		analyzeVIreg1(mVU, _Is_, mVUlow.VI_read[0]);
-		analyzeReg2  (mVU, _Ft_, mVUlow.VF_write, 1);
+		analyzeReg2  (mVU, _Ft_, mVUlow.VF_write, true);
 	}
 	pass2 {
 		const xmm& Ft = mVU.regAlloc->allocReg(-1, _Ft_, _X_Y_Z_W);
@@ -1015,7 +1015,7 @@ mVUop(mVU_SQ) {
 		else
 			ptr += getVUmem(_Imm11_);
 		const xmm& Fs = mVU.regAlloc->allocReg(_Fs_, 0, _X_Y_Z_W);
-		mVUsaveReg(Fs, ptr, _X_Y_Z_W, 1);
+		mVUsaveReg(Fs, ptr, _X_Y_Z_W, true);
 		mVU.regAlloc->clearNeeded(Fs);
 		mVU.profiler.EmitOp(opSQ);
 	}
@@ -1035,7 +1035,7 @@ mVUop(mVU_SQD) {
 		}
 		else ptr += (0xffff & (mVU.microMemSize-8));
 		const xmm& Fs = mVU.regAlloc->allocReg(_Fs_, 0, _X_Y_Z_W);
-		mVUsaveReg(Fs, ptr, _X_Y_Z_W, 1);
+		mVUsaveReg(Fs, ptr, _X_Y_Z_W, true);
 		mVU.regAlloc->clearNeeded(Fs);
 		mVU.profiler.EmitOp(opSQD);
 	}
@@ -1055,7 +1055,7 @@ mVUop(mVU_SQI) {
 			ptr += gprT2;
 		}
 		const xmm& Fs = mVU.regAlloc->allocReg(_Fs_, 0, _X_Y_Z_W);
-		mVUsaveReg(Fs, ptr, _X_Y_Z_W, 1);
+		mVUsaveReg(Fs, ptr, _X_Y_Z_W, true);
 		mVU.regAlloc->clearNeeded(Fs);
 		mVU.profiler.EmitOp(opSQI);
 	}
@@ -1424,7 +1424,7 @@ mVUop(mVU_JR) {
 
 mVUop(mVU_JALR) {
 	mVUbranch = 10;
-	pass1 { mVUanalyzeJump(mVU, _Is_, _It_, 1); }
+	pass1 { mVUanalyzeJump(mVU, _Is_, _It_, true); }
 	pass2 {
 		normJumpPass2(mVU);
 		if(!mVUlow.evilBranch)

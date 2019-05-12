@@ -463,7 +463,7 @@ static __fi bool ipuVDEC(u32 val)
 			ipuRegs.ctrl.ECD = (ipuRegs.cmd.DATA == 0);
 
 		case 1:
-			if (!getBits32((u8*)&ipuRegs.top, 0))
+			if (!getBits32((u8*)&ipuRegs.top, false))
 			{
 				ipu_cmd.pos[0] = 1;
 				return false;
@@ -485,7 +485,7 @@ static __fi bool ipuVDEC(u32 val)
 
 static __ri bool ipuFDEC(u32 val)
 {
-	if (!getBits32((u8*)&ipuRegs.cmd.DATA, 0)) return false;
+	if (!getBits32((u8*)&ipuRegs.cmd.DATA, false)) return false;
 
 	ipuRegs.cmd.DATA = BigEndian(ipuRegs.cmd.DATA);
 	ipuRegs.top = ipuRegs.cmd.DATA;
@@ -503,7 +503,7 @@ static bool ipuSETIQ(u32 val)
 
 		for(;ipu_cmd.pos[0] < 8; ipu_cmd.pos[0]++)
 		{
-			if (!getBits64((u8*)niq + 8 * ipu_cmd.pos[0], 1)) return false;
+			if (!getBits64((u8*)niq + 8 * ipu_cmd.pos[0], true)) return false;
 		}
 
 		IPU_LOG("Read non-intra quantization matrix from FIFO.");
@@ -520,7 +520,7 @@ static bool ipuSETIQ(u32 val)
 
 		for(;ipu_cmd.pos[0] < 8; ipu_cmd.pos[0]++)
 		{
-			if (!getBits64((u8*)iq + 8 * ipu_cmd.pos[0], 1)) return false;
+			if (!getBits64((u8*)iq + 8 * ipu_cmd.pos[0], true)) return false;
 		}
 
 		IPU_LOG("Read intra quantization matrix from FIFO.");
@@ -539,7 +539,7 @@ static bool ipuSETVQ(u32 val)
 {
 	for(;ipu_cmd.pos[0] < 4; ipu_cmd.pos[0]++)
 	{
-		if (!getBits64(((u8*)vqclut) + 8 * ipu_cmd.pos[0], 1)) return false;
+		if (!getBits64(((u8*)vqclut) + 8 * ipu_cmd.pos[0], true)) return false;
 	}
 
 	IPU_LOG("SETVQ command.   Read VQCLUT table from FIFO.\n"
@@ -576,7 +576,7 @@ static __ri bool ipuCSC(tIPU_CMD_CSC csc)
 	{
 		for(;ipu_cmd.pos[0] < 48; ipu_cmd.pos[0]++)
 		{
-			if (!getBits64((u8*)&decoder.mb8 + 8 * ipu_cmd.pos[0], 1)) return false;
+			if (!getBits64((u8*)&decoder.mb8 + 8 * ipu_cmd.pos[0], true)) return false;
 		}
 
 		ipu_csc(decoder.mb8, decoder.rgb32, 0);
@@ -608,7 +608,7 @@ static __ri bool ipuPACK(tIPU_CMD_CSC csc)
 	{
 		for(;ipu_cmd.pos[0] < 8; ipu_cmd.pos[0]++)
 		{
-			if (!getBits64((u8*)&decoder.mb8 + 8 * ipu_cmd.pos[0], 1)) return false;
+			if (!getBits64((u8*)&decoder.mb8 + 8 * ipu_cmd.pos[0], true)) return false;
 		}
 
 		ipu_csc(decoder.mb8, decoder.rgb32, 0);

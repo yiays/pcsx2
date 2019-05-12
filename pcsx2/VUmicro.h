@@ -152,7 +152,7 @@ public:
 
 	// Executes a Block based on static preset cycles OR
 	// Executes a Block based on EE delta time (see VUmicro.cpp)
-	virtual void ExecuteBlock(bool startUp=0);
+	virtual void ExecuteBlock(bool startUp=false);
 
 	static void __fastcall ExecuteBlockJIT(BaseVUmicroCPU* cpu);
 

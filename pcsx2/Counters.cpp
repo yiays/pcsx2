@@ -1003,6 +1003,6 @@ void SaveStateBase::rcntFreeze()
 		for( int i=0; i<4; i++ )
 			_rcntSetGate( i );
 
-		iopEventAction = 1;	// probably not needed but won't hurt anything either.
+		iopEventAction = true;	// probably not needed but won't hurt anything either.
 	}
 }

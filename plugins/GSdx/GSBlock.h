@@ -1521,7 +1521,7 @@ public:
 	{
 		//printf("4HL\n");
 
-		if(0)
+		if(false)
 		{
 			uint8* s = (uint8*)src;
 			for(int j = 0; j < 8; j++, s += srcpitch)

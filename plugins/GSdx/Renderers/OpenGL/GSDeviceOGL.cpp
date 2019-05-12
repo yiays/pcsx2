@@ -744,7 +744,7 @@ void GSDeviceOGL::ClearDepth(GSTexture* t)
 
 	GL_PUSH("Clear Depth %d", T->GetID());
 
-	if (0 && GLLoader::found_GL_ARB_clear_texture) {
+	if (false && GLLoader::found_GL_ARB_clear_texture) {
 		// I don't know what the driver does but it creates
 		// some slowdowns on Harry Potter PS
 		// Maybe it triggers some texture relocations, or maybe

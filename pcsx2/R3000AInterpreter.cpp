@@ -23,7 +23,7 @@ using namespace R3000A;
 // Used to flag delay slot instructions when throwig exceptions.
 bool iopIsDelaySlot = false;
 
-static bool branch2 = 0;
+static bool branch2 = false;
 static u32 branchPC;
 
 static void doBranch(s32 tar);	// forward declared prototype
@@ -189,7 +189,7 @@ static s32 intExecuteBlock( s32 eeCycles )
 		if ((psxHu32(HW_ICFG) & 8) && ((psxRegs.pc & 0x1fffffffU) == 0xa0 || (psxRegs.pc & 0x1fffffffU) == 0xb0 || (psxRegs.pc & 0x1fffffffU) == 0xc0))
 			psxBiosCall();
 
-		branch2 = 0;
+		branch2 = false;
 		while (!branch2) {
 			execI();
         }

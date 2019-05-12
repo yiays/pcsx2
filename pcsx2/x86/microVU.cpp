@@ -235,10 +235,10 @@ __ri bool mVUcmpPartial(microVU& mVU, microProgram& prog) {
 	for ( ; it != prog.ranges->end(); ++it) {
 		if((it[0].start<0)||(it[0].end<0))  { DevCon.Error("microVU%d: Negative Range![%d][%d]", mVU.index, it[0].start, it[0].end); }
 		if (memcmp_mmx(cmpOffset(prog.data), cmpOffset(mVU.regs().Micro), ((it[0].end + 8)  -  it[0].start))) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 // Compare Cached microProgram to mVU.regs().Micro
@@ -261,7 +261,7 @@ _mVUt __fi void* mVUsearchProg(u32 startPC, uptr pState) {
 	if(!quick.prog) { // If null, we need to search for new program
 		std::deque<microProgram*>::iterator it(list->begin());
 		for ( ; it != list->end(); ++it) {
-			bool b = mVUcmpProg(mVU, *it[0], 0);
+			bool b = mVUcmpProg(mVU, *it[0], false);
 			if (EmuConfig.Gamefixes.ScarfaceIbit) {
 				if (isVU1 && ((((u32*)mVU.regs().Micro)[startPC / 4 + 1]) == 0x80200118) &&
 						     ((((u32*)mVU.regs().Micro)[startPC / 4 + 3]) == 0x81000062)) {

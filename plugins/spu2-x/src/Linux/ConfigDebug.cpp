@@ -93,22 +93,22 @@ static void set_default_filenames()
 
 void ReadSettings()
 {
-    DebugEnabled = CfgReadBool(Section, L"Global_Enable", 0);
-    _MsgToConsole = CfgReadBool(Section, L"Show_Messages", 0);
-    _MsgKeyOnOff = CfgReadBool(Section, L"Show_Messages_Key_On_Off", 0);
-    _MsgVoiceOff = CfgReadBool(Section, L"Show_Messages_Voice_Off", 0);
-    _MsgDMA = CfgReadBool(Section, L"Show_Messages_DMA_Transfer", 0);
-    _MsgAutoDMA = CfgReadBool(Section, L"Show_Messages_AutoDMA", 0);
-    _MsgOverruns = CfgReadBool(Section, L"Show_Messages_Overruns", 0);
-    _MsgCache = CfgReadBool(Section, L"Show_Messages_CacheStats", 0);
+    DebugEnabled = CfgReadBool(Section, L"Global_Enable", false);
+    _MsgToConsole = CfgReadBool(Section, L"Show_Messages", false);
+    _MsgKeyOnOff = CfgReadBool(Section, L"Show_Messages_Key_On_Off", false);
+    _MsgVoiceOff = CfgReadBool(Section, L"Show_Messages_Voice_Off", false);
+    _MsgDMA = CfgReadBool(Section, L"Show_Messages_DMA_Transfer", false);
+    _MsgAutoDMA = CfgReadBool(Section, L"Show_Messages_AutoDMA", false);
+    _MsgOverruns = CfgReadBool(Section, L"Show_Messages_Overruns", false);
+    _MsgCache = CfgReadBool(Section, L"Show_Messages_CacheStats", false);
 
-    _AccessLog = CfgReadBool(Section, L"Log_Register_Access", 0);
-    _DMALog = CfgReadBool(Section, L"Log_DMA_Transfers", 0);
-    _WaveLog = CfgReadBool(Section, L"Log_WAVE_Output", 0);
+    _AccessLog = CfgReadBool(Section, L"Log_Register_Access", false);
+    _DMALog = CfgReadBool(Section, L"Log_DMA_Transfers", false);
+    _WaveLog = CfgReadBool(Section, L"Log_WAVE_Output", false);
 
-    _CoresDump = CfgReadBool(Section, L"Dump_Info", 0);
-    _MemDump = CfgReadBool(Section, L"Dump_Memory", 0);
-    _RegDump = CfgReadBool(Section, L"Dump_Regs", 0);
+    _CoresDump = CfgReadBool(Section, L"Dump_Info", false);
+    _MemDump = CfgReadBool(Section, L"Dump_Memory", false);
+    _RegDump = CfgReadBool(Section, L"Dump_Regs", false);
 
     set_default_filenames();
 

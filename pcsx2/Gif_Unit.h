@@ -79,7 +79,7 @@ struct Gif_Tag {
 		nLoop = tag.NLOOP;
 		hasAD = false;
 		nRegIdx = 0;
-		isValid = 1;
+		isValid = true;
 		len = 0; // avoid uninitialized compiler warning
 		switch(tag.FLG) {
 			case GIF_FLG_PACKED:
@@ -289,7 +289,7 @@ struct Gif_Path {
 					RealignPacket();
 				}
 
-				gifTag.setTag(&buffer[curOffset], 1);
+				gifTag.setTag(&buffer[curOffset], true);
 
 				state = (GIF_PATH_STATE)(gifTag.tag.FLG + 1);
 
@@ -360,7 +360,7 @@ struct Gif_Path {
 		if (IsDevBuild) { // We check the packet to see if it actually
 			for(;;) {     // needed to be processed by pcsx2...
 				if (curOffset + 16 > curSize) break;
-				gifTag.setTag(&buffer[curOffset], 1);
+				gifTag.setTag(&buffer[curOffset], true);
 				
 				if(!gifTag.hasAD && curOffset + 16 + gifTag.len > curSize) break;
 				incTag(curOffset, gsPack.size, 16); // Tag Size
@@ -583,7 +583,7 @@ struct Gif_Unit {
 				GS_Packet gsPack = path.ExecuteGSPacket(done);
 				if(!done) {
 					if (stat.APATH == 3 && CanDoP3Slice() && !gsSIGNAL.queued) {
-						if(!didPath3 && /*!Path3Masked() &&*/ checkPaths(1,1,0)) { // Path3 slicing
+						if(!didPath3 && /*!Path3Masked() &&*/ checkPaths(true,true,false)) { // Path3 slicing
 							didPath3 = true;
 							stat.APATH = 0;
 							stat.IP3   = 1;
@@ -677,8 +677,8 @@ struct Gif_Unit {
 	//Mask stops the next packet which hasnt started from transferring
 	bool Path3Masked() const { return ((stat.M3R || stat.M3P) && (gifPath[GIF_PATH_3].state == GIF_PATH_IDLE || gifPath[GIF_PATH_3].state == GIF_PATH_WAIT)); }
 
-	void PrintInfo(bool printP1=1, bool printP2=1, bool printP3=1) {
-		u32 a = checkPaths(1,1,1), b = checkQueued(1,1,1);
+	void PrintInfo(bool printP1=true, bool printP2=true, bool printP3=true) {
+		u32 a = checkPaths(true,true,true), b = checkQueued(true,true,true);
 		(void)a; // Don't warn about unused variable
 		(void)b;
 		GUNIT_LOG("Gif Unit - LastTransfer = %s, Paths = [%d,%d,%d], Queued = [%d,%d,%d]",

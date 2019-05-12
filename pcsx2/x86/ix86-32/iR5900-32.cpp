@@ -1578,15 +1578,15 @@ static void memory_protect_recompiled_code(u32 startpc, u32 size)
 // Skip MPEG Game-Fix
 bool skipMPEG_By_Pattern(u32 sPC) {
 
-	if (!CHECK_SKIPMPEGHACK) return 0;
+	if (!CHECK_SKIPMPEGHACK) return false;
 
 	// sceMpegIsEnd: lw reg, 0x40(a0); jr ra; lw v0, 0(reg)
 	if ((s_nEndBlock == sPC + 12) && (memRead32(sPC + 4) == 0x03e00008)) {
 		u32 code = memRead32(sPC);
 		u32 p1   = 0x8c800040;
 		u32 p2	 = 0x8c020000 | (code & 0x1f0000) << 5;
-		if ((code & 0xffe0ffff)   != p1) return 0;
-		if (memRead32(sPC+8) != p2) return 0;
+		if ((code & 0xffe0ffff)   != p1) return false;
+		if (memRead32(sPC+8) != p2) return false;
 		xMOV(ptr32[&cpuRegs.GPR.n.v0.UL[0]], 1);
 		xMOV(ptr32[&cpuRegs.GPR.n.v0.UL[1]], 0);
 		xMOV(eax, ptr32[&cpuRegs.GPR.n.ra.UL[0]]);
@@ -1595,9 +1595,9 @@ bool skipMPEG_By_Pattern(u32 sPC) {
 		g_branch = 1;
 		pc = s_nEndBlock;
 		Console.WriteLn(Color_StrongGreen, "sceMpegIsEnd pattern found! Recompiling skip video fix...");
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 // defined at AppCoreThread.cpp but unclean and should not be public. We're the only
@@ -1747,7 +1747,7 @@ static void __fastcall recRecompile( const u32 startpc )
 		goto StartRecomp;
 	}
 
-	while(1) {
+	while(true) {
 		BASEBLOCK* pblock = PC_GETBLOCK(i);
 
 		// stop before breakpoints

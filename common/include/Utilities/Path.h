@@ -86,7 +86,7 @@ public:
 
         wxFileName f(file);
 
-        while (1) {
+        while (true) {
             if (this->SameAs(wxDirName(f.GetPath())))
                 return true;
 

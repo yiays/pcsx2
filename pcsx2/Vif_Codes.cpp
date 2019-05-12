@@ -187,7 +187,7 @@ vifOp(vifCode_Flush) {
 		bool p1or2 = (gifRegs.stat.APATH != 0 && gifRegs.stat.APATH != 3);
 		vif1Regs.stat.VGW = false;
 		vifFlush(idx);
-		if (gifUnit.checkPaths(1,1,0) || p1or2) {
+		if (gifUnit.checkPaths(true,true,false) || p1or2) {
 			GUNIT_WARN("Vif Flush: Stall!");
 			//gifUnit.PrintInfo();
 			vif1Regs.stat.VGW = true;
@@ -207,7 +207,7 @@ vifOp(vifCode_FlushA) {
 	//vifStruct& vifX = GetVifX;
 	pass1or2 {
 		//Gif_Path& p3      = gifUnit.gifPath[GIF_PATH_3];
-		u32       gifBusy   = gifUnit.checkPaths(1,1,1) || (gifRegs.stat.APATH != 0);
+		u32       gifBusy   = gifUnit.checkPaths(true,true,true) || (gifRegs.stat.APATH != 0);
 		//bool      doStall = false;
 		vif1Regs.stat.VGW = false;
 		vifFlush(idx);
@@ -366,7 +366,7 @@ vifOp(vifCode_MSCALF) {
 	pass1or2 {
 		vifXRegs.stat.VGW = false;
 		vifFlush(idx);
-		if (u32 a = gifUnit.checkPaths(1,1,0)) {
+		if (u32 a = gifUnit.checkPaths(true,true,false)) {
 			GUNIT_WARN("Vif MSCALF: Stall! [%d,%d]", !!(a&1), !!(a&2));
 			vif1Regs.stat.VGW = true;
 			vifX.vifstalled.enabled   = VifStallEnable(vifXch);

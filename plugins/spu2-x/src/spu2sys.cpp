@@ -1158,7 +1158,7 @@ static void __fastcall RegWrite_Core(u16 value)
             thiscore.FxEnable = (value >> 7) & 0x01;  //1 bit
             thiscore.NoiseClk = (value >> 8) & 0x3f;  //6 bits
             //thiscore.Mute		=(value>>14) & 0x01; //1 bit
-            thiscore.Mute = 0;
+            thiscore.Mute = false;
             //thiscore.CoreEnabled=(value>>15) & 0x01; //1 bit
             // no clue
             if (value >> 15)
@@ -1368,7 +1368,7 @@ static void __fastcall RegWrite_Core(u16 value)
             if (value == 32767) {
                 psxmode = true;
                 //memset(_spu2mem, 0, 0x200000);
-                Cores[1].FxEnable = 0;
+                Cores[1].FxEnable = false;
                 Cores[1].EffectsStartA = 0x7FFF8; // park core1 effect area in inaccessible mem
                 Cores[1].EffectsEndA = 0x7FFFF;
                 Cores[1].ExtEffectsStartA = 0x7FFF8;
@@ -1387,14 +1387,14 @@ static void __fastcall RegWrite_Core(u16 value)
                     Voice.NextA = 0x6FFFF;
                     Voice.StartA = 0x6FFFF;
                     Voice.LoopStartA = 0x6FFFF;
-                    Voice.Modulated = 0;
+                    Voice.Modulated = false;
                 }
                 return;
             }
             thiscore.AutoDMACtrl = value;
 
             if (value == 0) {
-                thiscore.AdmaInProgress = 0;
+                thiscore.AdmaInProgress = false;
             }
             break;
 

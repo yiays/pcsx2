@@ -339,7 +339,7 @@ int LoadSettings(int force, wchar_t *file)
     int multipleBinding = config.multipleBinding;
     // Disabling multiple binding only prevents new multiple bindings.
     config.multipleBinding = 1;
-    while (1) {
+    while (true) {
         wchar_t id[50];
         wchar_t temp[50], temp2[1000], temp3[1000], temp4[1000];
         wsprintfW(id, L"Device %i", i++);
@@ -363,7 +363,7 @@ int LoadSettings(int force, wchar_t *file)
         dm->AddDevice(dev);
         int j = 0;
         int last = 0;
-        while (1) {
+        while (true) {
             wsprintfW(temp, L"Binding %i", j++);
             if (!cfg.ReadStr(id, temp, temp2)) {
                 if (j >= 100) {
@@ -402,7 +402,7 @@ int LoadSettings(int force, wchar_t *file)
             }
         }
         j = 0;
-        while (1) {
+        while (true) {
             wsprintfW(temp, L"FF Binding %i", j++);
             if (!cfg.ReadStr(id, temp, temp2)) {
                 if (j >= 10) {

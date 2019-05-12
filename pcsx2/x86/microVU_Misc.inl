@@ -336,7 +336,7 @@ void MIN_MAX_PS(microVU& mVU, const xmm& to, const xmm& from, const xmm& t1in, c
 	const xmm& t1 = t1in.IsEmpty() ? mVU.regAlloc->allocReg() : t1in;
 	const xmm& t2 = t2in.IsEmpty() ? mVU.regAlloc->allocReg() : t2in;
 
-	if (0) { // use double comparison
+	if (false) { // use double comparison
 		// ZW
 		xPSHUF.D(t1, to, 0xfa);
 		xPAND   (t1, ptr128[sseMasks.MIN_MAX_1]);

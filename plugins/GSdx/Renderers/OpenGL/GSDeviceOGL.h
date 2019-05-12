@@ -47,7 +47,7 @@ public:
 
 	GSDepthStencilOGL() : m_depth_enable(false)
 		, m_depth_func(GL_ALWAYS)
-		, m_depth_mask(0)
+		, m_depth_mask(false)
 		, m_stencil_enable(false)
 		, m_stencil_func(0)
 		, m_stencil_spass_dpass_op(GL_KEEP)

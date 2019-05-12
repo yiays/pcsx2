@@ -722,7 +722,7 @@ bool Panels::MemoryCardListPanel_Simple::UiDuplicateCard(McdSlotItem& src, McdSl
 			return false;
 		}
 
-		while (1)
+		while (true)
 		{
 			wxString newFilename=L"";
 			newFilename = wxGetTextFromUser(_("Select a name for the duplicate\n( '.ps2' will be added automatically)"), _("Duplicate memory card"));
@@ -792,7 +792,7 @@ void Panels::MemoryCardListPanel_Simple::UiRenameCard( McdSlotItem& card )
 
 	const wxDirName basepath( m_listview->GetMcdProvider().GetMcdPath() );
 	wxString newFilename;
-	while (1){
+	while (true){
 		wxString title;
 		title.Printf(_("Select a new name for the memory card '%s'\n( '.ps2' will be added automatically)"),
 						WX_STR(card.Filename.GetFullName())

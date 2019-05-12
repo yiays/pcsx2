@@ -325,7 +325,7 @@ static void recCFC2() {
 static void recCTC2() {
 
 	printCOP2("CTC2");
-	COP2_Interlock(1);
+	COP2_Interlock(true);
 	if (!_Rd_) return;
 	iFlushCall(FLUSH_EVERYTHING);
 

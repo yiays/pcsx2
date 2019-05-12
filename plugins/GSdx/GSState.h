@@ -274,7 +274,7 @@ public:
 	template<int index> void Transfer(const uint8* mem, uint32 size);
 	int Freeze(GSFreezeData* fd, bool sizeonly);
 	int Defrost(const GSFreezeData* fd);
-	void GetLastTag(uint32* tag) {*tag = m_path3hack; m_path3hack = 0;}
+	void GetLastTag(uint32* tag) {*tag = m_path3hack; m_path3hack = false;}
 	virtual void SetGameCRC(uint32 crc, int options);
 	void SetFrameSkip(int skip);
 	void SetRegsMem(uint8* basemem);

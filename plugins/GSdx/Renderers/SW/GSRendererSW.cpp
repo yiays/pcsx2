@@ -112,7 +112,7 @@ void GSRendererSW::VSync(int field)
 {
 	Sync(0); // IncAge might delete a cached texture in use
 
-	if(0) if(LOG)
+	if(false) if(LOG)
 	{
 		fprintf(s_fp, "%llu\n", m_perfmon.GetFrame());
 
@@ -420,7 +420,7 @@ void GSRendererSW::Draw()
 		return;
 	}
 
-	if(0) if(LOG)
+	if(false) if(LOG)
 	{
 		int n = GSUtil::GetVertexCount(PRIM->PRIM);
 		
@@ -556,7 +556,7 @@ void GSRendererSW::Draw()
 
 		if(s_savel > 0 && (s_n - s_saven) > s_savel)
 		{
-			s_dump = 0;
+			s_dump = false;
 		}
 	}
 	else
@@ -635,7 +635,7 @@ void GSRendererSW::Sync(int reason)
 
 	m_rl->Sync();
 
-	if(0) if(LOG)
+	if(false) if(LOG)
 	{
 		std::string s;
 		

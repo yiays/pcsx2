@@ -1249,7 +1249,7 @@ void GSRendererHW::Draw()
 
 		if(s_savel > 0 && (s_n - s_saven) > s_savel)
 		{
-			s_dump = 0;
+			s_dump = false;
 		}
 	}
 

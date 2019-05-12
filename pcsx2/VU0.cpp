@@ -71,9 +71,9 @@ __fi void _vu0run(bool breakOnMbit, bool addCycles) {
 	if (addCycles) cpuRegs.cycle += (VU0.cycle-startcycle)*2;
 }
 
-void _vu0WaitMicro()   { _vu0run(1, 1); } // Runs VU0 Micro Until E-bit or M-Bit End
-void _vu0FinishMicro() { _vu0run(0, 1); } // Runs VU0 Micro Until E-Bit End
-void vu0Finish()	   { _vu0run(0, 0); } // Runs VU0 Micro Until E-Bit End (doesn't stall EE)
+void _vu0WaitMicro()   { _vu0run(true, true); } // Runs VU0 Micro Until E-bit or M-Bit End
+void _vu0FinishMicro() { _vu0run(false, true); } // Runs VU0 Micro Until E-Bit End
+void vu0Finish()	   { _vu0run(false, false); } // Runs VU0 Micro Until E-Bit End (doesn't stall EE)
 
 namespace R5900 {
 namespace Interpreter{

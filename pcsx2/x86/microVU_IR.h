@@ -270,9 +270,9 @@ public:
 				if (mapX.VFreg == 33)
 					xMOVSS(ptr32[&getVI(REG_I)], xmm(i));
 				else if (mapX.VFreg == 32)
-					mVUsaveReg(xmm(i), ptr[&regs().ACC], mapX.xyzw, 1);
+					mVUsaveReg(xmm(i), ptr[&regs().ACC], mapX.xyzw, true);
 				else
-					mVUsaveReg(xmm(i), ptr[&getVF(mapX.VFreg)], mapX.xyzw, 1);
+					mVUsaveReg(xmm(i), ptr[&getVF(mapX.VFreg)], mapX.xyzw, true);
 			}
 		}
 	}
@@ -283,7 +283,7 @@ public:
 		clear.VFreg		= -1;
 		clear.count		=  0;
 		clear.xyzw		=  0;
-		clear.isNeeded	=  0;
+		clear.isNeeded	=  false;
 	}
 
 	void clearRegVF(int VFreg) {
@@ -381,7 +381,7 @@ public:
 	// To load a temp reg use the default param values, vfLoadReg = -1 and vfWriteReg = -1.
 	// To load a full reg which won't be modified and you want cached, specify vfLoadReg >= 0 and vfWriteReg = -1
 	// To load a reg which you don't want written back or cached, specify vfLoadReg >= 0 and vfWriteReg = 0
-	const xmm& allocReg(int vfLoadReg = -1, int vfWriteReg = -1, int xyzw = 0, bool cloneWrite = 1) {
+	const xmm& allocReg(int vfLoadReg = -1, int vfWriteReg = -1, int xyzw = 0, bool cloneWrite = true) {
 		//DevCon.WriteLn("vfLoadReg = %02d, vfWriteReg = %02d, xyzw = %x, clone = %d",vfLoadReg,vfWriteReg,xyzw,(int)cloneWrite);
 		counter++;
 		if (vfLoadReg >= 0) { // Search For Cached Regs

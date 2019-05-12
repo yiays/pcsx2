@@ -116,7 +116,7 @@ void JoystickInfo::Rumble(int type, int pad)
 
     if (first) // If done multiple times, device memory will be filled
     {
-        first = 0;
+        first = false;
         GenerateDefaultEffect();
         /** Sine and triangle are quite probably the best, don't change that lightly and if you do
 		 *	keep effects ordered by type

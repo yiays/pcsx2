@@ -995,7 +995,7 @@ static VuInstruction* getDelayInst(VuInstruction* pInst)
 	int delay = 1;
 	VuInstruction* pDelayInst = nullptr;
 	VuInstruction* pTargetInst = pInst->pPrevInst;
-	while (1)
+	while (true)
 	{
 		if (pTargetInst != nullptr
 		        && pTargetInst->info.cycle + delay == pInst->info.cycle
@@ -1153,7 +1153,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 #endif
 
 	// first analysis pass for status flags
-	while (1)
+	while (true)
 	{
 		u32* ptr = (u32*) & VU->Micro[pc];
 		pc += 8;
@@ -1210,7 +1210,7 @@ static VuBaseBlock* SuperVUBuildBlocks(VuBaseBlock* parent, u32 startpc, const V
 	g_branch = 0;
 	VuInstruction* pprevinst = nullptr, *pinst = nullptr;
 
-	while (1)
+	while (true)
 	{
 
 		if (pc == s_MemSize[s_vu])

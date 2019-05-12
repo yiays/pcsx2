@@ -349,7 +349,7 @@ static __fi float vuADD_TriAceHack(u32 a, u32 b) {
 	// microVU gets the correct operands and result. The interps likely
 	// don't get it due to rounding towards nearest in other calculations.
 
-	if (0) {
+	if (false) {
 		// microVU uses something like this to get TriAce games working,
 		// but VU interpreters don't seem to need it currently:
 		s32 aExp = (a >> 23) & 0xff;

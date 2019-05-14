@@ -455,7 +455,7 @@ static int _GSopen(void** dsp, const char* title, GSRendererType renderer, int t
 
 	if (renderer == GSRendererType::OGL_HW && theApp.GetConfigI("debug_glsl_shader") == 2) {
 		printf("GSdx: test OpenGL shader. Please wait...\n\n");
-		static_cast<GSDeviceOGL*>(s_gs->m_dev)->SelfShaderTest();
+		dynamic_cast<GSDeviceOGL*>(s_gs->m_dev)->SelfShaderTest();
 		printf("\nGSdx: test OpenGL shader done. It will now exit\n");
 		return -1;
 	}
@@ -1581,7 +1581,7 @@ EXPORT_C GSReplay(char* lpszCmdLine, int renderer)
 		}
 	}
 
-	static_cast<GSDeviceOGL*>(s_gs->m_dev)->GenerateProfilerData();
+	dynamic_cast<GSDeviceOGL*>(s_gs->m_dev)->GenerateProfilerData();
 
 #ifdef ENABLE_OGL_DEBUG_MEM_BW
 	unsigned long total_frame_nb = std::max(1l, frame_number) << 10;

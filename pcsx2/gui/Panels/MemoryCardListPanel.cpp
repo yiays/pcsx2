@@ -285,7 +285,7 @@ public:
 		if ( !GetData() )
 			return wxDragNone;
 
-		wxCustomDataObject *dobj = static_cast<wxCustomDataObject *>(GetDataObject());
+		wxCustomDataObject *dobj = dynamic_cast<wxCustomDataObject *>(GetDataObject());
 
 		if (dobj->GetDataSize() != sizeof(int))
 			return wxDragNone;

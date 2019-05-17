@@ -121,12 +121,18 @@ run_cppcheck()
     exit 0
 }
 
-run_clangtidy()
+create_json()
 {
     compile_json=compile_commands.json
     cpp_list=cpp_file.txt
     summary=clang_tidy_summary.txt
     grep '"file"' $compile_json | sed -e 's/"//g' -e 's/^\s*file\s*:\s*//' | grep -v "aVUzerorec.S" | sort -u  > $cpp_list
+}
+
+run_clangtidy()
+{
+    # create the json file to run on.
+    create_json
 
     # EXAMPLE
     #
@@ -195,6 +201,7 @@ for ARG in "$@"; do
         --clean             ) cleanBuild=1 ;;
         --clean-plugins     ) cleanBuild=2 ;;
         --clang-tidy        ) flags="$flags -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"; clangTidy=1 ; useClang=1;;
+        --clang-json        ) flags="$flags -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"; clangJSON=1 ; useClang=1;;
         --clang             ) useClang=1 ;;
         --intel             ) useIcc=1 ;;
         --cppcheck          ) cppcheck=1 ;;
@@ -303,6 +310,14 @@ set_compiler
 ############################################################
 if [ "$cppcheck" -eq 1 ] && command -v cppcheck >/dev/null ; then
     run_cppcheck
+fi
+
+############################################################
+# Clang json only
+############################################################
+if [ "$clangJSON" -eq 1 ] && command -v clang-tidy >/dev/null ; then
+    create_json
+    exit 0
 fi
 
 ############################################################

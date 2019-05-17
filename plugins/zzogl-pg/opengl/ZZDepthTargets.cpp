@@ -17,8 +17,8 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 
 #include "GS.h"
 #include "Mem.h"
@@ -303,7 +303,7 @@ void CDepthTarget::SetDepthStencilSurface()
 				if (pstencil != pdepth) glDeleteRenderbuffersEXT(1, &pstencil);
 
 				pstencil = 0;
-				g_bUpdateStencil = 0;
+				g_bUpdateStencil = false;
 			}
 		}
 	}

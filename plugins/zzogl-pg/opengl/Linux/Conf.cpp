@@ -16,12 +16,12 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
+#include <cstring>
 #include "GS.h"
 #include "Utilities/Path.h"
 
@@ -32,7 +32,7 @@ void SaveConfig()
 	
 	FILE* f = fopen(iniFile.c_str(), "w");
 
-	if (f == NULL)
+	if (f == nullptr)
 	{
 		ZZLog::Error_Log("Failed to open '%s'", iniFile.c_str());
 		return;
@@ -73,7 +73,7 @@ void LoadConfig()
 
 	FILE* f = fopen(iniFile.c_str(), "r");
 
-	if (f == NULL)
+	if (f == nullptr)
 	{
 		ZZLog::Error_Log("Failed to open '%s'", iniFile.c_str());
 		SaveConfig();//save and return

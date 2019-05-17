@@ -105,17 +105,17 @@ void ZZGSStateReset()
 	FUNCLOG
 	icurctx = -1;
 
-	for (int i = 0; i < 2; ++i)
+	for (auto & i : vb)
 	{
-		vb[i].Destroy();
-		memset(&vb[i], 0, sizeof(VB));
+		i.Destroy();
+		memset(&i, 0, sizeof(VB));
 
-		vb[i].tex0.tw = 1;
-		vb[i].tex0.th = 1;
-		vb[i].scissor.x1 = 639;
-		vb[i].scissor.y1 = 479;
-		vb[i].tex0.tbw = 64;
-		vb[i].Init(VB_BUFFERSIZE);
+		i.tex0.tw = 1;
+		i.tex0.th = 1;
+		i.scissor.x1 = 639;
+		i.scissor.y1 = 479;
+		i.tex0.tbw = 64;
+		i.Init(VB_BUFFERSIZE);
 	}
 
 	s_RangeMngr.Clear();
@@ -159,10 +159,10 @@ void ChangeDeviceSize(int nNewWidth, int nNewHeight)
 		}
 	}
 
-	for (int i = 0; i < 2; ++i)
+	for (auto & i : vb)
 	{
-		vb[i].bNeedFrameCheck = vb[i].bNeedZCheck = 1;
-		vb[i].CheckFrame(0);
+		i.bNeedFrameCheck = i.bNeedZCheck = 1;
+		i.CheckFrame(0);
 	}
 
 	assert(vb[0].pBufferData != NULL && vb[1].pBufferData != NULL);
@@ -193,10 +193,10 @@ void SetAA(int mode)
 	memset(s_nResolveCounts, 0, sizeof(s_nResolveCounts));
 	s_nLastResolveReset = 0;
 
-	vb[0].prndr = NULL;
-	vb[0].pdepth = NULL;
-	vb[1].prndr = NULL;
-	vb[1].pdepth = NULL;
+	vb[0].prndr = nullptr;
+	vb[0].pdepth = nullptr;
+	vb[1].prndr = nullptr;
+	vb[1].pdepth = nullptr;
 	
 	vb[0].bNeedFrameCheck = vb[0].bNeedZCheck = 1;
 	vb[1].bNeedFrameCheck = vb[1].bNeedZCheck = 1;

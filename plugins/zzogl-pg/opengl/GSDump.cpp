@@ -22,7 +22,7 @@
 #include "GSDump.h"
 
 GSDump::GSDump()
-	: m_gs(NULL)
+	: m_gs(nullptr)
 	, m_frames(0)
 {
 }
@@ -53,7 +53,7 @@ void GSDump::Close()
 {
 	if(m_gs) {
 		fclose(m_gs);
-		m_gs = NULL;
+		m_gs = nullptr;
 		fprintf(stderr, "Closing GS dump");
 	}
 }

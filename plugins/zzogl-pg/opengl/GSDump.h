@@ -58,7 +58,7 @@ public:
 	void ReadFIFO(u32 size);
 	void Transfer(int index, const u32* mem, size_t size, u32 real_size);
 	void VSync(int field, bool last, u8* regs);
-	operator bool() {return m_gs != NULL;}
+	operator bool() {return m_gs != nullptr;}
 };
 
 extern GSDump g_dump;

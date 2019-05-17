@@ -60,8 +60,8 @@ __forceinline void GSMem_to_ClutBuffer__T32_I8_CSM1_sse2(u32* vm, u32 csa)
 {
     u32* clut = GetClutBufferAddress<u32>(csa);
 
-	__m128i* src = (__m128i*)vm;
-	__m128i* dst = (__m128i*)clut;
+	auto* src = (__m128i*)vm;
+	auto* dst = (__m128i*)clut;
 
 	for (int j = 0; j < 64; j += 32, src += 32, dst += 32)
 	{
@@ -94,8 +94,8 @@ __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_sse2(u32* vm, u32 csa)
 {
     u32* clut = GetClutBufferAddress<u32>(csa);
 
-	__m128i* src = (__m128i*)vm;
-	__m128i* dst = (__m128i*)clut;
+	auto* src = (__m128i*)vm;
+	auto* dst = (__m128i*)clut;
 
 	__m128i r0 = _mm_load_si128(&src[0]);
 	__m128i r1 = _mm_load_si128(&src[1]);
@@ -266,7 +266,7 @@ __forceinline void GSMem_to_ClutBuffer__T16_I8_CSM1_c(u32* _vm, u32 csa)
 		5, 7, 13, 15, 21, 23, 29, 31
 	};
 
-	u16* vm = (u16*)_vm;
+	auto* vm = (u16*)_vm;
 	u16* clut = GetClutBufferAddress<u16>(csa);
 
 	int left = ((u32)(uptr)clut & 2) ? 512 : 512 - (((u32)(uptr)clut) & 0x3ff) / 2;
@@ -301,8 +301,8 @@ __forceinline void GSMem_to_ClutBuffer__T16_I8_CSM1_c(u32* _vm, u32 csa)
 
 __forceinline void GSMem_to_ClutBuffer__T32_I8_CSM1_c(u32* vm, u32 csa)
 {
-	u64* src = (u64*)vm;
-	u64* dst = (u64*)GetClutBufferAddress<u32>(csa);
+	auto* src = (u64*)vm;
+	auto* dst = (u64*)GetClutBufferAddress<u32>(csa);
 
 	for (int j = 0; j < 2; j++, src += 32)
 	{
@@ -332,7 +332,7 @@ __forceinline void GSMem_to_ClutBuffer__T32_I8_CSM1_c(u32* vm, u32 csa)
 __forceinline void GSMem_to_ClutBuffer__T16_I4_CSM1_c(u32* _vm, u32 csa)
 {
 	u16* dst = GetClutBufferAddress<u16>(csa);
-	u16* src = (u16*)_vm;
+	auto* src = (u16*)_vm;
 
 	dst[0] = src[0];
 	dst[2] = src[2];
@@ -354,8 +354,8 @@ __forceinline void GSMem_to_ClutBuffer__T16_I4_CSM1_c(u32* _vm, u32 csa)
 
 __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_c(u32* vm, u32 csa)
 {
-	u64* src = (u64*)vm;
-	u64* dst = (u64*)GetClutBufferAddress<u32>(csa);
+	auto* src = (u64*)vm;
+	auto* dst = (u64*)GetClutBufferAddress<u32>(csa);
 
 	dst[0] = src[0];
 	dst[1] = src[2];
@@ -383,7 +383,7 @@ __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_c(u32* vm, u32 csa)
 
 			case PSMCT16:
 			{
-				u16* src = (u16*)_src;
+				auto* src = (u16*)_src;
 				u16 *dst = GetClutBufferAddress<u16>(tex0.csa);
 
 				for (int i = 0; i < entries; ++i)
@@ -399,7 +399,7 @@ __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_c(u32* vm, u32 csa)
 
 			case PSMCT16S:
 			{
-				u16* src = (u16*)_src;
+				auto* src = (u16*)_src;
 				u16 *dst = GetClutBufferAddress<u16>(tex0.csa);
 
 				for (int i = 0; i < entries; ++i)
@@ -416,7 +416,7 @@ __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_c(u32* vm, u32 csa)
 			case PSMCT32:
 			case PSMCT24:
 			{
-				u32* src = (u32*)_src;
+				auto* src = (u32*)_src;
 				u32 *dst = GetClutBufferAddress<u32>(tex0.csa);
 
 				// check if address exceeds src
@@ -441,7 +441,7 @@ __forceinline void GSMem_to_ClutBuffer__T32_I4_CSM1_c(u32* vm, u32 csa)
 	}
 	else
 	{
-        u32* src = (u32*)_src;
+        auto* src = (u32*)_src;
 
 		if (entries == 16)
 		{
@@ -488,14 +488,14 @@ template <class T>
 template <>
 /*__forceinline*/ void ClutBuffer_to_Array<u32>(u32* dst, u32 csa, u32 clutsize)
 {
-    u8* clut = (u8*)GetClutBufferAddress<u32>(csa);
+    auto* clut = (u8*)GetClutBufferAddress<u32>(csa);
     memcpy((u8*)dst, clut, clutsize);
 }
 
 template <>
 /*__forceinline*/ void ClutBuffer_to_Array<u16>(u16* dst, u32 csa, u32 clutsize)
 {
-    u16* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
+    auto* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
 
     // which side to copy
     s32 clutsize_right;
@@ -598,8 +598,8 @@ template <class T>
 template <>
 /*__forceinline*/ bool Cmp_ClutBuffer_GSMem<u32>(u32* GSmem, u32 csa, u32 clutsize)
 {
-    u64* _GSmem = (u64*) GSmem;
-    u64* clut = (u64*)GetClutBufferAddress<u32>(csa);
+    auto* _GSmem = (u64*) GSmem;
+    auto* clut = (u64*)GetClutBufferAddress<u32>(csa);
 
     while(clutsize > 0) {
 #ifdef ZEROGS_SSE2
@@ -768,7 +768,7 @@ template <>
 /*__forceinline*/ bool Cmp_ClutBuffer_GSMem<u16>(u16* GSmem, u32 csa, u32 clutsize)
 {
 #ifdef ZEROGS_SSE2
-    u16* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
+    auto* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
 
     // Special case only one CSA block to check
     if(clutsize == 32) {
@@ -866,7 +866,7 @@ template <>
 #ifdef ZEROGS_SSE2
     __m128i zero_128 = _mm_setzero_si128();
 #endif
-    u16* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
+    auto* clut = (u16*)GetClutBufferAddress<u32>(csa); // Keep aligned version for sse2
 
     // which side to cmp
     u32 clutsize_right;

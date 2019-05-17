@@ -41,17 +41,17 @@ GSDump g_dump;
 int ppf, g_GSMultiThreaded, CurrentSavestate = 0;
 int g_LastCRC = 0, g_TransferredToGPU = 0, s_frameskipping = 0;
 int g_SkipFlushFrame = 0;
-GetSkipCount GetSkipCount_Handler = 0;
+GetSkipCount GetSkipCount_Handler = nullptr;
 
 int UPDATE_FRAMES = 16, g_nFrame = 0, g_nRealFrame = 0;
 float fFPS = 0;
 
 void (*GSirq)();
-u8* g_pBasePS2Mem = NULL;
+u8* g_pBasePS2Mem = nullptr;
 wxString s_strIniPath(L"inis");  	// Air's new ini path (r2361)
 
 bool SaveStateExists = true;		// We could not know save slot status before first change occured
-const char* SaveStateFile = NULL;	// Name of SaveFile for access check.
+const char* SaveStateFile = nullptr;	// Name of SaveFile for access check.
 
 extern const char* s_aa[5];
 extern const char* pbilinear[];
@@ -114,7 +114,7 @@ EXPORT_C_(void) GSsetBaseMem(void* pmem)
 
 EXPORT_C_(void) GSsetSettingsDir(const char* dir)
 {
-	s_strIniPath = (dir == NULL) ? wxString(L"inis") : wxString(dir, wxConvFile);
+	s_strIniPath = (dir == nullptr) ? wxString(L"inis") : wxString(dir, wxConvFile);
 }
 
 EXPORT_C_(void) GSsetLogDir(const char* dir)
@@ -185,30 +185,30 @@ EXPORT_C_(void) GSsetGameCRC(int crc, int options)
 
 	if (CRCValueChanged && (crc != 0))
 	{
-		for (u32 i = 0; i < GAME_INFO_INDEX; i++)
+		for (const auto & i : crc_game_list)
 		{
-			if (crc_game_list[i].crc == (u32)crc)
+			if (i.crc == (u32)crc)
 			{
 				ZZLog::WriteLn("Found CRC[%x] in crc game list.", crc);
 				
-				if (crc_game_list[i].v_thresh > 0) 
+				if (i.v_thresh > 0) 
 				{
-					VALIDATE_THRESH = crc_game_list[i].v_thresh;
+					VALIDATE_THRESH = i.v_thresh;
 					ZZLog::WriteLn("Setting VALIDATE_THRESH to %d", VALIDATE_THRESH);
 				}
 				
-				if (crc_game_list[i].t_thresh > 0) 
+				if (i.t_thresh > 0) 
 				{
-					TEXDESTROY_THRESH = crc_game_list[i].t_thresh;
+					TEXDESTROY_THRESH = i.t_thresh;
 					ZZLog::WriteLn("Setting TEXDESTROY_THRESH to %d", TEXDESTROY_THRESH);
 				}
 
                 // FIXME need to check SkipDraw is positive (enabled by users)
-                GetSkipCount_Handler = GSC_list[crc_game_list[i].title];
+                GetSkipCount_Handler = GSC_list[i.title];
 
 				if (!conf.disableHacks) 
 				{
-					conf.def_hacks._u32 |= crc_game_list[i].flags;
+					conf.def_hacks._u32 |= i.flags;
 					ListHacks();
 				}
 				return;
@@ -357,7 +357,7 @@ EXPORT_C_(void) GSclose()
 	GLWin.CloseWindow();
 
 	// Free alocated memory. We could close plugin without closing pcsx2, so we SHOULD free all allocated resources
-	SaveStateFile = NULL;
+	SaveStateFile = nullptr;
 	SaveStateExists = true; // default value
     g_LastCRC = 0;
 }
@@ -410,13 +410,13 @@ static bool get_snapshot_filename(char *filename, const char* path, const char* 
 
 		bmpfile = fopen(filename, "rb");
 
-		if (bmpfile == NULL) break;
+		if (bmpfile == nullptr) break;
 
 		fclose(bmpfile);
 	}
 
 	// try opening new snapshot file
-	if ((bmpfile = fopen(filename, "wb")) == NULL)
+	if ((bmpfile = fopen(filename, "wb")) == nullptr)
 	{
 		char strdir[255];
 		sprintf(strdir, "%s", path);
@@ -427,7 +427,7 @@ static bool get_snapshot_filename(char *filename, const char* path, const char* 
 		mkdir(path, 0777);
 #endif
 
-		if ((bmpfile = fopen(filename, "wb")) == NULL) return false;
+		if ((bmpfile = fopen(filename, "wb")) == nullptr) return false;
 	}
 
 	fclose(bmpfile);
@@ -631,7 +631,7 @@ EXPORT_C_(s32) GSfreeze(int mode, freezeData *data)
 			break;
 
 		case FREEZE_SIZE:
-			data->size = ZZSave(NULL);
+			data->size = ZZSave(nullptr);
 			break;
 
 		default:
@@ -673,7 +673,7 @@ EXPORT_C_(void) GSReplay(char* lpszCmdLine)
 
 		//s_vsync = !!theApp.GetConfig("vsync", 0);
 
-		void* hWnd = NULL;
+		void* hWnd = nullptr;
 
 		const char* title = "replayer";
 		GSopen((void**)&hWnd, (char*)title, 0);
@@ -699,7 +699,7 @@ EXPORT_C_(void) GSReplay(char* lpszCmdLine)
 
 		while((type = fgetc(fp)) != EOF)
 		{
-			Packet* p = new Packet();
+			auto* p = new Packet();
 
 			p->type = (u8)type;
 
@@ -766,11 +766,9 @@ EXPORT_C_(void) GSReplay(char* lpszCmdLine)
 		{
 			unsigned long start = timeGetTime();
 			unsigned long frame_number = 0;
-			for(list<Packet*>::iterator i = packets.begin(); i != packets.end(); i++)
+			for(auto p : packets)
 			{
-				Packet* p = *i;
-
-				switch(p->type)
+					switch(p->type)
 				{
 				case 0:
 
@@ -819,9 +817,9 @@ EXPORT_C_(void) GSReplay(char* lpszCmdLine)
 		}
 
 
-		for(list<Packet*>::iterator i = packets.begin(); i != packets.end(); i++)
+		for(auto & packet : packets)
 		{
-			delete *i;
+			delete packet;
 		}
 
 		packets.clear();

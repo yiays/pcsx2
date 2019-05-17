@@ -74,8 +74,8 @@ extern HINSTANCE hInst;
 void (__stdcall *zgsBlendEquationSeparateEXT)(GLenum, GLenum) = NULL;
 void (__stdcall *zgsBlendFuncSeparateEXT)(GLenum, GLenum, GLenum, GLenum) = NULL;
 #else
-void (APIENTRY *zgsBlendEquationSeparateEXT)(GLenum, GLenum) = NULL;
-void (APIENTRY *zgsBlendFuncSeparateEXT)(GLenum, GLenum, GLenum, GLenum) = NULL;
+void (APIENTRY *zgsBlendEquationSeparateEXT)(GLenum, GLenum) = nullptr;
+void (APIENTRY *zgsBlendFuncSeparateEXT)(GLenum, GLenum, GLenum, GLenum) = nullptr;
 #endif
 
 //------------------ variables
@@ -111,7 +111,7 @@ namespace FB
 	u32 buf = 0;
 };
 
-RasterFont* font_p = NULL;
+RasterFont* font_p = nullptr;
 float g_fBlockMult = 1;
 //int s_nFullscreen = 0;
 
@@ -135,7 +135,7 @@ bool IsGLExt(const char* szTargetExtension)
 inline bool check_gl_version(uint32 major, uint32 minor) {
 	const GLubyte* s;
 	s = glGetString(GL_VERSION);
-	if (s == NULL) return false;
+	if (s == nullptr) return false;
 	ZZLog::Error_Log("Supported Opengl version: %s on GPU: %s. Vendor: %s\n", s, glGetString(GL_RENDERER), glGetString(GL_VENDOR));
 	// Could be useful to detect the GPU vendor:
 	// if ( strcmp((const char*)glGetString(GL_VENDOR), "ATI Technologies Inc.") == 0 )
@@ -199,7 +199,7 @@ inline void CreateOtherCheck()
 
 	// GL_ARB_draw_buffers -> GL2.0
 	// Opensource driver -> Intel (need gen4). Radeon OK.
-	if (glDrawBuffers == NULL) {
+	if (glDrawBuffers == nullptr) {
 		ZZLog::Error_Log("*********\nZZogl: OGL ERROR: multiple render targets not supported, some effects might look bad\nZZogl: *********");
 		conf.mrtdepth = 0;
 	}
@@ -243,11 +243,11 @@ __forceinline bool LoadShadersFromDat()
 {
 	FILE* fres = fopen("ps2hw.dat", "rb");
 
-	if (fres == NULL)
+	if (fres == nullptr)
 	{
 		fres = fopen("plugins/ps2hw.dat", "rb");
 
-		if (fres == NULL)
+		if (fres == nullptr)
 		{
 			// Each linux distributions have his rules for path so we give them the possibility to
 			// change it with compilation flags. -- Gregory
@@ -257,7 +257,7 @@ __forceinline bool LoadShadersFromDat()
 			const std::string shader_file = string(xPLUGIN_DIR_str(PLUGIN_DIR_COMPILATION)) + "/ps2hw.dat";
 			fres = fopen(shader_file.c_str(), "rb");
 #endif
-			if (fres == NULL)
+			if (fres == nullptr)
 			{
 				ZZLog::Error_Log("Cannot find ps2hw.dat in working directory. Exiting.");
 				return false;
@@ -341,7 +341,7 @@ inline bool CreateFillExtensionsMap()
     int max_ext = 0;
 	string all_ext("");
 
-	PFNGLGETSTRINGIPROC glGetStringi = 0;
+	PFNGLGETSTRINGIPROC glGetStringi = nullptr;
 	glGetStringi = (PFNGLGETSTRINGIPROC)GLWin.GetProcAddress("glGetStringi");
 	glGetIntegerv(GL_NUM_EXTENSIONS, &max_ext);
 
@@ -359,17 +359,17 @@ inline bool CreateFillExtensionsMap()
         // fallback to old method (pre opengl3, intel gma, geforce 7 ...)
         ZZLog::Error_Log("glGetStringi opengl 3 interface not supported, fallback to opengl 2");
 
-        const char* ptoken = (const char*)glGetString(GL_EXTENSIONS);
-        if (ptoken == NULL) return false;
+        const auto* ptoken = (const char*)glGetString(GL_EXTENSIONS);
+        if (ptoken == nullptr) return false;
 
         all_ext = string(ptoken); // save the string to print a nice debug message
 
-        const char* pend = NULL;
-        while (ptoken != NULL)
+        const char* pend = nullptr;
+        while (ptoken != nullptr)
         {
             pend = strchr(ptoken, ' ');
 
-            if (pend != NULL)
+            if (pend != nullptr)
             {
                 max_ext++;
                 mapGLExtensions[string(ptoken, pend-ptoken)];
@@ -496,7 +496,7 @@ bool ZZCreate(int _width, int _height)
 
 	// init draw fns
 	//init_drawfn();
-	if (ZZKick != NULL) delete ZZKick;
+	if (ZZKick != nullptr) delete ZZKick;
 	ZZKick = new Kick;
 	
 	SetAA(conf.aa);
@@ -553,7 +553,7 @@ bool ZZCreate(int _width, int _height)
 #ifdef GLSL4_API
 	GSInputLayoutOGL vert_format[] =
 	{
-		{0 , 4 , GL_SHORT , GL_FALSE , sizeof(VertexGPU) , (const GLvoid*)(0) }  , // vertex
+		{0 , 4 , GL_SHORT , GL_FALSE , sizeof(VertexGPU) , (const GLvoid*)nullptr }  , // vertex
 		{1 , 4 , GL_UNSIGNED_BYTE  , GL_TRUE  , sizeof(VertexGPU) , (const GLvoid*)(8) }  , // color
 		{2 , 4 , GL_UNSIGNED_BYTE  , GL_TRUE , sizeof(VertexGPU) , (const GLvoid*)(12) } , // z value. FIXME WTF 4 unsigned byte, why not a full integer
 		{3 , 3 , GL_FLOAT          , GL_FALSE , sizeof(VertexGPU) , (const GLvoid*)(16) } , // tex coord
@@ -566,10 +566,10 @@ bool ZZCreate(int _width, int _height)
 
     if (!vb_buffer_allocated) {
         glGenBuffers((GLsizei)ArraySize(g_vboBuffers), g_vboBuffers);
-        for (u32 i = 0; i < ArraySize(g_vboBuffers); ++i)
+        for (unsigned int g_vboBuffer : g_vboBuffers)
         {
-            glBindBuffer(GL_ARRAY_BUFFER, g_vboBuffers[i]);
-            glBufferData(GL_ARRAY_BUFFER, 0x100*sizeof(VertexGPU), NULL, GL_STREAM_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, g_vboBuffer);
+            glBufferData(GL_ARRAY_BUFFER, 0x100*sizeof(VertexGPU), nullptr, GL_STREAM_DRAW);
 #ifdef GLSL4_API
 			vertex_array->set_internal_format();
 #endif
@@ -799,27 +799,27 @@ void ZZDestroy()
 	}
 
 #ifdef GLSL4_API
-	if (vertex_array != NULL) {
+	if (vertex_array != nullptr) {
 		delete vertex_array;
-		vertex_array = NULL;
+		vertex_array = nullptr;
 	}
 #endif
 
 	g_nCurVBOIndex = 0;
 	
-	for (u32 i = 0; i < ArraySize(pvs); ++i)
+	for (auto & pv : pvs)
 	{
-		SAFE_RELEASE_PROG(pvs[i]);
+		SAFE_RELEASE_PROG(pv);
 	}
 
-	for (u32 i = 0; i < ArraySize(ppsRegular); ++i)
+	for (auto & i : ppsRegular)
 	{
-		SAFE_RELEASE_PROG(ppsRegular[i].prog);
+		SAFE_RELEASE_PROG(i.prog);
 	}
 
-	for (u32 i = 0; i < ArraySize(ppsTexture); ++i)
+	for (auto & i : ppsTexture)
 	{
-		SAFE_RELEASE_PROG(ppsTexture[i].prog);
+		SAFE_RELEASE_PROG(i.prog);
 	}
 
 	SAFE_RELEASE_PROG(pvsBitBlt.prog);

@@ -22,7 +22,7 @@
 #endif
 
 #include <GL/gl.h>
-#include <string.h>
+#include <cstring>
 
 #include "rasterfont.h"
 // globals
@@ -161,7 +161,7 @@ void RasterFont::printString(const char *s, double x, double y, double z)
 void RasterFont::printCenteredString(const char *s, double y, int screen_width, double z)
 {
 	int length = strlen(s);
-	int x = int(screen_width / 2.0 - (length / 2.0) * char_width);
+	auto x = int(screen_width / 2.0 - (length / 2.0) * char_width);
 
 	printString(s, x, y, z);
 }

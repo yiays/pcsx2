@@ -50,7 +50,7 @@ bool GLWindow::CreateWindow(void *pDisplay)
 	NativeWindow = (Window)*((u32*)(pDisplay)+1);
 	// Do not take the display which come from pcsx2 neither change it.
 	// You need a new one to do the operation in the GS thread
-	NativeDisplay = XOpenDisplay(NULL);
+	NativeDisplay = XOpenDisplay(nullptr);
 	if (!NativeDisplay) ret = false;
 
 #ifdef EGL_API
@@ -120,13 +120,13 @@ bool GLWindow::ReleaseContext()
     // free the context
 	if (glxContext)
 	{
-		if (!glXMakeCurrent(NativeDisplay, None, NULL)) {
+		if (!glXMakeCurrent(NativeDisplay, None, nullptr)) {
 			ZZLog::Error_Log("GLX: Could not release drawing context.");
             status = false;
         }
 
 		glXDestroyContext(NativeDisplay, glxContext);
-		glxContext = NULL;
+		glxContext = nullptr;
 	}
 #endif
 #ifdef EGL_API
@@ -146,7 +146,7 @@ void GLWindow::CloseWindow()
 #endif
 
     XCloseDisplay(NativeDisplay);
-    NativeDisplay = NULL;
+    NativeDisplay = nullptr;
 }
 
 void GLWindow::GetWindowSize()
@@ -237,9 +237,9 @@ bool GLWindow::CreateContextGL(int major, int minor)
 	// Only keep for older card but NVIDIA and AMD both drop the support of those cards
 	if (major <= 2) {
 		XVisualInfo *vi = glXChooseVisual(NativeDisplay, DefaultScreen(NativeDisplay), attrListDbl_2_0);
-		if (vi == NULL) return false;
+		if (vi == nullptr) return false;
 
-		glxContext = glXCreateContext(NativeDisplay, vi, NULL, GL_TRUE);
+		glxContext = glXCreateContext(NativeDisplay, vi, nullptr, GL_TRUE);
         XFree(vi);
 
 		if (!glxContext) return false;
@@ -248,7 +248,7 @@ bool GLWindow::CreateContextGL(int major, int minor)
 		return true;
 	}
 
-	PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)GetProcAddress("glXChooseFBConfig");
+	auto glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)GetProcAddress("glXChooseFBConfig");
 	int fbcount = 0;
 	GLXFBConfig *fbc = glXChooseFBConfig(NativeDisplay, DefaultScreen(NativeDisplay), attrListDbl, &fbcount);
 	if (!fbc || fbcount < 1) {
@@ -256,7 +256,7 @@ bool GLWindow::CreateContextGL(int major, int minor)
 		return false;
 	}
 
-	PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)GetProcAddress("glXCreateContextAttribsARB");
+	auto glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)GetProcAddress("glXCreateContextAttribsARB");
 	if (!glXCreateContextAttribsARB) return false;
 
 	// Create a context
@@ -274,7 +274,7 @@ bool GLWindow::CreateContextGL(int major, int minor)
 		None
 	};
 
-	glxContext = glXCreateContextAttribsARB(NativeDisplay, fbc[0], 0, true, context_attribs);
+	glxContext = glXCreateContextAttribsARB(NativeDisplay, fbc[0], nullptr, true, context_attribs);
 	if (!glxContext) {
 		ZZLog::Error_Log("GLX: failed to create an opengl context");
 		return false;

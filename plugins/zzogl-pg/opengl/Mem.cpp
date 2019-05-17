@@ -96,9 +96,9 @@ static __forceinline const T* AlignOnBlockBoundry(TransferData data, TransferFun
 
 		pbuf = TransmitHostLocalY<T>(data.psm, fun.wp, transwidth, endY, pbuf);
 
-		if (pbuf == NULL) return NULL;
+		if (pbuf == nullptr) return nullptr;
 
-		if (nSize == 0 || tempY == gs.imageEnd.y) return NULL;
+		if (nSize == 0 || tempY == gs.imageEnd.y) return nullptr;
 	}
 
 	return pbuf;
@@ -144,7 +144,7 @@ static __forceinline const T* TransferAligningToBlocks(TransferData data, Transf
 		{
 			pbuf = TransmitHostLocalX<T>(data.psm, fun.wp, data.widthlimit, data.blockheight, alignedPt.x, pbuf);
 
-			if (pbuf == NULL) return NULL;
+			if (pbuf == nullptr) return nullptr;
 
 			pbuf -= TransPitch((alignedPt.x - gs.trxpos.dx), data.transfersize) / TSize;
 		}
@@ -186,7 +186,7 @@ static __forceinline int RealTransfer(u32 psm, const void* pbyMem, u32 nQWordSiz
 	TransferData data = tData[psm];
 	TransferFuncts fun(psm);
 	pstart = g_pbyGSMemory + gs.dstbuf.bp * 256;
-	const T* pbuf = (const T*)pbyMem;
+	const auto* pbuf = (const T*)pbyMem;
 	const int tp2 = TransPitch(2, data.transfersize);
 	int nLeftOver = (nQWordSize * 4 * 2) % tp2;
 	tempY = gs.image.y;
@@ -202,17 +202,17 @@ static __forceinline int RealTransfer(u32 psm, const void* pbyMem, u32 nQWordSiz
 
 	pbuf = AlignOnBlockBoundry<T>(data, fun, alignedPt, endY, pbuf);
 
-	if (pbuf == NULL) return FinishTransfer(data, nLeftOver);
+	if (pbuf == nullptr) return FinishTransfer(data, nLeftOver);
 
 	pbuf = TransferAligningToBlocks<T>(data, fun, alignedPt, pbuf);
 
-	if (pbuf == NULL) return FinishTransfer(data, nLeftOver);
+	if (pbuf == nullptr) return FinishTransfer(data, nLeftOver);
 
 	if (TransPitch(nSize, data.transfersize) / 4 > 0)
 	{
 		pbuf = TransmitHostLocalY<T>(psm, fun.wp, data.widthlimit, gs.imageEnd.y, pbuf);
 
-		if (pbuf == NULL) return FinishTransfer(data, nLeftOver);
+		if (pbuf == nullptr) return FinishTransfer(data, nLeftOver);
 
 		/* sometimes wrong sizes are sent (tekken tag) */
 		assert(gs.transferring == false || TransPitch(nSize, data.transfersize) / 4 <= 2);

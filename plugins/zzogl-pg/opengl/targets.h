@@ -121,16 +121,16 @@ class CDepthTarget : public CRenderTarget
 
 	public:
 		CDepthTarget();
-		virtual ~CDepthTarget();
+		~CDepthTarget() override;
 
-		virtual bool Create(const frameInfo& frame);
-		virtual void Destroy();
+		bool Create(const frameInfo& frame) override;
+		void Destroy() override;
 
-		virtual void Resolve();
-		virtual void Resolve(int startrange, int endrange); // resolves only in the allowed range
-		virtual void Update(int context, CRenderTarget* prndr);
+		void Resolve() override;
+		void Resolve(int startrange, int endrange) override; // resolves only in the allowed range
+		void Update(int context, CRenderTarget* prndr) override;
 
-		virtual bool IsDepth() { return true; }
+		bool IsDepth() override { return true; }
 
 		void SetDepthStencilSurface();
 
@@ -146,7 +146,7 @@ class CMemoryTarget
 	public:
 		struct TEXTURE
 		{
-			inline TEXTURE() : tex(0), memptr(NULL), ref(0) {}
+			inline TEXTURE() : tex(0), memptr(nullptr), ref(0) {}
 			inline ~TEXTURE() { glDeleteTextures(1, &tex); _aligned_free(memptr); }
 
 			u32 tex;
@@ -154,13 +154,13 @@ class CMemoryTarget
 			int ref;
 		};
 
-		inline CMemoryTarget() : ptex(NULL), starty(0), height(0), realy(0), realheight(0), usedstamp(0), psm(0), cpsm(0), channels(0), clearminy(0), clearmaxy(0), validatecount(0), clut(NULL), clutsize(0) {}
+		inline CMemoryTarget() : ptex(nullptr), starty(0), height(0), realy(0), realheight(0), usedstamp(0), psm(0), cpsm(0), channels(0), clearminy(0), clearmaxy(0), validatecount(0), clut(nullptr), clutsize(0) {}
 
 		inline CMemoryTarget(const CMemoryTarget& r)
 		{
 			ptex = r.ptex;
 
-			if (ptex != NULL) ptex->ref++;
+			if (ptex != nullptr) ptex->ref++;
 
 			starty = r.starty;
 			height = r.height;
@@ -184,15 +184,15 @@ class CMemoryTarget
 
 		inline void Destroy()
 		{
-			if (ptex != NULL && ptex->ref > 0)
+			if (ptex != nullptr && ptex->ref > 0)
 			{
 				if (--ptex->ref <= 0) delete ptex;
 			}
 
-			ptex = NULL;
+			ptex = nullptr;
 
             _aligned_free(clut);
-            clut = NULL;
+            clut = nullptr;
             clutsize = 0;
 		}
 
@@ -255,7 +255,7 @@ class CRenderTargetMngr
 		CRenderTarget* GetTarg(const frameInfo& frame, u32 Options, int maxposheight);
 		inline CRenderTarget* GetTarg(int fbp, int fbw)
 		{
-			MAPTARGETS::iterator it = mapTargets.find(GetFrameKey(fbp, fbw));
+			auto it = mapTargets.find(GetFrameKey(fbp, fbw));
 
 			/*			if (fbp == 0x3600 && fbw == 0x100 && it == mapTargets.end())
 						{
@@ -274,8 +274,8 @@ class CRenderTargetMngr
 		__forceinline void Resolve(int start, int end);
 		__forceinline void ResolveAll()
 		{
-			for (MAPTARGETS::iterator it = mapTargets.begin(); it != mapTargets.end(); ++it)
-				it->second->Resolve();
+			for (auto & mapTarget : mapTargets)
+				mapTarget.second->Resolve();
 		}
 
 		void DestroyAllTargs(int start, int end, int fbw);
@@ -287,7 +287,7 @@ class CRenderTargetMngr
 			assert(!(key & TARGET_VIRTUAL_KEY));
 
 			// promote to regular targ
-			CRenderTargetMngr::MAPTARGETS::iterator it = mapTargets.find(key | TARGET_VIRTUAL_KEY);
+			auto it = mapTargets.find(key | TARGET_VIRTUAL_KEY);
 			assert(it != mapTargets.end());
 
 			CRenderTarget* ptarg = it->second;
@@ -356,7 +356,7 @@ class CBitwiseTextureMngr
 		// since GetTex can delete textures to free up mem, it is dangerous if using that texture, so specify at least one other tex to save
 		__forceinline u32 GetTex(u32 bitvalue, u32 ptexDoNotDelete)
 		{
-			map<u32, u32>::iterator it = mapTextures.find(bitvalue);
+			auto it = mapTextures.find(bitvalue);
 
 			if (it != mapTextures.end()) return it->second;
 
@@ -383,7 +383,7 @@ class CRangeManager
 
 		struct RANGE
 		{
-			RANGE() {}
+			RANGE() = default;
 
 			inline RANGE(int start, int end) : start(start), end(end) {}
 

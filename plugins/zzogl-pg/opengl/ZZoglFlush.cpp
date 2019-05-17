@@ -19,8 +19,8 @@
 
 // Realization of Flush -- drawing function of GS
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 
 #include "GS.h"
 #include "Mem.h"
@@ -175,9 +175,9 @@ void ReloadEffects()
 {
 #ifdef ZEROGS_DEVBUILD
 
-	for (u32 i = 0; i < ArraySize(ppsTexture); ++i)
+	for (auto & i : ppsTexture)
 	{
-		SAFE_RELEASE_PROG(ppsTexture[i].prog);
+		SAFE_RELEASE_PROG(i.prog);
 	}
 
 	memset(ppsTexture, 0, sizeof(ppsTexture));
@@ -262,7 +262,7 @@ inline void FlushTransferRangesHelper(VB& curvb)
 		u32 prevcount = curvb.nCount;
 		curvb.nCount = 0;
 
-		FlushTransferRanges(curvb.curprim.tme ? &curvb.tex0 : NULL);
+		FlushTransferRanges(curvb.curprim.tme ? &curvb.tex0 : nullptr);
 
 		curvb.nCount += prevcount;
 	}
@@ -289,7 +289,7 @@ inline bool FushTexDataHelper(VB& curvb)
 // Null target mean that we do something really bad.
 inline bool FlushCheckForNULLTarget(VB& curvb, int context)
 {
-	if ((curvb.prndr == NULL) || (curvb.pdepth == NULL))
+	if ((curvb.prndr == nullptr) || (curvb.pdepth == nullptr))
 	{
 		ERROR_LOG_SPAMA("Current render target NULL (ctx: %d)", context);
 		curvb.nCount = 0;
@@ -354,7 +354,7 @@ inline void TargetLog(int& tbw, int& tbp0, int& tpsm, VB& curvb, bool miss)
 inline CRenderTarget* FlushReGetTarget(int& tbw, int& tbp0, int& tpsm, VB& curvb)
 {
 	// This was incorrect code
-	CRenderTarget* ptextarg = NULL;
+	CRenderTarget* ptextarg = nullptr;
 	
 	if (PSMT_ISZTEX(tpsm))
 	{
@@ -368,27 +368,27 @@ inline CRenderTarget* FlushReGetTarget(int& tbw, int& tbp0, int& tpsm, VB& curvb
 		// check for targets with half the width. Break Valkyrie Chronicles
 		ptextarg = s_RTs.GetTarg(tbp0, tbw / 2);
 
-		if (ptextarg == NULL)
+		if (ptextarg == nullptr)
 		{
 			tbp0 &= ~0x7ff;
 			ptextarg = s_RTs.GetTarg(tbp0, tbw / 2); // mgs3 hack
 
-			if (ptextarg == NULL)
+			if (ptextarg == nullptr)
 			{
 				// check the next level (mgs3)
 				tbp0 &= ~0xfff;
 				ptextarg = s_RTs.GetTarg(tbp0, tbw / 2); // mgs3 hack
 			}
 
-			if (ptextarg != NULL && ptextarg->start > tbp0*256)
+			if (ptextarg != nullptr && ptextarg->start > tbp0*256)
 			{
 				// target beyond range, so ignore
-				ptextarg = NULL;
+				ptextarg = nullptr;
 			}
 		}
 	}
 
-	if ((conf.settings().texture_targs) && (ptextarg == NULL))
+	if ((conf.settings().texture_targs) && (ptextarg == nullptr))
 	{
 		// check if any part of the texture intersects the current target
 		if (!PSMT_ISCLUT(tpsm) && (curvb.tex0.tbp0 >= curvb.frame.fbp) && ((curvb.tex0.tbp0) < curvb.prndr->end))
@@ -397,7 +397,7 @@ inline CRenderTarget* FlushReGetTarget(int& tbw, int& tbp0, int& tpsm, VB& curvb
 		}
 	}
 	
-	TargetLog(tbw, tbp0, tpsm, curvb, (ptextarg == NULL));
+	TargetLog(tbw, tbp0, tpsm, curvb, (ptextarg == nullptr));
 
 	return ptextarg;
 }
@@ -407,7 +407,7 @@ inline CRenderTarget* FlushGetTarget(VB& curvb)
 {
 	int tbw, tbp0, tpsm;
 
-	CRenderTarget* ptextarg = NULL;
+	CRenderTarget* ptextarg = nullptr;
 
 	if (!curvb.curprim.tme) return ptextarg; // Which would be NULL, currently.
 
@@ -428,9 +428,9 @@ inline CRenderTarget* FlushGetTarget(VB& curvb)
 
 	ptextarg = s_RTs.GetTarg(tbp0, tbw);
 
-	if (ptextarg == NULL) ptextarg = FlushReGetTarget(tbw, tbp0, tpsm, curvb);
+	if (ptextarg == nullptr) ptextarg = FlushReGetTarget(tbw, tbp0, tpsm, curvb);
 
-	if ((ptextarg != NULL) && !(ptextarg->status & CRenderTarget::TS_NeedUpdate))
+	if ((ptextarg != nullptr) && !(ptextarg->status & CRenderTarget::TS_NeedUpdate))
 	{
 		if (PSMT_BITMODE(tpsm) == 4)   // handle 8h cluts
 		{
@@ -447,7 +447,7 @@ inline CRenderTarget* FlushGetTarget(VB& curvb)
 				curvb.nCount += prevcount;
 			}
 
-			ptextarg = NULL;
+			ptextarg = nullptr;
 		}
 		else
 		{
@@ -456,7 +456,7 @@ inline CRenderTarget* FlushGetTarget(VB& curvb)
 				// need feedback
 				curvb.prndr->CreateFeedback();
 
-				if (s_bWriteDepth && (curvb.pdepth != NULL))
+				if (s_bWriteDepth && (curvb.pdepth != nullptr))
 					curvb.pdepth->SetRenderTarget(1);
 				else
 					ResetRenderTarget(1);
@@ -466,7 +466,7 @@ inline CRenderTarget* FlushGetTarget(VB& curvb)
 	else 
 	{
 		// If a texture needs updating, clear it.
-		ptextarg = NULL;
+		ptextarg = nullptr;
 	}
 
 	return ptextarg;
@@ -508,7 +508,7 @@ inline void FlushSetContextTarget(VB& curvb, int context)
 
 	curvb.prndr->status = 0;
 
-	if (curvb.pdepth != NULL)
+	if (curvb.pdepth != nullptr)
 	{
 #ifdef _DEBUG
 		// Reduce an assert to a warning.
@@ -791,7 +791,7 @@ inline FRAGMENTSHADER* FlushUseExistRenderTarget(VB& curvb, CRenderTarget* ptext
 	int shadertype = FlushGetShaderType(curvb, ptextarg, ptexclut);
 
 	FRAGMENTSHADER* pfragment = ZZshLoadShadeEffect(shadertype, 0, curvb.curprim.fge,
-								IsAlphaTestExpansion(curvb.tex0), exactcolor, curvb.clamp, context, NULL);
+								IsAlphaTestExpansion(curvb.tex0), exactcolor, curvb.clamp, context, nullptr);
 
 	FlushSetPageOffset(pfragment, shadertype, ptextarg);
 
@@ -831,9 +831,9 @@ inline FRAGMENTSHADER* FlushMadeNewTarget(VB& curvb, int exactcolor, int context
 	}
 
 	FRAGMENTSHADER* pfragment = ZZshLoadShadeEffect(0, GetTexFilter(curvb.tex1), curvb.curprim.fge,
-								IsAlphaTestExpansion(curvb.tex0), exactcolor, curvb.clamp, context, NULL);
+								IsAlphaTestExpansion(curvb.tex0), exactcolor, curvb.clamp, context, nullptr);
 
-	if (pfragment == NULL)
+	if (pfragment == nullptr)
 		ZZLog::Error_Log("Could not find memory target shader.");
 
 	return pfragment;
@@ -843,7 +843,7 @@ inline FRAGMENTSHADER* FlushMadeNewTarget(VB& curvb, int exactcolor, int context
 inline void FlushSetTexture(VB& curvb, FRAGMENTSHADER* pfragment, CRenderTarget* ptextarg, int context)
 {
 	SetTexVariables(context, pfragment);
-	SetTexInt(context, pfragment, ptextarg == NULL);
+	SetTexInt(context, pfragment, ptextarg == nullptr);
 
 	// have to enable the texture parameters(curtest.atst)
 	if( curvb.ptexClamp[0] != 0 ) 
@@ -874,18 +874,18 @@ inline void FlushBindProgram(FRAGMENTSHADER* pfragment, int context)
 inline FRAGMENTSHADER* FlushRendererStage(VB& curvb, u32& dwFilterOpts, CRenderTarget* ptextarg, int exactcolor, int context)
 {
 
-	FRAGMENTSHADER* pfragment = NULL;
+	FRAGMENTSHADER* pfragment = nullptr;
 
 	// set the correct pixel shaders
 
 	if (curvb.curprim.tme)
 	{
-		if (ptextarg != NULL)
+		if (ptextarg != nullptr)
 			pfragment = FlushUseExistRenderTarget(curvb, ptextarg, dwFilterOpts, exactcolor, context);
 		else
 			pfragment = FlushMadeNewTarget(curvb, exactcolor, context);
 
-		if (pfragment == NULL)
+		if (pfragment == nullptr)
 		{
 			ZZLog::Error_Log("Shader is not found.");
 //			return NULL;
@@ -1491,7 +1491,7 @@ __forceinline void RenderAlphaTest(const VB& curvb, FRAGMENTSHADER* pfragment )
 
 	if (curvb.test.zte) glEnable(GL_DEPTH_TEST);
 
-	GL_ALPHATEST(0);
+	GL_ALPHATEST(false);
 
 	GL_COLORMASK(s_dwColorWrite);
 
@@ -1537,7 +1537,7 @@ inline void ProcessStencil(const VB& curvb)
 
 	if (s_bWriteDepth) ResetRenderTarget(1);
 
-	GL_ALPHATEST(0);
+	GL_ALPHATEST(false);
 
 	SetShaderCaller("ProcessStencil");
 
@@ -1646,11 +1646,11 @@ void SetContextTarget(int context)
 	VB& curvb = vb[context];
 	GL_REPORT_ERRORD();
 
-	if (curvb.prndr == NULL)
+	if (curvb.prndr == nullptr)
 		curvb.prndr = s_RTs.GetTarg(curvb.frame, 0, get_maxheight(curvb.gsfb.fbp, curvb.gsfb.fbw, curvb.gsfb.psm));
 
 	// make sure targets are valid
-	if (curvb.pdepth == NULL)
+	if (curvb.pdepth == nullptr)
 	{
 		frameInfo f;
 		f.fbp = curvb.zbuf.zbp;
@@ -1966,7 +1966,7 @@ void SetTexVariablesInt(int context, int bilinear, const tex0Info& tex0, bool Ch
 	CMemoryTarget* pmemtarg = g_MemTargs.GetMemoryTarget(tex0, 1);
 
 	assert( pmemtarg != NULL && pfragment != NULL && pmemtarg->ptex != NULL);	
-	if (pmemtarg == NULL || pfragment == NULL || pmemtarg->ptex == NULL)
+	if (pmemtarg == nullptr || pfragment == nullptr || pmemtarg->ptex == nullptr)
 	{
 		ZZLog::Error_Log("SetTexVariablesInt error.");
 		return;
@@ -1976,8 +1976,8 @@ void SetTexVariablesInt(int context, int bilinear, const tex0Info& tex0, bool Ch
 
 	SetShaderCaller("SetTexVariablesInt");
 
-	float fw = (float)tex0.tw;
-	float fh = (float)tex0.th;
+	auto fw = (float)tex0.tw;
+	auto fh = (float)tex0.th;
 
 	bool bUseBilinear = bilinear > 1 || (bilinear && conf.bilinear);
 
@@ -1999,7 +1999,7 @@ void SetTexVariablesInt(int context, int bilinear, const tex0Info& tex0, bool Ch
 
 	const BLOCK& b = m_Blocks[tex0.psm];
 
-	float fbw = (float)tex0.tbw;
+	auto fbw = (float)tex0.tbw;
 
 	float4 vTexDims;
 

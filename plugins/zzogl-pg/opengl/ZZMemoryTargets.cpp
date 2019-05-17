@@ -17,8 +17,8 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 
 #include "GS.h"
 #include "Mem.h"
@@ -107,7 +107,7 @@ extern int g_MaxTexWidth, g_MaxTexHeight; // Maximum height & width of supported
 inline list<CMemoryTarget>::iterator CMemoryTargetMngr::DestroyTargetIter(list<CMemoryTarget>::iterator& it)
 {
 	// find the target and destroy
-	list<CMemoryTarget>::iterator itprev = it;
+	auto itprev = it;
 	++it;
 	listClearedTargets.splice(listClearedTargets.end(), listTargets, itprev);
 
@@ -178,7 +178,7 @@ void CMemoryTargetMngr::GetMemAddress(int& start, int& end,  const tex0Info& tex
 
 CMemoryTarget* CMemoryTargetMngr::SearchExistTarget(int start, int end, int clutsize, const tex0Info& tex0, int forcevalidate)
 {
-	for (list<CMemoryTarget>::iterator it = listTargets.begin(); it != listTargets.end();)
+	for (auto it = listTargets.begin(); it != listTargets.end();)
 	{
 
 		if (it->starty <= start && it->starty + it->height >= end)
@@ -240,16 +240,16 @@ CMemoryTarget* CMemoryTargetMngr::SearchExistTarget(int start, int end, int clut
 		++it;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CMemoryTarget* CMemoryTargetMngr::ClearedTargetsSearch(u32 fmt, int widthmult, int channels, int height)
 {
-	CMemoryTarget* targ = NULL;
+	CMemoryTarget* targ = nullptr;
 
 	if (listClearedTargets.size() > 0)
 	{
-		list<CMemoryTarget>::iterator itbest = listClearedTargets.begin();
+		auto itbest = listClearedTargets.begin();
 
 		while (itbest != listClearedTargets.end())
 		{
@@ -271,13 +271,13 @@ CMemoryTarget* CMemoryTargetMngr::ClearedTargetsSearch(u32 fmt, int widthmult, i
 		else
 		{
 			// create a new
-			listTargets.push_back(CMemoryTarget());
+			listTargets.emplace_back();
 			targ = &listTargets.back();
 		}
 	}
 	else
 	{
-		listTargets.push_back(CMemoryTarget());
+		listTargets.emplace_back();
 		targ = &listTargets.back();
 	}
 
@@ -294,7 +294,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 
 	CMemoryTarget* it = SearchExistTarget(start, end, clutsize, tex0, forcevalidate);
 
-	if (it != NULL) return it;
+	if (it != nullptr) return it;
 
 	// couldn't find so create
 	CMemoryTarget* targ;
@@ -325,7 +325,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 
 	targ = ClearedTargetsSearch(fmt, widthmult, channels, end - start);
 
-	if (targ->ptex != NULL)
+	if (targ->ptex != nullptr)
 	{
 		assert(end - start <= targ->realheight && targ->fmt == fmt && targ->widthmult == widthmult);
 
@@ -358,7 +358,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 #endif
 
 	// fill with data
-	if (targ->ptex->memptr == NULL)
+	if (targ->ptex->memptr == nullptr)
 	{
 		targ->ptex->memptr = (u8*)_aligned_malloc(MemorySize(targ->realheight), 16);
 		assert(targ->ptex->ref > 0);
@@ -366,7 +366,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 
 	memcpy(targ->ptex->memptr, MemoryAddress(targ->realy), MemorySize(targ->height));
 
-	__aligned16 u8* ptexdata = NULL;
+	__aligned16 u8* ptexdata = nullptr;
 	bool has_data = false;
 
 	if (PSMT_ISCLUT(tex0.psm))
@@ -378,7 +378,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 
         // Allocate a local clut array
         targ->clutsize = clutsize;
-        if(targ->clut == NULL)
+        if(targ->clut == nullptr)
             targ->clut = (u8*)_aligned_malloc(clutsize, 16);
         else {
             // In case it could occured
@@ -392,7 +392,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 		ptexdata = (u8*)_aligned_malloc(CLUT_PIXEL_SIZE(tex0.cpsm) * targ->texH * targ->texW, 16);
 		has_data = true;
 
-		u8* psrc = (u8*)(MemoryAddress(targ->realy));
+		auto* psrc = (u8*)(MemoryAddress(targ->realy));
 
         // Fill a local clut then build the real texture
 		if (PSMT_IS32BIT(tex0.cpsm))
@@ -414,8 +414,8 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
         has_data = true;
 
         // needs to be 8 bit, use xmm for unpacking
-        u16* dst = (u16*)ptexdata;
-        u16* src = (u16*)(MemoryAddress(targ->realy));
+        auto* dst = (u16*)ptexdata;
+        auto* src = (u16*)(MemoryAddress(targ->realy));
 
 #ifdef ZEROGS_SSE2
         assert(((u32)(uptr)dst) % 16 == 0);
@@ -512,7 +512,7 @@ CMemoryTarget* CMemoryTargetMngr::GetMemoryTarget(const tex0Info& tex0, int forc
 				ZZLog::Error_Log("Failed to create %dx%x texture.", targ->texW, targ->texH);
 				channels = 1;
 				if (has_data) _aligned_free(ptexdata);
-				return NULL;
+				return nullptr;
 			}
 
 			DestroyOldest();
@@ -535,7 +535,7 @@ void CMemoryTargetMngr::ClearRange(int nbStartY, int nbEndY)
 	int starty = nbStartY / (4 * GPU_TEXWIDTH);
 	int endy = (nbEndY + 4 * GPU_TEXWIDTH - 1) / (4 * GPU_TEXWIDTH);
 
-	for (list<CMemoryTarget>::iterator it = listTargets.begin(); it != listTargets.end();)
+	for (auto it = listTargets.begin(); it != listTargets.end();)
 	{
 
 		if (it->starty < endy && (it->starty + it->height) > starty)
@@ -567,7 +567,7 @@ void CMemoryTargetMngr::DestroyCleared()
 {
 	FUNCLOG
 
-	for (list<CMemoryTarget>::iterator it = listClearedTargets.begin(); it != listClearedTargets.end();)
+	for (auto it = listClearedTargets.begin(); it != listClearedTargets.end();)
 	{
 		if (it->usedstamp < curstamp - (FORCE_TEXDESTROY_THRESH -1))
 		{
@@ -581,7 +581,7 @@ void CMemoryTargetMngr::DestroyCleared()
 	if ((curstamp % FORCE_TEXDESTROY_THRESH) == 0)
 	{
 		// purge old targets every FORCE_TEXDESTROY_THRESH frames
-		for (list<CMemoryTarget>::iterator it = listTargets.begin(); it != listTargets.end();)
+		for (auto it = listTargets.begin(); it != listTargets.end();)
 		{
 			if (it->usedstamp < curstamp - FORCE_TEXDESTROY_THRESH)
 			{

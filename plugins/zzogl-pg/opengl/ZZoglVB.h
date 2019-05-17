@@ -88,7 +88,7 @@ class VB
 		{
 			assert(pBufferData != NULL);
 			nNumVertices *= 2;
-			VertexGPU* ptemp = (VertexGPU*)_aligned_malloc(sizeof(VertexGPU) * nNumVertices, 256);
+			auto* ptemp = (VertexGPU*)_aligned_malloc(sizeof(VertexGPU) * nNumVertices, 256);
 			memcpy(ptemp, pBufferData, sizeof(VertexGPU) * nCount);
 			assert(nCount <= nNumVertices);
 			_aligned_free(pBufferData);
@@ -97,7 +97,7 @@ class VB
 
 		void Init(int nVerts)
 		{
-			if (pBufferData == NULL && nVerts > 0)
+			if (pBufferData == nullptr && nVerts > 0)
 			{
 				pBufferData = (VertexGPU*)_aligned_malloc(sizeof(VertexGPU) * nVerts, 256);
 				nNumVertices = nVerts;

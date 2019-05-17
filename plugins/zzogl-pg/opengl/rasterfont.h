@@ -28,7 +28,7 @@ class RasterFont
 
 	public:
 		RasterFont();
-		~RasterFont(void);
+		~RasterFont();
 		static int debug;
 
 		// some useful constants

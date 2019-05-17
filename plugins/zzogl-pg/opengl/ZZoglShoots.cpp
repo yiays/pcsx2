@@ -26,7 +26,7 @@
 #	include <aviUtil.h>
 #	include "resource.h"
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "targets.h"
 #include "Mem.h"
@@ -128,8 +128,8 @@ bool SaveBMP(const char* filename, int width, int height, void* pdata)
 // save image as JPEG
 bool SaveJPEG(const char* filename, int image_width, int image_height, const void* pdata, int quality)
 {
-	u8* image_buffer = new u8[image_width * image_height * 3];
-	u8* psrc = (u8*)pdata;
+	auto* image_buffer = new u8[image_width * image_height * 3];
+	auto* psrc = (u8*)pdata;
 
 	// input data is rgba format, so convert to rgb
 	u8* p = image_buffer;
@@ -193,7 +193,7 @@ bool SaveJPEG(const char* filename, int image_width, int image_height, const voi
 	* VERY IMPORTANT: use "b" option to fopen() if you are on a machine that
 	* requires it in order to write binary files.
 	*/
-	if ((outfile = fopen(filename, "wb")) == NULL)
+	if ((outfile = fopen(filename, "wb")) == nullptr)
 	{
 		fprintf(stderr, "can't open %s\n", filename);
 		exit(1);
@@ -305,7 +305,7 @@ bool SaveTGA(const char* filename, int width, int height, void* pdata)
 	TGA_HEADER hdr;
 	FILE* f = fopen(filename, "wb");
 
-	if (f == NULL) return false;
+	if (f == nullptr) return false;
 
 	assert(sizeof(TGA_HEADER) == 18 && sizeof(hdr) == 18);
 
@@ -397,7 +397,7 @@ SaveTex(tex0Info* ptex, int usevid)
 	u32* dst = &data[0];
 	u8* psrc = g_pbyGSMemory;
 
-	CMemoryTarget* pmemtarg = NULL;
+	CMemoryTarget* pmemtarg = nullptr;
 
 	if (usevid)
 	{
@@ -639,7 +639,7 @@ char* NamedSaveTex(tex0Info* ptex, int usevid)
 {
 	SaveTex(ptex, usevid);
 
-	char* Name = (char*)malloc(TGA_FILE_NAME_MAX_LENGTH);
+	auto* Name = (char*)malloc(TGA_FILE_NAME_MAX_LENGTH);
 	snprintf(Name, TGA_FILE_NAME_MAX_LENGTH, "Tex.%d.tga", TexNumber);
 
 	return Name;

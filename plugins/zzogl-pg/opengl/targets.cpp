@@ -17,8 +17,8 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 
 #include "GS.h"
 #include "Mem.h"
@@ -49,7 +49,7 @@ CBitwiseTextureMngr s_BitwiseTextures;
 CMemoryTargetMngr g_MemTargs;
 
 //extern u32 s_ptexCurSet[2];
-bool g_bSaveZUpdate = 0;
+bool g_bSaveZUpdate = false;
 
 int VALIDATE_THRESH = 8;
 u32 TEXDESTROY_THRESH = 16;
@@ -81,9 +81,9 @@ void CBitwiseTextureMngr::Destroy()
 {
 	FUNCLOG
 
-	for (map<u32, u32>::iterator it = mapTextures.begin(); it != mapTextures.end(); ++it)
+	for (auto & mapTexture : mapTextures)
 	{
-			glDeleteTextures(1, &it->second);
+			glDeleteTextures(1, &mapTexture.second);
 	}
 
 	mapTextures.clear();
@@ -96,7 +96,7 @@ u32 CBitwiseTextureMngr::GetTexInt(u32 bitvalue, u32 ptexDoNotDelete)
 	if (mapTextures.size() > 32)
 	{
 		// randomly delete 8
-		for (map<u32, u32>::iterator it = mapTextures.begin(); it != mapTextures.end();)
+		for (auto it = mapTextures.begin(); it != mapTextures.end();)
 		{
 			if (!(rand()&3) && it->second != ptexDoNotDelete)
 			{
@@ -183,7 +183,7 @@ void CRangeManager::Insert(int start, int end)
 	{
 
 		case 0:
-			ranges.push_back(RANGE(start, end));
+			ranges.emplace_back(start, end);
 			return;
 
 		case 1:
@@ -193,7 +193,7 @@ void CRangeManager::Insert(int start, int end)
 			}
 			else if (start > ranges.front().end)
 			{
-				ranges.push_back(RANGE(start, end));
+				ranges.emplace_back(start, end);
 			}
 			else
 			{
@@ -232,7 +232,7 @@ void CRangeManager::Insert(int start, int end)
 	{
 		// non intersecting
 		assert(start > ranges.back().end);
-		ranges.push_back(RANGE(start, end));
+		ranges.emplace_back(start, end);
 		return;
 	}
 
@@ -344,13 +344,13 @@ void ResolveInRange(int start, int end)
 		/*		s_DepthRTs.GetTargs(start, end, listTargs_1);
 				s_RTs.GetTargs(start, end, listTargs_1);*/
 
-		for (list<CRenderTarget*>::iterator it = listTargs.begin(); it != listTargs.end(); ++it)
+		for (auto & listTarg : listTargs)
 		{
 			// only resolve if not completely covered
-			if ((*it)->created == 123)
-				(*it)->Resolve();
+			if (listTarg->created == 123)
+				listTarg->Resolve();
 			else
-				ZZLog::Debug_Log("Resolving non-existing object! Destroy code %d.", (*it)->created);
+				ZZLog::Debug_Log("Resolving non-existing object! Destroy code %d.", listTarg->created);
 		}
 	}
 }
@@ -447,25 +447,23 @@ void FlushTransferRanges(const tex0Info* ptex)
 
 	int texstart = -1, texend = -1;
 
-	if (ptex != NULL) // If ptex is NULL, texstart & texend will be -1.
+	if (ptex != nullptr) // If ptex is NULL, texstart & texend will be -1.
 	{
 		GetRectMemAddressZero(texstart, texend, ptex->psm, ptex->tw, ptex->th, ptex->tbp0, ptex->tbw);
 	}
 
-	for (vector<CRangeManager::RANGE>::iterator itrange = s_RangeMngr.ranges.begin(); itrange != s_RangeMngr.ranges.end(); ++itrange)
+	for (auto & range : s_RangeMngr.ranges)
 	{
 
-		int start = itrange->start;
-		int end = itrange->end;
+		int start = range.start;
+		int end = range.end;
 
 		listTransmissionUpdateTargs.clear();
 		listTransmissionUpdateTargs = CreateTargetsList(start, end);
 
-		for (list<CRenderTarget*>::iterator it = listTransmissionUpdateTargs.begin(); it != listTransmissionUpdateTargs.end(); ++it)
+		for (auto ptarg : listTransmissionUpdateTargs)
 		{
-			CRenderTarget* ptarg = *it;
-
-			if ((ptarg->status & CRenderTarget::TS_Virtual)) continue;
+				if ((ptarg->status & CRenderTarget::TS_Virtual)) continue;
 			FlushTransferRange(ptarg, start, end, texstart, texend);
 		}
 

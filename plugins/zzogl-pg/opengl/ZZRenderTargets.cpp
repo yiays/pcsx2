@@ -17,8 +17,8 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 
 #include "GS.h"
 #include "Mem.h"
@@ -73,7 +73,7 @@ inline bool CRenderTarget::InitialiseDefaultTexture(u32 *ptr_p, int fbw, int fbh
 	glBindTexture(GL_TEXTURE_RECTANGLE_NV, *ptr_p);
 
 	// initialize to default
-	TextureRect(GL_RGBA, fbw, fbh, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	TextureRect(GL_RGBA, fbw, fbh, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
 	setRectWrap(GL_CLAMP);
 	setRectFilters(GL_LINEAR);
@@ -107,7 +107,7 @@ float4 CRenderTarget::DefaultBitBltTex()
 ////////////////////
 // Render Targets //
 ////////////////////
-CRenderTarget::CRenderTarget() : psys(NULL), ptex(0), ptexFeedback(0)
+CRenderTarget::CRenderTarget() : psys(nullptr), ptex(0), ptexFeedback(0)
 {
 	FUNCLOG
 	nUpdateTarg = 0;
@@ -167,7 +167,7 @@ void CRenderTarget::Destroy()
 	FUNCLOG
 	created = 1;
 	_aligned_free(psys);
-	psys = NULL;
+	psys = nullptr;
 	SAFE_RELEASE_TEX(ptex);
 	SAFE_RELEASE_TEX(ptexFeedback);
 }
@@ -258,7 +258,7 @@ void CRenderTarget::Resolve()
 		if (g_bSaveResolved)
 		{
 			SaveTexture("resolved.tga", GL_TEXTURE_RECTANGLE_NV, ptex, RW(fbw), RH(fbh));
-			g_bSaveResolved = 0;
+			g_bSaveResolved = false;
 		}
 
 #endif
@@ -283,7 +283,7 @@ void CRenderTarget::Resolve(int startrange, int endrange)
 		if (g_bSaveResolved)
 		{
 			SaveTexture("resolved.tga", GL_TEXTURE_RECTANGLE_NV, ptex, RW(fbw), RH(fbh));
-			g_bSaveResolved = 0;
+			g_bSaveResolved = false;
 		}
 #endif
 		if (conf.settings().no_target_resolve)
@@ -331,7 +331,7 @@ void CRenderTarget::Resolve(int startrange, int endrange)
 		glGetTexImage(GL_TEXTURE_RECTANGLE_NV, 0, GL_RGBA, GL_UNSIGNED_BYTE, psys);
 		GL_REPORT_ERRORD();
 
-		u8* pbits = (u8*)psys;
+		auto* pbits = (u8*)psys;
 
 		if (fbp != resolvefbp) pbits += ((resolvefbp - fbp) * 256 / scanlinewidth) * blockheight * Pitch(fbw);
 
@@ -467,7 +467,7 @@ void CRenderTarget::Update(int context, CRenderTarget* pdepth)
 	glEnable(GL_SCISSOR_TEST);
 
 	if (conf.wireframe()) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	if (conf.mrtdepth && pdepth != NULL && IsWriteDepth()) pdepth->SetRenderTarget(1);
+	if (conf.mrtdepth && pdepth != nullptr && IsWriteDepth()) pdepth->SetRenderTarget(1);
 
 	status = TS_Resolved;
 
@@ -778,16 +778,16 @@ void CRenderTargetMngr::Destroy()
 {
 	FUNCLOG
 
-	for (MAPTARGETS::iterator it = mapTargets.begin(); it != mapTargets.end(); ++it)
+	for (auto & mapTarget : mapTargets)
 	{
-		delete it->second;
+		delete mapTarget.second;
 	}
 
 	mapTargets.clear();
 
-	for (MAPTARGETS::iterator it = mapDummyTargs.begin(); it != mapDummyTargs.end(); ++it)
+	for (auto & mapDummyTarg : mapDummyTargs)
 	{
-		delete it->second;
+		delete mapDummyTarg.second;
 	}
 
 	mapDummyTargs.clear();
@@ -796,10 +796,10 @@ void CRenderTargetMngr::Destroy()
 // This block was repeated several times, so I inlined it.
 void CRenderTargetMngr::DestroyAllTargetsHelper(void* ptr)
 {
-	for (int i = 0; i < 2; ++i)
+	for (auto & i : vb)
 	{
-		if (ptr == vb[i].prndr) { vb[i].prndr = NULL; vb[i].bNeedFrameCheck = 1; }
-		if (ptr == vb[i].pdepth) { vb[i].pdepth = NULL; vb[i].bNeedZCheck = 1; }
+		if (ptr == i.prndr) { i.prndr = nullptr; i.bNeedFrameCheck = 1; }
+		if (ptr == i.pdepth) { i.pdepth = nullptr; i.bNeedZCheck = 1; }
 	}
 }
 
@@ -807,7 +807,7 @@ void CRenderTargetMngr::DestroyAllTargs(int start, int end, int fbw)
 {
 	FUNCLOG
 
-	for (MAPTARGETS::iterator it = mapTargets.begin(); it != mapTargets.end();)
+	for (auto it = mapTargets.begin(); it != mapTargets.end();)
 	{
 		if (it->second->start < end && start < it->second->end)
 		{
@@ -880,7 +880,7 @@ void CRenderTargetMngr::DestroyIntersecting(CRenderTarget* prndr)
 	int start, end;
 	GetRectMemAddressZero(start, end, prndr->psm, prndr->fbw, prndr->fbh, prndr->fbp, prndr->fbw);
 
-	for (MAPTARGETS::iterator it = mapTargets.begin(); it != mapTargets.end();)
+	for (auto it = mapTargets.begin(); it != mapTargets.end();)
 	{
 		if ((it->second != prndr) && (it->second->start < end) && (start < it->second->end))
 		{
@@ -931,7 +931,7 @@ bool CRenderTargetMngr::isFound(const frameInfo& frame, MAPTARGETS::iterator& it
 
 			if ((conf.settings().partial_depth) && !bfound)
 			{
-				MAPTARGETS::iterator itnew = mapTargets.find(key + 1);
+				auto itnew = mapTargets.find(key + 1);
 
 				if (itnew != mapTargets.end() && itnew->second->fbh == frame.fbh)
 				{
@@ -979,14 +979,14 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 	if (frame.fbw <= 0 || frame.fbh <= 0) 
 	{
 		//ZZLog::Dev_Log("frame fbw == %d; fbh == %d", frame.fbw, frame.fbh);
-		return NULL;
+		return nullptr;
 	}
 
 	GL_REPORT_ERRORD();
 
 	u32 key = GetFrameKey(frame);
 
-	MAPTARGETS::iterator it = mapTargets.find(key);
+	auto it = mapTargets.find(key);
 	
 	if (isFound(frame, it, opts, key, maxposheight))
 	{
@@ -1051,25 +1051,25 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 		// only update if target isn't mirrored
 		bool bCheckHalfCovering = (conf.settings().full_16_bit_res) && PSMT_ISHALF(it->second->psm) && it->second->fbh + 32 < frame.fbh;
 
-		for (MAPTARGETS::iterator itnew = mapTargets.begin(); itnew != mapTargets.end(); ++itnew)
+		for (auto & mapTarget : mapTargets)
 		{
-			if (itnew->second != it->second && itnew->second->ptex != it->second->ptex && itnew->second->ptexFeedback != it->second->ptex &&
-					itnew->second->lastused > it->second->lastused && !(itnew->second->status & CRenderTarget::TS_NeedUpdate))
+			if (mapTarget.second != it->second && mapTarget.second->ptex != it->second->ptex && mapTarget.second->ptexFeedback != it->second->ptex &&
+					mapTarget.second->lastused > it->second->lastused && !(mapTarget.second->status & CRenderTarget::TS_NeedUpdate))
 			{
 
 				// if new target totally encompasses the current one
-				if (itnew->second->start <= it->second->start && itnew->second->end >= it->second->end)
+				if (mapTarget.second->start <= it->second->start && mapTarget.second->end >= it->second->end)
 				{
 					it->second->status |= CRenderTarget::TS_NeedUpdate;
-					it->second->nUpdateTarg = itnew->first;
+					it->second->nUpdateTarg = mapTarget.first;
 					break;
 				}
 
 				// if 16bit, then check for half encompassing targets
-				if (bCheckHalfCovering && itnew->second->start > it->second->start && itnew->second->start < it->second->end && itnew->second->end <= it->second->end + 0x2000)
+				if (bCheckHalfCovering && mapTarget.second->start > it->second->start && mapTarget.second->start < it->second->end && mapTarget.second->end <= it->second->end + 0x2000)
 				{
 					it->second->status |= CRenderTarget::TS_NeedUpdate;
-					it->second->nUpdateTarg = itnew->first;
+					it->second->nUpdateTarg = mapTarget.first;
 					break;
 				}
 			}
@@ -1084,7 +1084,7 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 	// the data like that.
 
 	// first search for the target
-	CRenderTarget* ptarg = NULL;
+	CRenderTarget* ptarg = nullptr;
 
 	// have to change, so recreate (find all intersecting targets and Resolve)
 	u32 besttarg = 0;
@@ -1094,20 +1094,20 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 
 		int start, end;
 		GetRectMemAddressZero(start, end, frame.psm, frame.fbw, frame.fbh, frame.fbp, frame.fbw);
-		CRenderTarget* pbesttarg = NULL;
+		CRenderTarget* pbesttarg = nullptr;
 
 		if (besttarg == 0)
 		{
 			// if there is only one intersecting target and it encompasses the current one, update the new render target with
 			// its data instead of resolving then updating (ffx2). Do not change the original target.
-			for (MAPTARGETS::iterator it = mapTargets.begin(); it != mapTargets.end(); ++it)
+			for (auto & mapTarget : mapTargets)
 			{
-				if (it->second->start < end && start < it->second->end)
+				if (mapTarget.second->start < end && start < mapTarget.second->end)
 				{
 					if ((conf.settings().fast_update) ||
-							((frame.fbw == it->second->fbw) &&
+							((frame.fbw == mapTarget.second->fbw) &&
 							 // check depth targets only if partialdepth option
-							 ((it->second->fbp != frame.fbp) || ((conf.settings().partial_depth) && (opts & CRenderTargetMngr::TO_DepthBuffer)))))
+							 ((mapTarget.second->fbp != frame.fbp) || ((conf.settings().partial_depth) && (opts & CRenderTargetMngr::TO_DepthBuffer)))))
 					{
 						if (besttarg != 0)
 						{
@@ -1115,10 +1115,10 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 							break;
 						}
 
-						if (start >= it->second->start && end <= it->second->end)
+						if (start >= mapTarget.second->start && end <= mapTarget.second->end)
 						{
-							besttarg = it->first;
-							pbesttarg = it->second;
+							besttarg = mapTarget.first;
+							pbesttarg = mapTarget.second;
 						}
 					}
 				}
@@ -1138,7 +1138,7 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 			// if none found, resolve all
 			DestroyAllTargs(start, end, frame.fbw);
 		}
-		else if (key == besttarg && pbesttarg != NULL)
+		else if (key == besttarg && pbesttarg != nullptr)
 		{
 			// add one and store in a different location until best targ is processed
 			mapTargets.erase(besttarg);
@@ -1163,7 +1163,7 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 		}
 	}
 
-	if (ptarg == NULL)
+	if (ptarg == nullptr)
 	{
 		// not found yet, so create
 
@@ -1201,7 +1201,7 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 			PrintTargets();
 			// create anew
 			ptarg = (opts & TO_DepthBuffer) ? new CDepthTarget : new CRenderTarget;
-			CRenderTargetMngr* pmngrs[2] = { &s_DepthRTs, this == &s_RTs ? &s_RTs : NULL };
+			CRenderTargetMngr* pmngrs[2] = { &s_DepthRTs, this == &s_RTs ? &s_RTs : nullptr };
 			int cur = 0;
 
 			while (!ptarg->Create(frame))
@@ -1226,21 +1226,21 @@ CRenderTarget* CRenderTargetMngr::GetTarg(const frameInfo& frame, u32 opts, int 
 						continue;
 					}
 
-				if (pmngrs[cur] == NULL)
+				if (pmngrs[cur] == nullptr)
 				{
 					cur = !cur;
 
-					if (pmngrs[cur] == NULL)
+					if (pmngrs[cur] == nullptr)
 					{
 						ZZLog::Warn_Log("Out of memory!");
 						delete ptarg;
-						return NULL;
+						return nullptr;
 					}
 				}
 
 				if (pmngrs[cur]->mapTargets.size() == 0)
 				{
-					pmngrs[cur] = NULL;
+					pmngrs[cur] = nullptr;
 					cur = !cur;
 					continue;
 				}
@@ -1290,9 +1290,9 @@ CRenderTargetMngr::MAPTARGETS::iterator CRenderTargetMngr::GetOldestTarg(MAPTARG
 	}
 
 	// release some resources
-	MAPTARGETS::iterator itmaxtarg = m.begin();
+	auto itmaxtarg = m.begin();
 
-	for (MAPTARGETS::iterator it = ++m.begin(); it != m.end(); ++it)
+	for (auto it = ++m.begin(); it != m.end(); ++it)
 	{
 		if (itmaxtarg->second->lastused < it->second->lastused) itmaxtarg = it;
 	}
@@ -1304,9 +1304,9 @@ void CRenderTargetMngr::GetTargs(int start, int end, list<CRenderTarget*>& listT
 {
 	FUNCLOG
 
-	for (MAPTARGETS::const_iterator it = mapTargets.begin(); it != mapTargets.end(); ++it)
+	for (auto mapTarget : mapTargets)
 	{
-		if ((it->second->start < end) && (start < it->second->end)) listTargets.push_back(it->second);
+		if ((mapTarget.second->start < end) && (start < mapTarget.second->end)) listTargets.push_back(mapTarget.second);
 	}
 }
 

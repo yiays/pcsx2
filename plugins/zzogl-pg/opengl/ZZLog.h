@@ -165,7 +165,7 @@ inline const char *error_name(int err)
 
 struct MESSAGE
 {
-	MESSAGE() {}
+	MESSAGE() = default;
 
 	MESSAGE(const char* p, u32 dw) { strcpy(str, p); dwTimeStamp = dw; }
 

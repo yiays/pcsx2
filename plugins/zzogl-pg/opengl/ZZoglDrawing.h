@@ -52,14 +52,14 @@ class Kick
         bool ValidPrevPrim;
 	public:
 		Kick() : ValidPrevPrim(false) { }
-		~Kick() { }
+		~Kick() = default;
 		
 		void KickVertex(bool adc);
 
 		void DrawPrim(u32 i);
 
         inline void DirtyValidPrevPrim() {
-            ValidPrevPrim = 0;
+            ValidPrevPrim = false;
         }
 };
 extern Kick* ZZKick;

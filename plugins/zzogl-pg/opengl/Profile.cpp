@@ -34,7 +34,7 @@ using namespace std;
 #if !defined(ZEROGS_DEVBUILD)
 #define g_bWriteProfile 0
 #else
-bool g_bWriteProfile = 0;
+bool g_bWriteProfile = false;
 #endif
 
 u64 luPerfFreq;
@@ -56,7 +56,7 @@ struct DVPROFSTRUCT
 
 	~DVPROFSTRUCT()
 	{
-		list<DVPROFSTRUCT*>::iterator it = listpChild.begin();
+		auto it = listpChild.begin();
 
 		while (it != listpChild.end())
 		{
@@ -92,7 +92,7 @@ void DVProfRegister(char* pname)
 {
 	if (!g_bWriteProfile) return;
 
-	list<DVPROFSTRUCT*>::iterator it = g_listAllProfilers.begin();
+	auto it = g_listAllProfilers.begin();
 
 //	while(it != g_listAllProfilers.end() ) {
 //
@@ -109,7 +109,7 @@ void DVProfRegister(char* pname)
 //	}
 
 	// else add in a new profiler to the appropriate parent profiler
-	DVPROFSTRUCT* pprof = NULL;
+	DVPROFSTRUCT* pprof = nullptr;
 
 	if (g_listCurTracking.size() > 0)
 	{
@@ -119,14 +119,14 @@ void DVProfRegister(char* pname)
 	}
 	else
 	{
-		g_listProfilers.push_back(DVPROFSTRUCT());
+		g_listProfilers.emplace_back();
 		pprof = &g_listProfilers.back();
 	}
 
 	strncpy(pprof->pname, pname, 256);
 
 	// setup the profiler for tracking
-	pprof->listTimes.push_back(DVPROFSTRUCT::DATA(GET_PROFILE_TIME()));
+	pprof->listTimes.emplace_back(GET_PROFILE_TIME());
 
 	DVPROFTRACK dvtrack;
 	dvtrack.pdwTime = &pprof->listTimes.back();
@@ -170,7 +170,7 @@ u64 DVProfWriteStruct(FILE* f, DVPROFSTRUCT* p, int ident)
 {
 	fprintf(f, "%*s%s - ", ident, "", p->pname);
 
-	list<DVPROFSTRUCT::DATA>::iterator ittime = p->listTimes.begin();
+	auto ittime = p->listTimes.begin();
 
 	u64 utime = 0;
 
@@ -190,7 +190,7 @@ u64 DVProfWriteStruct(FILE* f, DVPROFSTRUCT* p, int ident)
 
 	fprintf(f, "\n");
 
-	list<DVPROFSTRUCT*>::iterator itprof = p->listpChild.begin();
+	auto itprof = p->listpChild.begin();
 
 	u32 uex = utime;
 
@@ -212,7 +212,7 @@ void DVProfWrite(const char* pfilename, u32 frames)
 	FILE* f = fopen(pfilename, "wb");
 
 	mapAggregateTimes.clear();
-	list<DVPROFSTRUCT>::iterator it = g_listProfilers.begin();
+	auto it = g_listProfilers.begin();
 
 	while (it != g_listProfilers.end())
 	{

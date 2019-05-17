@@ -96,7 +96,7 @@ static inline std::string format(const char* fmt, ...)
 
 	int result = -1, length = 256;
 
-	char* buffer = NULL;
+	char* buffer = nullptr;
 
 	while(result == -1)
 	{

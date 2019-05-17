@@ -56,7 +56,7 @@ static __forceinline const T *TransmitHostLocalY_(_writePixel_0 wp, s32 widthlim
 		{
 
 			/* write as many pixel at one time as possible */
-			if (nSize < widthlimit) return NULL;
+			if (nSize < widthlimit) return nullptr;
 
 			wp(pstart, tempX % 2048, tempY % 2048, buf[0], gs.dstbuf.bw);
 
@@ -84,7 +84,7 @@ static __forceinline const T *TransmitHostLocalY_(_writePixel_0 wp, s32 widthlim
 		else
 		{
 			assert(gs.transferring == false || nSize*sizeof(T) / 4 == 0);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -113,7 +113,7 @@ static __forceinline const T *TransmitHostLocalY_24(_writePixel_0 wp, s32 widthl
 			else
 			{
 				assert(gs.transferring == false || nSize == 0);
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -125,7 +125,7 @@ static __forceinline const T *TransmitHostLocalY_24(_writePixel_0 wp, s32 widthl
 		{
 			for (; tempX < gs.imageEnd.x && nSize > 0; tempX += widthlimit, nSize -= widthlimit, buf += 3 * widthlimit)
 			{
-				if (nSize < widthlimit) return NULL;
+				if (nSize < widthlimit) return nullptr;
 
 				/* write as many pixel at one time as possible */
 
@@ -156,7 +156,7 @@ static __forceinline const T *TransmitHostLocalY_24(_writePixel_0 wp, s32 widthl
 
 				assert(gs.transferring == false || nSize == 0);
 
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -206,7 +206,7 @@ static __forceinline const T *TransmitHostLocalY_4(_writePixel_0 wp, s32 widthli
 		else
 		{
 			assert(gs.transferring == false || (nSize / 32) == 0);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -229,7 +229,7 @@ static __forceinline const T *TransmitHostLocalY(u32 psm, _writePixel_0 wp, s32 
 
 	assert(0);
 
-	return NULL;
+	return nullptr;
 }
 
 template <class T>
@@ -299,7 +299,7 @@ static __forceinline const T *TransmitHostLocalX(u32 psm, _writePixel_0 wp, u32 
 
 	assert(0);
 
-	return NULL;
+	return nullptr;
 }
 
 // calculate pitch in source buffer

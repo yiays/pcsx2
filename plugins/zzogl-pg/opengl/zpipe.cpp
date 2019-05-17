@@ -9,9 +9,9 @@
 
 #include <iostream>
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstring>
+#include <cassert>
 
 //#define ZLIB_WINAPI
 #include "zlib.h"
@@ -94,7 +94,7 @@ int inf(char *src, char *dst, int bytes_to_decompress, int maximum_after_decompr
 
 	assert(strm.avail_in == 0);	 /* all input will be used */
 
-	if (outbytes != NULL) *outbytes = strm.total_out;
+	if (outbytes != nullptr) *outbytes = strm.total_out;
 
 	/* clean up and return */
 	(void)inflateEnd(&strm);

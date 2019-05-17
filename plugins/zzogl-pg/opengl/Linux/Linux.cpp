@@ -16,9 +16,9 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
 #include <gtk/gtk.h>
 #include <dlfcn.h>
 
@@ -170,18 +170,18 @@ void CreateGameHackTable(GtkWidget *treeview, gameHacks hacks)
 	add_map_entry(GAME_NOLOGZ, "20000000", "No logarithmic Z - 20000000. Could decrease number of Z-artifacts.");
 	add_map_entry(GAME_AUTOSKIPDRAW, "40000000", "Remove blur effect on some games\nSlow games.");
 
-	for (map<string, confOptsStruct>::iterator it = mapConfOpts.begin(); it != mapConfOpts.end(); ++it)
+	for (auto & mapConfOpt : mapConfOpts)
 	{
 		gtk_list_store_append(treestore, &treeiter);//new row
-		itval = (hacks._u32 & it->second.value) ? true : false;
+		itval = (hacks._u32 & mapConfOpt.second.value) ? true : false;
 		
-		if (conf.def_hacks._u32 & it->second.value)
+		if (conf.def_hacks._u32 & mapConfOpt.second.value)
 		{
-			snprintf(descbuf, 254, "*%s", it->second.desc);
+			snprintf(descbuf, 254, "*%s", mapConfOpt.second.desc);
 		}
 		else
 		{
-			snprintf(descbuf, 254, "%s", it->second.desc);
+			snprintf(descbuf, 254, "%s", mapConfOpt.second.desc);
 		}
 		
 		gtk_list_store_set(treestore, &treeiter, 0, itval, 1, descbuf, -1);
@@ -208,12 +208,12 @@ void SaveGameHackTable(GtkWidget *treeview, gameHacks& hacks)
 
 	hacks._u32 = 0;
 
-	for (map<string, confOptsStruct>::iterator it = mapConfOpts.begin(); it != mapConfOpts.end(); ++it)
+	for (auto & mapConfOpt : mapConfOpts)
 	{
 		treeoptval = false;
 		gtk_tree_model_get(treemodel, &treeiter, 0, &treeoptval, -1);
 
-		if (treeoptval) hacks._u32 |= it->second.value;
+		if (treeoptval) hacks._u32 |= mapConfOpt.second.value;
 
 		gtk_tree_model_iter_next(treemodel, &treeiter);
 	}
@@ -242,7 +242,7 @@ void DisplayAdvancedDialog()
 #endif
 	GtkWidget *tree;
 
-		dialog = gtk_dialog_new_with_buttons ("Advanced", NULL,
+		dialog = gtk_dialog_new_with_buttons ("Advanced", nullptr,
                                       (GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                       "_Cancel", GTK_RESPONSE_REJECT,
                                       "_OK", GTK_RESPONSE_ACCEPT,
@@ -256,7 +256,7 @@ void DisplayAdvancedDialog()
 	advanced_frame = gtk_frame_new("Advanced Settings:");
 #if GTK_MAJOR_VERSION < 3
 	advanced_box = gtk_vbox_new(false, 5);
-	advanced_scroll = gtk_scrolled_window_new(NULL, NULL);
+	advanced_scroll = gtk_scrolled_window_new(nullptr, nullptr);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(advanced_scroll), tree);
 	gtk_box_pack_start(GTK_BOX(advanced_box), advanced_scroll, true, true, 2);
 
@@ -305,7 +305,7 @@ void DisplayDialog()
 	/* Create the widgets */
 	dialog = gtk_dialog_new_with_buttons(
 				 "ZZOgl PG Config",
-				 NULL, /* parent window*/
+				 nullptr, /* parent window*/
 				 (GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
 				 "Cancel",
 				 GTK_RESPONSE_REJECT,
@@ -476,7 +476,7 @@ void DisplayDialog()
 EXPORT_C_(void) GSconfigure()
 {
 	char strcurdir[256];
-	if (getcwd(strcurdir, 256) == NULL) {
+	if (getcwd(strcurdir, 256) == nullptr) {
 		fprintf(stderr, "Failed to get current working directory\n");
 		return;
 	}
@@ -499,7 +499,7 @@ void SysMessage(const char *fmt, ...)
 
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new(NULL,
+	dialog = gtk_message_dialog_new(nullptr,
 									GTK_DIALOG_DESTROY_WITH_PARENT,
 									GTK_MESSAGE_INFO,
 									GTK_BUTTONS_OK,
@@ -529,7 +529,7 @@ void *SysLoadSym(void *lib, char *sym)
 {
 	void *ret = dlsym(lib, sym);
 
-	if (ret == NULL) ZZLog::Debug_Log("null: %s", sym);
+	if (ret == nullptr) ZZLog::Debug_Log("null: %s", sym);
 
 	return dlsym(lib, sym);
 }

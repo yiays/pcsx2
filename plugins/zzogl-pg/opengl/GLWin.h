@@ -27,7 +27,7 @@
 #else
 
 #define GL_X11_WINDOW
-#include <stdlib.h>
+#include <cstdlib>
 #include <X11/Xlib.h>
 
 #ifdef EGL_API

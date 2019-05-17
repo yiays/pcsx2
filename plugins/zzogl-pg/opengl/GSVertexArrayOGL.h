@@ -62,7 +62,7 @@ class GSBufferOGL {
 	{
 		m_start = 0;
 		m_limit = new_limit;
-		glBufferData(m_target,  m_limit * m_stride, NULL, GL_STREAM_DRAW);
+		glBufferData(m_target,  m_limit * m_stride, nullptr, GL_STREAM_DRAW);
 	}
 
 	void bind()
@@ -198,8 +198,8 @@ public:
 
 	void set_internal_format()
 	{
-		for (vector<GSInputLayoutOGL>::iterator it = layout_store.begin(); it != layout_store.end(); it++)
-			set_internal_format(*it);
+		for (auto & it : layout_store)
+			set_internal_format(it);
 	}
 
 	void set_internal_format(GSInputLayoutOGL& layout) {

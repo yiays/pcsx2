@@ -28,7 +28,7 @@
 #include "ZZoglShoots.h"
 #include "ZZoglDrawing.h"
 #include "rasterfont.h" // simple font
-#include <math.h>
+#include <cmath>
 #include "ZZoglVB.h"
 
 //------------------ Defines
@@ -36,8 +36,8 @@
 #define g_bSaveFrame 0
 #define g_bSaveFinalFrame 0
 #else
-bool g_bSaveFrame = 0;  // saves the current psurfTarget
-bool g_bSaveFinalFrame = 0; // saves the input to the CRTC
+bool g_bSaveFrame = false;  // saves the current psurfTarget
+bool g_bSaveFinalFrame = false; // saves the input to the CRTC
 #endif // !defined(ZEROGS_DEVBUILD)
 
 extern int maxmin;
@@ -142,12 +142,12 @@ inline void FrameSavingHelper()
 {
 	if (g_bSaveFrame)
 	{
-		if (vb[0].prndr != NULL)
+		if (vb[0].prndr != nullptr)
 		{
 			SaveTexture("frame1.tga", GL_TEXTURE_RECTANGLE_NV, vb[0].prndr->ptex, RW(vb[0].prndr->fbw), RH(vb[0].prndr->fbh));
 		}
 
-		if (vb[1].prndr != NULL && vb[0].prndr != vb[1].prndr)
+		if (vb[1].prndr != nullptr && vb[0].prndr != vb[1].prndr)
 		{
 			SaveTexture("frame2.tga", GL_TEXTURE_RECTANGLE_NV, vb[1].prndr->ptex, RW(vb[1].prndr->fbw), RH(vb[1].prndr->fbh));
 		}
@@ -213,7 +213,7 @@ inline void RenderStartHelper()
 
 	FrameSavingHelper();
 
-	if (s_RangeMngr.ranges.size() > 0) FlushTransferRanges(NULL);
+	if (s_RangeMngr.ranges.size() > 0) FlushTransferRanges(nullptr);
 
 	SetShaderCaller("RenderStartHelper");
 
@@ -532,7 +532,7 @@ inline void RenderCheckForTargets(tex0Info& texframe, list<CRenderTarget*>& list
 	// We need share list of targets between functions
 	s_RTs.GetTargs(start, end, listTargs);
 
-	for (list<CRenderTarget*>::iterator it = listTargs.begin(); it != listTargs.end();)
+	for (auto it = listTargs.begin(); it != listTargs.end();)
 	{
 		CRenderTarget* ptarg = *it;
 
@@ -612,9 +612,9 @@ inline void RenderCheckForMemory(tex0Info& texframe, list<CRenderTarget*>& listT
 {
 	float4 v;
 	
-	for (list<CRenderTarget*>::iterator it = listTargs.begin(); it != listTargs.end(); ++it)
+	for (auto & listTarg : listTargs)
 	{
-		(*it)->Resolve();
+		listTarg->Resolve();
 	}
 
 	// context has to be 0
@@ -729,7 +729,7 @@ void ZZReset()
 	ZZGSStateReset();
 	ZZDestroy();
 	//clear_drawfn();
-	if (ZZKick != NULL) delete ZZKick;
+	if (ZZKick != nullptr) delete ZZKick;
 }
 
 // Put new values on statistic variable
@@ -830,7 +830,7 @@ inline void AfterRendererAutoresetTargets()
 
 		int total = 0;
 
-		for (u32 i = 0; i < ArraySize(s_nResolveCounts); ++i) total += s_nResolveCounts[i];
+		for (int s_nResolveCount : s_nResolveCounts) total += s_nResolveCount;
 
 		if (total / ArraySize(s_nResolveCounts) > 3)
 		{

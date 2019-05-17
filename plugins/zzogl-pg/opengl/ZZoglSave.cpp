@@ -50,7 +50,7 @@ void SetFogColor(GIFRegFOGCOL* fog);
 
 int ZZSave(s8* pbydata)
 {
-	if (pbydata == NULL)
+	if (pbydata == nullptr)
 		return 40 + MEMORY_END + sizeof(gs) + 2*VBSAVELIMIT + 2*sizeof(frameInfo) + 4 + 256*4;
 
 	s_RTs.ResolveAll();
@@ -80,9 +80,9 @@ int ZZSave(s8* pbydata)
 	memcpy(pbydata, &gs, sizeof(gs));
 	pbydata += sizeof(gs);
 
-	for (int i = 0; i < 2; ++i)
+	for (auto & i : vb)
 	{
-		memcpy(pbydata, &vb[i], VBSAVELIMIT);
+		memcpy(pbydata, &i, VBSAVELIMIT);
 		pbydata += VBSAVELIMIT;
 	}
 
@@ -143,21 +143,21 @@ bool ZZLoad(s8* pbydata)
 		vb[0].Destroy();
 		memcpy(&vb[0], pbydata, min(savelimit, VBSAVELIMIT));
 		pbydata += savelimit;
-		vb[0].pBufferData = NULL;
+		vb[0].pBufferData = nullptr;
 
 		vb[1].Destroy();
 		memcpy(&vb[1], pbydata, min(savelimit, VBSAVELIMIT));
 		pbydata += savelimit;
-		vb[1].pBufferData = NULL;
+		vb[1].pBufferData = nullptr;
 
-		for (int i = 0; i < 2; ++i)
+		for (auto & i : vb)
 		{
-			vb[i].Init(VB_BUFFERSIZE);
-			vb[i].bNeedZCheck = vb[i].bNeedFrameCheck = 1;
+			i.Init(VB_BUFFERSIZE);
+			i.bNeedZCheck = i.bNeedFrameCheck = 1;
 
-			vb[i].bSyncVars = 0;
-			vb[i].bNeedTexCheck = 1;
-			memset(vb[i].uCurTex0Data, 0, sizeof(vb[i].uCurTex0Data));
+			i.bSyncVars = 0;
+			i.bNeedTexCheck = 1;
+			memset(i.uCurTex0Data, 0, sizeof(i.uCurTex0Data));
 		}
 
 		icurctx = -1;

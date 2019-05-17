@@ -20,7 +20,7 @@
 #ifndef __MEM_H__
 #define __MEM_H__
 
-#include <assert.h>
+#include <cassert>
 #include <vector>
 
 // works only when base is a power of 2
@@ -228,9 +228,9 @@ struct BLOCK
                 columnTable = &g_columnTable4[0][0];
                 break;
             default:
-                pageTable = NULL;
-                blockTable = NULL;
-                columnTable = NULL;
+                pageTable = nullptr;
+                blockTable = nullptr;
+                columnTable = nullptr;
                 break;
         }
     }
@@ -314,8 +314,8 @@ static __forceinline void writePixel32(void* pmem, int x, int y, u32 pixel, u32 
 
 static __forceinline void writePixel24(void* pmem, int x, int y, u32 pixel, u32 bp, u32 bw)
 {
-	u8 *buf = (u8*) & ((u32*)pmem)[getPixelAddress32(x, y, bp, bw)];
-	u8 *pix = (u8*) & pixel;
+	auto *buf = (u8*) & ((u32*)pmem)[getPixelAddress32(x, y, bp, bw)];
+	auto *pix = (u8*) & pixel;
 	buf[0] = pix[0];
 	buf[1] = pix[1];
 	buf[2] = pix[2];
@@ -370,7 +370,7 @@ static __forceinline void writePixel32Z(void* pmem, int x, int y, u32 pixel, u32
 static __forceinline void writePixel24Z(void* pmem, int x, int y, u32 pixel, u32 bp, u32 bw)
 {
 	u8 *buf = (u8*)pmem + 4 * getPixelAddress32Z(x, y, bp, bw);
-	u8 *pix = (u8*) & pixel;
+	auto *pix = (u8*) & pixel;
 	buf[0] = pix[0];
 	buf[1] = pix[1];
 	buf[2] = pix[2];

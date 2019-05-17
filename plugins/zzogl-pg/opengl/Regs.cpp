@@ -33,7 +33,7 @@
 
 GIFRegHandler g_GIFPackedRegHandlers[16];
 GIFRegHandler g_GIFRegHandlers[256];
-GIFRegHandler g_GIFTempRegHandlers[16] = {0};
+GIFRegHandler g_GIFTempRegHandlers[16] = {nullptr};
 
 // values for keeping track of changes
 u32 s_uTex1Data[2][2] = {{0, }};
@@ -98,7 +98,7 @@ void __gifCall GIFPackedRegHandlerXYZ3(const u32* data) { GIFRegHandlerXYZ3(data
 void __gifCall GIFPackedRegHandlerRGBA(const u32* data)
 {
 	FUNCLOG
-	GIFPackedRGBA* r = (GIFPackedRGBA*)(data);
+	auto* r = (GIFPackedRGBA*)(data);
 	gs.rgba = (r->R | (r->G <<  8) | (r->B << 16) | (r->A << 24));
 	gs.vertexregs.rgba = gs.rgba;
 	gs.vertexregs.q = gs.q;
@@ -120,7 +120,7 @@ void __gifCall GIFPackedRegHandlerSTQ(const u32* data)
 void __gifCall GIFPackedRegHandlerUV(const u32* data)
 {
 	FUNCLOG
-	GIFPackedUV* r = (GIFPackedUV*)(data);
+	auto* r = (GIFPackedUV*)(data);
 	
 	gs.vertexregs.u = r->U;
 	gs.vertexregs.v = r->V;
@@ -129,7 +129,7 @@ void __gifCall GIFPackedRegHandlerUV(const u32* data)
 void __gifCall GIFPackedRegHandlerXYZF2(const u32* data)
 {
 	FUNCLOG
-	GIFPackedXYZF2* r = (GIFPackedXYZF2*)(data);
+	auto* r = (GIFPackedXYZF2*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z, r->F);
 
 	ZZKick->KickVertex(!!(r->ADC));
@@ -138,7 +138,7 @@ void __gifCall GIFPackedRegHandlerXYZF2(const u32* data)
 void __gifCall GIFPackedRegHandlerXYZ2(const u32* data)
 {
 	FUNCLOG
-	GIFPackedXYZ2* r = (GIFPackedXYZ2*)(data);
+	auto* r = (GIFPackedXYZ2*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z);
 
 	ZZKick->KickVertex(!!(r->ADC));
@@ -147,7 +147,7 @@ void __gifCall GIFPackedRegHandlerXYZ2(const u32* data)
 void __gifCall GIFPackedRegHandlerFOG(const u32* data)
 {
 	FUNCLOG
-	GIFPackedFOG* r = (GIFPackedFOG*)(data);
+	auto* r = (GIFPackedFOG*)(data);
 	gs.vertexregs.f = r->F;
 //	gs.vertexregs.f = (data[3] & 0xff0) >> 4;
 	if (gs.vertexregs.f != 0) REG_LOG("GIFPackedRegHandlerFOG == %d", gs.vertexregs.f);
@@ -190,7 +190,7 @@ void __gifCall GIFRegHandlerNull(const u32* data)
 void __gifCall GIFRegHandlerPRIM(const u32 *data)
 {
 	FUNCLOG
-	GIFRegPRIM* r = (GIFRegPRIM*)(data);
+	auto* r = (GIFRegPRIM*)(data);
 
 	//if (data[0] & ~0x3ff)
 	//{
@@ -238,7 +238,7 @@ void __gifCall GIFRegHandlerUV(const u32* data)
 	FUNCLOG
 //	gs.vertexregs.u = (data[0]) & 0x3fff;
 //	gs.vertexregs.v = (data[0] >> 16) & 0x3fff;
-	GIFRegUV* r = (GIFRegUV*)(data);
+	auto* r = (GIFRegUV*)(data);
 	gs.vertexregs.u = r->U;
 	gs.vertexregs.v = r->V;
 }
@@ -246,7 +246,7 @@ void __gifCall GIFRegHandlerUV(const u32* data)
 void __gifCall GIFRegHandlerXYZF2(const u32* data)
 {
 	FUNCLOG
-	GIFRegXYZF* r = (GIFRegXYZF*)(data);
+	auto* r = (GIFRegXYZF*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z, r->F);
 
     ZZKick->KickVertex(false);
@@ -255,7 +255,7 @@ void __gifCall GIFRegHandlerXYZF2(const u32* data)
 void __gifCall GIFRegHandlerXYZ2(const u32* data)
 {
 	FUNCLOG
-	GIFRegXYZ* r = (GIFRegXYZ*)(data);
+	auto* r = (GIFRegXYZ*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z);
 
     ZZKick->KickVertex(false);
@@ -306,7 +306,7 @@ void __gifCall GIFRegHandlerCLAMP(const u32* data)
 	if (!NoHighlights(ctxt)) return;
 	
 	clampInfo& clamp = vb[ctxt].clamp;
-	GIFRegCLAMP* r = (GIFRegCLAMP*)(data);
+	auto* r = (GIFRegCLAMP*)(data);
 
 	if ((s_uClampData[ctxt] != data[0]) || (((clamp.minv >> 8) | (clamp.maxv << 2)) != (data[1]&0x0fff)))
 	{
@@ -328,7 +328,7 @@ void __gifCall GIFRegHandlerFOG(const u32* data)
 {
 	FUNCLOG
 	//gs.gsvertex[gs.primIndex].f = (data[1] >> 24);	// shift to upper bits
-	GIFRegFOG* r = (GIFRegFOG*)(data);
+	auto* r = (GIFRegFOG*)(data);
 	gs.vertexregs.f = r->F;
 	if (gs.vertexregs.f != 0) REG_LOG("GIFPackedRegHandlerFOG == %d", gs.vertexregs.f);
 	
@@ -337,7 +337,7 @@ void __gifCall GIFRegHandlerFOG(const u32* data)
 void __gifCall GIFRegHandlerXYZF3(const u32* data)
 {
 	FUNCLOG
-	GIFRegXYZF* r = (GIFRegXYZF*)(data);
+	auto* r = (GIFRegXYZF*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z, r->F);
 
     ZZKick->KickVertex(true);
@@ -346,7 +346,7 @@ void __gifCall GIFRegHandlerXYZF3(const u32* data)
 void __gifCall GIFRegHandlerXYZ3(const u32* data)
 {
 	FUNCLOG
-	GIFRegXYZ* r = (GIFRegXYZ*)(data);
+	auto* r = (GIFRegXYZ*)(data);
 	gs.add_vertex(r->X, r->Y,r->Z);
 
     ZZKick->KickVertex(true);
@@ -364,7 +364,7 @@ void __gifCall GIFRegHandlerTEX1(const u32* data)
 	
 	if (!NoHighlights(ctxt)) return;
 	
-	GIFRegTEX1* r = (GIFRegTEX1*)(data);
+	auto* r = (GIFRegTEX1*)(data);
 	tex1Info& tex1 = vb[ctxt].tex1;
 
 	if (conf.bilinear == 1 && (tex1.mmag != ((data[0] >>  5) & 0x1) || tex1.mmin != ((data[0] >>  6) & 0x7)))
@@ -440,7 +440,7 @@ template <u32 ctxt>
 void __gifCall GIFRegHandlerXYOFFSET(const u32* data)
 {
 	FUNCLOG
-	GIFRegXYOFFSET* r = (GIFRegXYOFFSET*)(data);
+	auto* r = (GIFRegXYOFFSET*)(data);
 	vb[ctxt].offset.x = r->OFX;
 	vb[ctxt].offset.y = r->OFY;
 
@@ -454,7 +454,7 @@ void __gifCall GIFRegHandlerPRMODECONT(const u32* data)
 {
 	FUNCLOG
 	// Turns all the text into colored blocks on the initial Mana Khemia dialog if not run.
-	GIFRegPRMODECONT* r = (GIFRegPRMODECONT*)(data);
+	auto* r = (GIFRegPRMODECONT*)(data);
 //	gs.prac = data[0] & 0x1;
 	gs.prac = r->AC;
 	prim = &gs._prim[gs.prac];
@@ -474,7 +474,7 @@ void __gifCall GIFRegHandlerTEXCLUT(const u32* data)
 {
 	FUNCLOG
 	// Affects background coloration of initial Mana Khemia dialog.
-	GIFRegTEXCLUT* r = (GIFRegTEXCLUT*)(data);
+	auto* r = (GIFRegTEXCLUT*)(data);
 
 	vb[0].FlushTexData();
 	vb[1].FlushTexData();
@@ -488,7 +488,7 @@ void __gifCall GIFRegHandlerTEXCLUT(const u32* data)
 void __gifCall GIFRegHandlerSCANMSK(const u32* data)
 {
 	FUNCLOG
-	GIFRegSCANMSK* r = (GIFRegSCANMSK*)(data);
+	auto* r = (GIFRegSCANMSK*)(data);
 
 	gs.smask = r->MSK;
 	REG_LOG("Scanmsk == %d", gs.smask);
@@ -498,7 +498,7 @@ template <u32 ctxt>
 void __gifCall GIFRegHandlerMIPTBP1(const u32* data)
 {
 	FUNCLOG
-	GIFRegMIPTBP1* r = (GIFRegMIPTBP1*)(data);
+	auto* r = (GIFRegMIPTBP1*)(data);
 	
 	miptbpInfo& miptbp0 = vb[ctxt].miptbp0;
 	miptbp0.tbp[0] = r->TBP1;
@@ -521,7 +521,7 @@ template <u32 ctxt>
 void __gifCall GIFRegHandlerMIPTBP2(const u32* data)
 {
 	FUNCLOG
-	GIFRegMIPTBP2* r = (GIFRegMIPTBP2*)(data);
+	auto* r = (GIFRegMIPTBP2*)(data);
 	
 	miptbpInfo& miptbp1 = vb[ctxt].miptbp1;
 	miptbp1.tbp[0] = r->TBP4;
@@ -544,7 +544,7 @@ void __gifCall GIFRegHandlerTEXA(const u32* data)
 {
 	FUNCLOG
 	// Background of initial Mana Khemia dialog.
-	GIFRegTEXA* r = (GIFRegTEXA*)(data);
+	auto* r = (GIFRegTEXA*)(data);
 	
 	if ((r->AEM != gs.texa.aem) || (r->TA0 != gs.texa.ta[0]) || (r->TA1 != gs.texa.ta[1]))
 	{
@@ -562,7 +562,7 @@ void __gifCall GIFRegHandlerTEXA(const u32* data)
 void __gifCall GIFRegHandlerFOGCOL(const u32* data)
 {
 	FUNCLOG
-	GIFRegFOGCOL* r = (GIFRegFOGCOL*)(data);
+	auto* r = (GIFRegFOGCOL*)(data);
 	SetFogColor(r);
 	gs.fogcol = r->ai32[0];
 }
@@ -578,7 +578,7 @@ template <u32 ctxt>
 void __gifCall GIFRegHandlerSCISSOR(const u32* data)
 {
 	FUNCLOG
-	GIFRegSCISSOR* r = (GIFRegSCISSOR*)(data);
+	auto* r = (GIFRegSCISSOR*)(data);
 	
 	Rect2& scissor = vb[ctxt].scissor;
 	Rect2 newscissor;
@@ -631,7 +631,7 @@ void __gifCall GIFRegHandlerALPHA(const u32* data)
 void __gifCall GIFRegHandlerDIMX(const u32* data)
 {
 	FUNCLOG
-	GIFRegDIMX* r = (GIFRegDIMX*)(data);
+	auto* r = (GIFRegDIMX*)(data);
 	
 	gs.dimx.i64 = r->i64;
 }
@@ -639,7 +639,7 @@ void __gifCall GIFRegHandlerDIMX(const u32* data)
 void __gifCall GIFRegHandlerDTHE(const u32* data)
 {
 	FUNCLOG
-	GIFRegDTHE* r = (GIFRegDTHE*)(data);
+	auto* r = (GIFRegDTHE*)(data);
 	
 	gs.dthe = r->DTHE;
 	if (gs.dthe != 0) REG_LOG("Dithering set. (but not implemented.)");
@@ -648,7 +648,7 @@ void __gifCall GIFRegHandlerDTHE(const u32* data)
 void __gifCall GIFRegHandlerCOLCLAMP(const u32* data)
 {
 	FUNCLOG
-	GIFRegCOLCLAMP* r = (GIFRegCOLCLAMP*)(data);
+	auto* r = (GIFRegCOLCLAMP*)(data);
 	
 	gs.colclamp = r->CLAMP;
 	
@@ -688,7 +688,7 @@ void __gifCall GIFRegHandlerTEST(const u32* data)
 void __gifCall GIFRegHandlerPABE(const u32* data)
 {
 	FUNCLOG
-	GIFRegPABE* r = (GIFRegPABE*)(data);
+	auto* r = (GIFRegPABE*)(data);
 	//SetAlphaChanged(0, GPUREG_PABE);
 	//SetAlphaChanged(1, GPUREG_PABE);
 	FlushBoth();
@@ -700,7 +700,7 @@ template <u32 ctxt>
 void __gifCall GIFRegHandlerFBA(const u32* data)
 {
 	FUNCLOG
-	GIFRegFBA* r = (GIFRegFBA*)(data);
+	auto* r = (GIFRegFBA*)(data);
 	
 	FlushBoth();
 	
@@ -844,7 +844,7 @@ void __gifCall GIFRegHandlerZBUF(const u32* data)
 void __gifCall GIFRegHandlerBITBLTBUF(const u32* data)
 {
 	FUNCLOG
-	GIFRegBITBLTBUF* r = (GIFRegBITBLTBUF*)(data);
+	auto* r = (GIFRegBITBLTBUF*)(data);
 	
 	gs.srcbufnew.bp  = r->SBP;
 	gs.srcbufnew.bw  = r->SBW << 6;
@@ -870,7 +870,7 @@ void __gifCall GIFRegHandlerBITBLTBUF(const u32* data)
 void __gifCall GIFRegHandlerTRXPOS(const u32* data)
 {
 	FUNCLOG
-	GIFRegTRXPOS* r = (GIFRegTRXPOS*)(data);
+	auto* r = (GIFRegTRXPOS*)(data);
 	
 	gs.trxposnew.sx  = r->SSAX;
 	gs.trxposnew.sy  = r->SSAY;
@@ -883,7 +883,7 @@ void __gifCall GIFRegHandlerTRXPOS(const u32* data)
 void __gifCall GIFRegHandlerTRXREG(const u32* data)
 {
 	FUNCLOG
-	GIFRegTRXREG* r = (GIFRegTRXREG*)(data);
+	auto* r = (GIFRegTRXREG*)(data);
 	gs.imageTemp.w = r->RRW;
 	gs.imageTemp.h = r->RRH;
 }
@@ -891,7 +891,7 @@ void __gifCall GIFRegHandlerTRXREG(const u32* data)
 void __gifCall GIFRegHandlerTRXDIR(const u32* data)
 {
 	FUNCLOG
-	GIFRegTRXDIR* r = (GIFRegTRXDIR*)(data);
+	auto* r = (GIFRegTRXDIR*)(data);
 
 	gs.srcbuf = gs.srcbufnew;
 	gs.dstbuf = gs.dstbufnew;
@@ -1018,9 +1018,9 @@ void SetMultithreaded()
 
 void ResetRegs()
 {
-	for (int i = 0; i < 16; i++)
+	for (auto & g_GIFPackedRegHandler : g_GIFPackedRegHandlers)
 	{
-		g_GIFPackedRegHandlers[i] = &GIFPackedRegHandlerNull;
+		g_GIFPackedRegHandler = &GIFPackedRegHandlerNull;
 	}
 
 	g_GIFPackedRegHandlers[GIF_REG_PRIM] = &GIFPackedRegHandlerPRIM;
@@ -1039,9 +1039,9 @@ void ResetRegs()
 	g_GIFPackedRegHandlers[GIF_REG_A_D] = &GIFPackedRegHandlerA_D;
 	g_GIFPackedRegHandlers[GIF_REG_NOP] = &GIFPackedRegHandlerNOP;
 	
-	for (int i = 0; i < 256; i++)
+	for (auto & g_GIFRegHandler : g_GIFRegHandlers)
 	{
-		g_GIFRegHandlers[i] = &GIFPackedRegHandlerNull;
+		g_GIFRegHandler = &GIFPackedRegHandlerNull;
 	}
 	
 	g_GIFRegHandlers[GIF_A_D_REG_PRIM] = &GIFRegHandlerPRIM;

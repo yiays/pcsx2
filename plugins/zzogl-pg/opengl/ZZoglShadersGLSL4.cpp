@@ -84,7 +84,7 @@ const int GLSL_VERSION = 330;
 ZZshContext	g_cgcontext;
 ZZshProfile 	cgvProf, cgfProf;
 int 		g_nPixelShaderVer = 0; 		// default
-u8* 		s_lpShaderResources = NULL;
+u8* 		s_lpShaderResources = nullptr;
 ZZshShaderLink 	pvs[16] = {sZero}, g_vsprog = sZero, g_psprog = sZero;							// 2 -- ZZ
 ZZshParameter 	g_vparamPosXY[2] = {pZero}, g_fparamFogColor = pZero;
 
@@ -114,7 +114,7 @@ static bool dirty_common_buffer = true;
 static bool dirty_vertex_buffer = true;
 static bool dirty_fragment_buffer = true;
 
-GSVertexBufferStateOGL *vertex_array = NULL;
+GSVertexBufferStateOGL *vertex_array = nullptr;
 
 COMMONSHADER g_cs;
 static GLuint s_pipeline = 0;
@@ -158,7 +158,7 @@ bool ZZshStartUsingShaders() {
 	// test
 	bool bFailed;
 	FRAGMENTSHADER* pfrag = ZZshLoadShadeEffect(0, 1, 1, 1, 1, temp, 0, &bFailed);
-	if( bFailed || pfrag == NULL ) {
+	if( bFailed || pfrag == nullptr ) {
 		ZZLog::Error_Log("Shader test failed.");
 		return false;
 	}
@@ -186,8 +186,8 @@ void ZZshExitCleaning() {
 	dirty_common_buffer = true;
 	g_current_ps = 0;
 	g_current_vs = 0;
-	for (uint i = 0; i < 11; i++)
-		g_current_texture_bind[i] = 0;
+	for (unsigned int & i : g_current_texture_bind)
+		i = 0;
 
 	glDeleteProgramPipelines(1, &s_pipeline);
 }
@@ -212,7 +212,7 @@ void ZZshGLSetTextureParameter(ZZshParameter param, GLuint texobj, const char* n
 }
 
 void ZZshGLSetTextureParameter(ZZshShaderLink prog, ZZshParameter param, GLuint texobj, const char* name) {
-	FRAGMENTSHADER* shader = (FRAGMENTSHADER*)prog.link;
+	auto* shader = (FRAGMENTSHADER*)prog.link;
 #ifdef ENABLE_MARKER
 	if (GLEW_GREMEDY_string_marker) glStringMarkerGREMEDY(0, format("FS(%d):texture %d, param %d", shader->program, texobj, param).c_str() );
 #endif
@@ -225,11 +225,11 @@ void ZZshGLSetTextureParameter(ZZshShaderLink prog, ZZshParameter param, GLuint 
 // return name
 void ZZshSetParameter4fv(ZZshShaderLink& prog, ZZshParameter param, const float* v, const char* name) {
 	if (prog.isFragment) {
-		FRAGMENTSHADER* shader = (FRAGMENTSHADER*)prog.link;
+		auto* shader = (FRAGMENTSHADER*)prog.link;
 		shader->ZZshSetParameter4fv(param, v);
 		dirty_fragment_buffer = true;
 	} else {
-		VERTEXSHADER* shader = (VERTEXSHADER*)prog.link;
+		auto* shader = (VERTEXSHADER*)prog.link;
 		shader->ZZshSetParameter4fv(param, v);
 		dirty_vertex_buffer = true;
 	}
@@ -269,7 +269,7 @@ static bool ValidateProgram(ZZshProgram Prog) {
 	if (!isValid) {
 		int lenght, infologlength;
 		glGetProgramiv(Prog, GL_INFO_LOG_LENGTH, &infologlength);
-		char* InfoLog = new char[infologlength];
+		auto* InfoLog = new char[infologlength];
 		glGetProgramInfoLog(Prog, infologlength, &lenght, InfoLog);
 		ZZLog::Error_Log("Validation %d... %d:\t %s", Prog, infologlength, InfoLog);
 		delete[] InfoLog;
@@ -284,7 +284,7 @@ static void ValidatePipeline(GLuint pipeline) {
 	if (!isValid) {
 		int lenght, infologlength;
 		glGetProgramPipelineiv(pipeline, GL_INFO_LOG_LENGTH, &infologlength);
-		char* InfoLog = new char[infologlength];
+		auto* InfoLog = new char[infologlength];
 		glGetProgramPipelineInfoLog(pipeline, infologlength, &lenght, InfoLog);
 		ZZLog::Error_Log("Validation %d... %d:\t %s", pipeline, infologlength, InfoLog);
 		delete[] InfoLog;
@@ -329,10 +329,10 @@ inline bool CompileShaderFromFile(ZZshProgram& program, const std::string& Defin
 //-------------------------------------------------------------------------------------
 
 void ZZshSetupShader() {
-	VERTEXSHADER* vs = (VERTEXSHADER*)g_vsprog.link;
-	FRAGMENTSHADER* ps = (FRAGMENTSHADER*)g_psprog.link;
+	auto* vs = (VERTEXSHADER*)g_vsprog.link;
+	auto* ps = (FRAGMENTSHADER*)g_psprog.link;
 
-	if (vs == NULL || ps == NULL) return;
+	if (vs == nullptr || ps == nullptr) return;
 
 	// From the glValidateProgram docs: "The implementation may use this as an opportunity to perform any internal
 	// shader modifications that may be required to ensure correct operation of the installed
@@ -349,7 +349,7 @@ void ZZshSetupShader() {
 void ZZshSetVertexShader(ZZshShaderLink prog) {
 	g_vsprog = prog;
 
-	VERTEXSHADER* vs = (VERTEXSHADER*)g_vsprog.link;
+	auto* vs = (VERTEXSHADER*)g_vsprog.link;
 	if (!vs) return;
 
 	if (vs->program != g_current_vs) {
@@ -361,7 +361,7 @@ void ZZshSetVertexShader(ZZshShaderLink prog) {
 void ZZshSetPixelShader(ZZshShaderLink prog) {
 	g_psprog = prog;
 
-	FRAGMENTSHADER* ps = (FRAGMENTSHADER*)g_psprog.link;
+	auto* ps = (FRAGMENTSHADER*)g_psprog.link;
 	if (!ps) return;
 
 	if (ps->program != g_current_ps) {
@@ -469,8 +469,8 @@ static __forceinline bool LOAD_PS(const std::string& DefineString, const char* n
 inline bool LoadEffects()
 {
 	// clear the textures
-	for(u32 i = 0; i < ArraySize(ppsTexture); ++i)
-		ppsTexture[i].release_prog();
+	for(auto & i : ppsTexture)
+		i.release_prog();
 
 	return true;
 }
@@ -570,7 +570,7 @@ FRAGMENTSHADER* ZZshLoadShadeEffect(int type, int texfilter, int fog, int testae
 
 	int index = GET_SHADER_INDEX(type, texfilter, texwrap, fog, s_bWriteDepth, testaem, exactcolor, 0, 0);
 
-	if( pbFailed != NULL ) *pbFailed = false;
+	if( pbFailed != nullptr ) *pbFailed = false;
 
 	FRAGMENTSHADER* pf = ppsTexture+index;
 
@@ -585,8 +585,8 @@ FRAGMENTSHADER* ZZshLoadShadeEffect(int type, int texfilter, int fog, int testae
 	pf->set_context(context);
 	if (!CompileShaderFromFile(pf->program, macro, main_entry, GL_FRAGMENT_SHADER)) {
 		ZZLog::Error_Log("Failed to create shader %d,%d,%d,%d.", type, fog, texfilter, 4*clamp.wms+clamp.wmt);
-		if( pbFailed != NULL ) *pbFailed = false;
-		return NULL;
+		if( pbFailed != nullptr ) *pbFailed = false;
+		return nullptr;
 	}
 	return pf;
 }

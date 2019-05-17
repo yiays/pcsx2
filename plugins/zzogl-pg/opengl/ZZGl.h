@@ -161,7 +161,7 @@ static __forceinline void DrawTriangleArray()
 
 static __forceinline void DrawBuffers(GLenum *buffer)
 {
-	if (glDrawBuffers != NULL) 
+	if (glDrawBuffers != nullptr) 
 	{
 		glDrawBuffers(1, buffer);
 	}

@@ -54,11 +54,11 @@ VB::~VB()
 void VB::Destroy()
 {
 	_aligned_free(pBufferData);
-	pBufferData = NULL;
+	pBufferData = nullptr;
 	nNumVertices = 0;
 
-	prndr = NULL;
-	pdepth = NULL;
+	prndr = nullptr;
+	pdepth = nullptr;
 }
 
 int ConstraintReason;
@@ -85,7 +85,7 @@ inline int VB::FindMinimalMemoryConstrain(int tbp, int maxpos)
 	// special case when double buffering (hamsterball)
 	// Suikoden 3 require e00 have this issue too. P3 - 0x1000.
 
-	if (prndr != NULL)
+	if (prndr != nullptr)
 	{
 		int Constraint = frame.fbp - gsfb.fbp;
 
@@ -196,11 +196,11 @@ inline void VB::CheckFrame32bitRes(int maxpos)
 
 		// see if there is a previous render target in the way, reduce
 
-		for (CRenderTargetMngr::MAPTARGETS::iterator itnew = s_RTs.mapTargets.begin(); itnew != s_RTs.mapTargets.end(); ++itnew)
+		for (auto & mapTarget : s_RTs.mapTargets)
 		{
-			if (itnew->second->fbp > frame.fbp && endfbp > itnew->second->fbp)
+			if (mapTarget.second->fbp > frame.fbp && endfbp > mapTarget.second->fbp)
 			{
-				endfbp = itnew->second->fbp;
+				endfbp = mapTarget.second->fbp;
 			}
 		}
 
@@ -268,19 +268,19 @@ inline int VB::CheckFrameResolveDepth(int tbp)
 {
 	int result = 0;
 	CDepthTarget* pprevdepth = pdepth;
-	pdepth = NULL;
+	pdepth = nullptr;
 
 	// just z changed
 	frameInfo f = CreateFrame(zbuf.zbp, prndr->fbw, prndr->fbh, zbuf.psm, (zbuf.psm == 0x31) ? 0xff000000 : 0);
 
-	CDepthTarget* pnewdepth = (CDepthTarget*)s_DepthRTs.GetTarg(f, CRenderTargetMngr::TO_DepthBuffer | CRenderTargetMngr::TO_StrictHeight |
+	auto* pnewdepth = (CDepthTarget*)s_DepthRTs.GetTarg(f, CRenderTargetMngr::TO_DepthBuffer | CRenderTargetMngr::TO_StrictHeight |
 							  (zbuf.zmsk ? CRenderTargetMngr::TO_Virtual : 0), get_maxheight(zbuf.zbp, gsfb.fbw, 0));
 
 	assert(pnewdepth != NULL && prndr != NULL);
 	if (pnewdepth->fbh != prndr->fbh) ZZLog::Debug_Log("pnewdepth->fbh(0x%x) != prndr->fbh(0x%x)", pnewdepth->fbh, prndr->fbh);
 	//assert(pnewdepth->fbh == prndr->fbh);
 
-	if ((pprevdepth != pnewdepth) || (pprevdepth != NULL && (pprevdepth->status & CRenderTarget::TS_NeedUpdate)))
+	if ((pprevdepth != pnewdepth) || (pprevdepth != nullptr && (pprevdepth->status & CRenderTarget::TS_NeedUpdate)))
 		result = 2;
 
 	pdepth = pnewdepth;
@@ -295,9 +295,9 @@ inline int VB::CheckFrameResolveRender(int tbp)
 	int result = 0;
 
 	CRenderTarget* pprevrndr = prndr;
-	prndr = NULL;
+	prndr = nullptr;
 	CDepthTarget* pprevdepth = pdepth;
-	pdepth = NULL;
+	pdepth = nullptr;
 	// Set renderes to NULL to prevent Flushing.
 
 	CRenderTarget* pnewtarg = s_RTs.GetTarg(frame, 0, maxmin);
@@ -323,7 +323,7 @@ inline int VB::CheckFrameResolveRender(int tbp)
 
 	ZZLog::Prim_Log("frame_%d: fbp=0x%x fbw=%d fbh=%d(%d) psm=0x%x fbm=0x%x\n", ictx, gsfb.fbp, gsfb.fbw, gsfb.fbh, pnewtarg->fbh, gsfb.psm, gsfb.fbm);
 
-	if ((pprevrndr != pnewtarg) || (pprevrndr != NULL && (pprevrndr->status & CRenderTarget::TS_NeedUpdate)))
+	if ((pprevrndr != pnewtarg) || (pprevrndr != nullptr && (pprevrndr->status & CRenderTarget::TS_NeedUpdate)))
 		result = 1;
 
 	prndr = pnewtarg;
@@ -388,7 +388,7 @@ void VB::CheckFrame(int tbp)
 
 		if (CheckFrameAddConstraints(tbp) == -1) return;
 
-		if ((prndr != NULL) && (prndr->psm != gsfb.psm))
+		if ((prndr != nullptr) && (prndr->psm != gsfb.psm))
 		{
 			// behavior for dest alpha varies
 //			ResetAlphaVariables();
@@ -402,10 +402,10 @@ void VB::CheckFrame(int tbp)
 	{
 		bNeedZCheck = 0;
 
-		if (prndr != NULL && gsfb.fbw > 0) CheckFrameResolveDepth(tbp);
+		if (prndr != nullptr && gsfb.fbw > 0) CheckFrameResolveDepth(tbp);
 	}
 
-	if (prndr != NULL) SetContextTarget(ictx);
+	if (prndr != nullptr) SetContextTarget(ictx);
 	GL_REPORT_ERRORD();
 }
 

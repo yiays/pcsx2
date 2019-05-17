@@ -17,7 +17,7 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
  
-#include <stdio.h>
+#include <cstdio>
 #include "ZZLog.h"
 #include <list>
 #include <cstring>
@@ -35,7 +35,7 @@ void ProcessMessages()
 	if (listMsgs.size() > 0)
 	{
 		int left = 25, top = 15;
-		list<MESSAGE>::iterator it = listMsgs.begin();
+		auto it = listMsgs.begin();
 
 		while (it != listMsgs.end())
 		{
@@ -53,7 +53,7 @@ void ProcessMessages()
 void ZZAddMessage(const char* pstr, u32 ms)
 {
 	FUNCLOG
-	listMsgs.push_back(MESSAGE(pstr, timeGetTime() + ms));
+	listMsgs.emplace_back(pstr, timeGetTime() + ms);
 	ZZLog::Log("%s\n", pstr);
 }
 
@@ -67,7 +67,7 @@ bool IsLogging()
 {
 	// gsLog can be null if the config dialog is used prior to Pcsx2 starting an emulation session.
 	// (GSinit won't have been called then)
-	return (gsLog != NULL && conf.log);
+	return (gsLog != nullptr && conf.log);
 }
 
 void Open() 
@@ -76,14 +76,14 @@ void Open()
     const std::string LogFileGL(s_strLogPath + "/GSzzogl_GL.log");
 
     gsLog = fopen(LogFile.c_str(), "w");
-    if (gsLog != NULL)
-        setvbuf(gsLog, NULL,  _IONBF, 0);
+    if (gsLog != nullptr)
+        setvbuf(gsLog, nullptr,  _IONBF, 0);
     else 
         SysMessage("Can't create log file %s\n", LogFile.c_str());
 
     gsLogGL = fopen(LogFileGL.c_str(), "w");
-    if (gsLogGL != NULL)
-        setvbuf(gsLogGL, NULL,  _IONBF, 0);
+    if (gsLogGL != nullptr)
+        setvbuf(gsLogGL, nullptr,  _IONBF, 0);
     else
         SysMessage("Can't create log file %s\n", LogFileGL.c_str());
 
@@ -92,20 +92,20 @@ void Open()
 
 void Close()
 {
-	if (gsLog != NULL) {
+	if (gsLog != nullptr) {
         fclose(gsLog);
-        gsLog = NULL;
+        gsLog = nullptr;
     }
-	if (gsLogGL != NULL) {
+	if (gsLogGL != nullptr) {
         fclose(gsLogGL);
-        gsLogGL = NULL;
+        gsLogGL = nullptr;
     }
 }
 
 void SetDir(const char* dir)
 {
 	// Get the path to the log directory.
-	s_strLogPath = (dir==NULL) ? "logs" : dir;
+	s_strLogPath = (dir==nullptr) ? "logs" : dir;
 
 	// Reload previously open log file
     if (gsLog) {
@@ -364,12 +364,12 @@ void Check_GL_Error()
 #if defined(ZEROGS_DEVBUILD) || defined(_DEBUG)
        unsigned int count = 64; // max. num. of messages that will be read from the log
        int bufsize = 2048;
-       unsigned int* sources      = new unsigned int[count];
-       unsigned int* types        = new unsigned int[count];
-       unsigned int* ids   = new unsigned int[count];
-       unsigned int* severities = new unsigned int[count];
-       int* lengths = new int[count];
-       char* messageLog = new char[bufsize];
+       auto* sources      = new unsigned int[count];
+       auto* types        = new unsigned int[count];
+       auto* ids   = new unsigned int[count];
+       auto* severities = new unsigned int[count];
+       auto* lengths = new int[count];
+       auto* messageLog = new char[bufsize];
        unsigned int retVal = glGetDebugMessageLogARB(count, bufsize, sources, types, ids, severities, lengths, messageLog);
 
        if(retVal > 0)

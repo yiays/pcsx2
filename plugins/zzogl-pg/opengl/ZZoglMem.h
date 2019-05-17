@@ -19,7 +19,7 @@
 #ifndef __ZZOGL_MEM_H__
 #define __ZZOGL_MEM_H__
 
-#include <assert.h>
+#include <cassert>
 #include <vector>
 #include "GS.h"
 #include "Util.h"

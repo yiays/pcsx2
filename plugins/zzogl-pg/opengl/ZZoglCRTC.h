@@ -20,7 +20,7 @@
 #ifndef ZZOGLCRTC_H_INCLUDED
 #define ZZOGLCRTC_H_INCLUDED
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "targets.h"
 
 extern int s_frameskipping;

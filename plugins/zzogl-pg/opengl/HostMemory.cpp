@@ -19,7 +19,7 @@
 
 #include "GS.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "Mem.h"
 #include "x86.h"
 #include "targets.h"
@@ -28,7 +28,7 @@
 // flush current vertices, call before setting new registers (the main render method)
 extern void Flush(int context);
 
-u8* g_pbyGSMemory = NULL;   // 4Mb GS system mem
+u8* g_pbyGSMemory = nullptr;   // 4Mb GS system mem
 
 void GSMemory::init()
 {
@@ -42,7 +42,7 @@ void GSMemory::init()
 void GSMemory::destroy()
 {
     _aligned_free(g_pbyGSMemory);
-    g_pbyGSMemory = NULL;
+    g_pbyGSMemory = nullptr;
 }
 
 u8* GSMemory::get()
@@ -59,7 +59,7 @@ u8* GSMemory::get_raw(u32 addr)
     return &g_pbyGSMemory[addr];
 }
 
-u8* g_pbyGSClut = NULL;		// ZZ
+u8* g_pbyGSClut = nullptr;		// ZZ
 
 void GSClut::init()
 {
@@ -70,7 +70,7 @@ void GSClut::init()
 void GSClut::destroy()
 {
     _aligned_free(g_pbyGSClut);
-    g_pbyGSClut = NULL;
+    g_pbyGSClut = nullptr;
 }
 
 u8* GSClut::get()
@@ -273,10 +273,8 @@ void TransferHostLocal(const void* pbyMem, u32 nQWordSize)
         list<CRenderTarget*> listTransmissionUpdateTargs;
         s_RTs.GetTargs(start, end, listTransmissionUpdateTargs);
  
-        for (list<CRenderTarget*>::iterator it = listTransmissionUpdateTargs.begin(); it != listTransmissionUpdateTargs.end(); ++it)
+        for (auto ptarg : listTransmissionUpdateTargs)
         {
-            CRenderTarget* ptarg = *it;
- 
             if ((ptarg->status & CRenderTarget::TS_Virtual)) continue;
  
             //ZZLog::Error_Log("Resolving to alpha channel.");
@@ -367,7 +365,7 @@ void TransferLocalHost(void* pbyMem, u32 nQWordSize, int& x, int& y, u8 *pstart)
     _readPixel_0 rp = readPixelFun_0[gs.srcbuf.psm];
  
     int i = x, j = y;
-    T* pbuf = (T*)pbyMem;
+    auto* pbuf = (T*)pbyMem;
     u32 nSize = nQWordSize * 16 / sizeof(T);
  
     for (; i < gs.imageEnd.y; ++i)
@@ -395,7 +393,7 @@ void TransferLocalHost_24(void* pbyMem, u32 nQWordSize, int& x, int& y, u8 *psta
     _readPixel_0 rp = readPixelFun_0[gs.srcbuf.psm];
  
     int i = x, j = y;
-    u8* pbuf = (u8*)pbyMem;
+    auto* pbuf = (u8*)pbyMem;
     u32 nSize = nQWordSize * 16 / 3;
  
     for (; i < gs.imageEnd.y; ++i)
@@ -575,11 +573,11 @@ void TransferLocalLocal()
  
     s_RTs.GetTargs(dststart, dstend, listTargs);
  
-    for (list<CRenderTarget*>::iterator it = listTargs.begin(); it != listTargs.end(); ++it)
+    for (auto & listTarg : listTargs)
     {
-        if (!((*it)->status & CRenderTarget::TS_Virtual))
+        if (!(listTarg->status & CRenderTarget::TS_Virtual))
         {
-            (*it)->Resolve();
+            listTarg->Resolve();
             //(*it)->status |= CRenderTarget::TS_NeedUpdate;
         }
     }

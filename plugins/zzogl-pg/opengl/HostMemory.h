@@ -70,10 +70,10 @@ class ZeroGSInit
 		~ZeroGSInit()
 		{
 			_aligned_free(g_pbyGSMemory);
-			g_pbyGSMemory = NULL;
+			g_pbyGSMemory = nullptr;
 			
 			_aligned_free(g_pbyGSClut);
-			g_pbyGSClut = NULL;
+			g_pbyGSClut = nullptr;
 		}
 };
 

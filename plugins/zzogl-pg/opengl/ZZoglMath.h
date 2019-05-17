@@ -25,7 +25,7 @@
 #include <alloca.h>
 #endif
 
-#include <assert.h>
+#include <cassert>
 #include "Pcsx2Defs.h"
 
 //#define ZZ_MMATH

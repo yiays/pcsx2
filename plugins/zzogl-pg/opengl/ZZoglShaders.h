@@ -30,7 +30,7 @@
 #define SHADER_REDUCED 1	// equivalent to ps2.0
 #define SHADER_ACCURATE 2   	// for older cards with less accurate math (ps2.x+)
 
-#include <math.h>
+#include <cmath>
 #include "ZZoglMath.h"
 #include "GS.h"
 
@@ -114,7 +114,7 @@ typedef struct {
 
 #define pZero			0
 
-const ZZshShaderLink sZero = {link: NULL, isFragment: false};
+const ZZshShaderLink sZero = {link: nullptr, isFragment: false};
 #endif
 
 // ---------------------------
@@ -441,8 +441,8 @@ struct FRAGMENTSHADER
 		if (IsDualContext(param))
 			uniform_buffer[context].SettleFloat((int) param, v);
 		else
-			for ( int i = 0; i < ZZSH_CTX_ALL ; i++)
-				uniform_buffer[i].SettleFloat((int) param, v);
+			for (auto & i : uniform_buffer)
+				i.SettleFloat((int) param, v);
 	}
 
 	bool IsDualContext(ZZshParameter param) {
@@ -470,8 +470,8 @@ struct FRAGMENTSHADER
 			glDeleteProgram(program);
 			program = 0;
 		}
-		for (uint i = 0; i < 7 ; i++)
-			samplers[i].release_texture();
+		for (auto & sampler : samplers)
+			sampler.release_texture();
 	}
 
 	void set_context(uint new_context) { context = new_context * NOCONTEXT;}
@@ -541,8 +541,8 @@ struct COMMONSHADER
 		if (IsDualContext(param))
 			uniform_buffer[context].SettleFloat((int) param, v);
 		else
-			for ( int i = 0; i < ZZSH_CTX_ALL ; i++)
-				uniform_buffer[i].SettleFloat((int) param, v);
+			for (auto & i : uniform_buffer)
+				i.SettleFloat((int) param, v);
 	}
 
 	bool IsDualContext(ZZshParameter param) {
@@ -555,8 +555,8 @@ struct COMMONSHADER
 	}
 
 	void enable_texture() {
-		for (int i = 0; i < 4; i++)
-			samplers[i].enable_texture();
+		for (auto & sampler : samplers)
+			sampler.enable_texture();
 	}
 
 	void set_context(uint new_context) { context = new_context * NOCONTEXT;}
@@ -606,8 +606,8 @@ struct VERTEXSHADER
 		if (IsDualContext(param))
 			uniform_buffer[context].SettleFloat((int) param, v);
 		else
-			for ( int i = 0; i < ZZSH_CTX_ALL ; i++)
-				uniform_buffer[i].SettleFloat((int) param, v);
+			for (auto & i : uniform_buffer)
+				i.SettleFloat((int) param, v);
 	}
 
 	bool IsDualContext(ZZshParameter param) { return false;}
@@ -667,7 +667,7 @@ struct VERTEXSHADER
 			case CRTC_RENDER: return curr_ppsCRTC();
 			//case CRTC_RENDER_24: return curr_ppsCRTC24();
 			case CRTC_RENDER_TARG: return curr_ppsCRTCTarg();
-			default: return NULL;
+			default: return nullptr;
 		}
 		
 	}
@@ -686,7 +686,7 @@ inline bool ZZshExistProgram(ZZshShaderLink prog) {return (prog.link != NULL); }
 #if defined(GLSL4_API)
 inline bool ZZshExistProgram(FRAGMENTSHADER* pf) {return (pf->program != 0); };
 inline bool ZZshExistProgram(VERTEXSHADER* pf) {return (pf->program != 0); };
-inline bool ZZshExistProgram(ZZshShaderLink prog) {return (prog.link != NULL); }		// This is used for pvs mainly. No NULL means that we do LOAD_VS
+inline bool ZZshExistProgram(ZZshShaderLink prog) {return (prog.link != nullptr); }		// This is used for pvs mainly. No NULL means that we do LOAD_VS
 #endif
 
 extern const char* ShaderCallerName;

@@ -48,7 +48,7 @@ public:
 
 	void allocate()
 	{
-		glBufferData(target, size, NULL, GL_STREAM_DRAW);
+		glBufferData(target, size, nullptr, GL_STREAM_DRAW);
 	}
 
 	void attach()

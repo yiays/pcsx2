@@ -25,7 +25,7 @@ using Threading::ScopedLock;
 template <typename T>
 class ScopedPtrMT
 {
-    DeclareNoncopyableObject(ScopedPtrMT) = delete;
+    DeclareNoncopyableObject(ScopedPtrMT);
 
 protected:
     std::atomic<T *> m_ptr;

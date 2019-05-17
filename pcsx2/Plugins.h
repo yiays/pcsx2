@@ -295,7 +295,7 @@ class DynamicLibrary : public DynamicStaticLibrary
 
 class SysCorePlugins
 {
-	DeclareNoncopyableObject( SysCorePlugins ) = delete;
+	DeclareNoncopyableObject( SysCorePlugins );
 
 protected:
 	class PluginStatus_t

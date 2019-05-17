@@ -172,7 +172,7 @@ public:
 
 class BaseScopedCoreThread : public IScopedCoreThread
 {
-	DeclareNoncopyableObject( BaseScopedCoreThread ) = delete;
+	DeclareNoncopyableObject( BaseScopedCoreThread );
 
 protected:
 	bool					m_allowResume;

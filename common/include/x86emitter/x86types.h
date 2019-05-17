@@ -1086,7 +1086,7 @@ extern const xAddressIndexer<xIndirect8> ptr8;
 //
 class xSmartJump
 {
-    DeclareNoncopyableObject(xSmartJump) = delete;
+    DeclareNoncopyableObject(xSmartJump);
 
 protected:
     u8 *m_baseptr;          // base address of the instruction (passed to the instruction emitter)

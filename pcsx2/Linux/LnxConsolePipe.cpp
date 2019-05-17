@@ -130,7 +130,7 @@ void LinuxPipeThread::ExecuteTaskInThread()
 
 class LinuxPipeRedirection : public PipeRedirectionBase
 {
-	DeclareNoncopyableObject(LinuxPipeRedirection) = delete;
+	DeclareNoncopyableObject(LinuxPipeRedirection);
 
 protected:
 	LinuxPipeThread m_thread;

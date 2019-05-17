@@ -99,7 +99,7 @@ protected:
 
 class OutputIsoFile
 {
-	DeclareNoncopyableObject( OutputIsoFile ) = delete;
+	DeclareNoncopyableObject( OutputIsoFile );
 	
 protected:
 	wxString	m_filename;

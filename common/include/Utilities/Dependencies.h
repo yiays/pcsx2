@@ -132,7 +132,7 @@ static const pxEnumEnd_t pxEnumEnd = {};
 #define DeclareNoncopyableObject(classname) \
 private:                                    \
     explicit classname(const classname &);  \
-    classname &operator=(const classname &)
+    classname &operator=(const classname &) = delete
 #endif
 
 

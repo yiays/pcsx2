@@ -34,7 +34,7 @@
 // Converts a string to UTF8 and provides an interface for getting its length.
 class pxToUTF8
 {
-    DeclareNoncopyableObject(pxToUTF8) = delete;
+    DeclareNoncopyableObject(pxToUTF8);
 
 protected:
     wxCharBuffer m_result;

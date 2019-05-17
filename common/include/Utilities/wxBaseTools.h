@@ -44,7 +44,7 @@ extern void pxLaunch(const char *path);
 //
 class wxDoNotLogInThisScope
 {
-    DeclareNoncopyableObject(wxDoNotLogInThisScope) = delete;
+    DeclareNoncopyableObject(wxDoNotLogInThisScope);
 
 protected:
     bool m_prev;

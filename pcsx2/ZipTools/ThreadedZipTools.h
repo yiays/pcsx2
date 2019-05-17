@@ -76,7 +76,7 @@ typedef SafeArray< u8 > ArchiveDataBuffer;
 // --------------------------------------------------------------------------------------
 class ArchiveEntryList
 {
-	DeclareNoncopyableObject( ArchiveEntryList ) = delete;
+	DeclareNoncopyableObject( ArchiveEntryList );
 
 protected:
 	std::vector<ArchiveEntry> m_list;

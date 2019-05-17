@@ -34,7 +34,7 @@ static const uint CSO_CHUNKCACHE_SIZE_MB = 200;
 
 class CsoFileReader : public AsyncFileReader
 {
-	DeclareNoncopyableObject(CsoFileReader) = delete;
+	DeclareNoncopyableObject(CsoFileReader);
 public:
 	CsoFileReader() :
 		m_frameSize(0),

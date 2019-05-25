@@ -82,10 +82,10 @@ const char* g_pShaders[4] = { "full", "reduced", "accurate", "accurate-reduced" 
 ZZshContext	g_cgcontext;
 ZZshProfile 	cgvProf, cgfProf;
 int 		g_nPixelShaderVer = 0; 		// default
-u8* 		s_lpShaderResources = NULL;
-ZZshProgram 	pvs[16] = {NULL};
-ZZshProgram 	g_vsprog = 0, g_psprog = 0;							// 2 -- ZZ
-ZZshParameter 	g_vparamPosXY[2] = {0}, g_fparamFogColor = 0;
+u8* 		s_lpShaderResources = nullptr;
+ZZshProgram 	pvs[16] = {nullptr};
+ZZshProgram 	g_vsprog = nullptr, g_psprog = nullptr;							// 2 -- ZZ
+ZZshParameter 	g_vparamPosXY[2] = {nullptr}, g_fparamFogColor = nullptr;
 
 //#ifdef DEVBUILD
 extern char EFFECT_NAME[256];		// All this variables used for testing and set manually
@@ -138,12 +138,12 @@ void HandleCgError(ZZshContext ctx, ZZshError err, void* appdata)
 {
 	ZZLog::Error_Log("%s->%s: %s\n", ShaderCallerName, ShaderHandleName, cgGetErrorString(err));
 	const char* listing = cgGetLastListing(g_cgcontext);
-	if (listing != NULL)
+	if (listing != nullptr)
 		ZZLog::Debug_Log("	last listing: %s\n", listing);
 }
 
 bool ZZshStartUsingShaders() {
-	cgSetErrorHandler(HandleCgError, NULL);
+	cgSetErrorHandler(HandleCgError, nullptr);
 	g_cgcontext = cgCreateContext();
 
 	cgvProf = CG_PROFILE_ARBVP1;
@@ -173,13 +173,13 @@ bool ZZshStartUsingShaders() {
 	// test
 	bool bFailed;
 	FRAGMENTSHADER* pfrag = ZZshLoadShadeEffect(0, 1, 1, 1, 1, temp, 0, &bFailed);
-	if( bFailed || pfrag == NULL ) {
+	if( bFailed || pfrag == nullptr ) {
 		g_nPixelShaderVer = SHADER_ACCURATE|SHADER_REDUCED;
 
 		pfrag = ZZshLoadShadeEffect(0, 0, 1, 1, 0, temp, 0, &bFailed);
-		if( pfrag != NULL )
+		if( pfrag != nullptr )
 			cgGLLoadProgram(pfrag->prog);
-		if( bFailed || pfrag == NULL || cgGetError() != CG_NO_ERROR ) {
+		if( bFailed || pfrag == nullptr || cgGetError() != CG_NO_ERROR ) {
 			g_nPixelShaderVer = SHADER_REDUCED;
 			ZZLog::Error_Log("Basic shader test failed.");
 		}
@@ -210,9 +210,9 @@ bool ZZshCreateOpenShadersFile() {
 	s_lpShaderResources = (u8*)LockResource(hShaderGlob);
 #	else // not _WIN32
 	FILE* fres = fopen("ps2hw.dat", "rb");
-	if( fres == NULL ) {
+	if( fres == nullptr ) {
 		fres = fopen("plugins/ps2hw.dat", "rb");
-		if( fres == NULL ) {
+		if( fres == nullptr ) {
 			ZZLog::Error_Log("Cannot find ps2hw.dat in working directory. Exiting.");
 			return false;
 		}
@@ -282,7 +282,7 @@ void ZZshSetParameter4fv(ZZshProgram& prog, ZZshParameter param, const float* v,
 
 // The same stuff, but also with retry of param, name should be USED name of param for prog.
 void ZZshSetParameter4fvWithRetry(ZZshParameter* param, ZZshProgram& prog, const float* v, const char* name) {
-	if (param != NULL)
+	if (param != nullptr)
 		ZZshSetParameter4fv(prog, param[0], v, name);
 	else
 		ZZshSetParameter4fv(prog, cgGetNamedParameter(prog, name), v, name);
@@ -334,7 +334,7 @@ void SetupFragmentProgramParameters(FRAGMENTSHADER* pf, int context, int type)
 	ZZshParameter p;
 
 	p = cgGetNamedParameter(pf->prog, "g_fFogColor");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		cgConnectParameter(g_fparamFogColor, p);
 	}
 
@@ -354,7 +354,7 @@ void SetupFragmentProgramParameters(FRAGMENTSHADER* pf, int context, int type)
 
 	// textures
 	p = cgGetNamedParameter(pf->prog, "g_sBlocks");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		cgGLSetTextureParameter(p, ptexBlocks);
 		cgGLEnableTextureParameter(p);
 	}
@@ -362,77 +362,77 @@ void SetupFragmentProgramParameters(FRAGMENTSHADER* pf, int context, int type)
 	// cg parameter usage is wrong, so do it manually
 	if( type == 3 ) {
 		p = cgGetNamedParameter(pf->prog, "g_sConv16to32");
-		if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+		if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 			cgGLSetTextureParameter(p, ptexConv16to32);
 			cgGLEnableTextureParameter(p);
 		}
 	}
 	else if( type == 4 ) {
 		p = cgGetNamedParameter(pf->prog, "g_sConv32to16");
-		if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+		if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 			cgGLSetTextureParameter(p, ptexConv32to16);
 			cgGLEnableTextureParameter(p);
 		}
 	}
 	else {
 		p = cgGetNamedParameter(pf->prog, "g_sBilinearBlocks");
-		if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+		if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 			cgGLSetTextureParameter(p, ptexBilinearBlocks);
 			cgGLEnableTextureParameter(p);
 		}
 	}
 
 	p = cgGetNamedParameter(pf->prog, "g_sMemory");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sMemory = p;
 	}
 	p = cgGetNamedParameter(pf->prog, "g_sSrcFinal");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sFinal = p;
 	}
 	p = cgGetNamedParameter(pf->prog, "g_sBitwiseANDX");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sBitwiseANDX = p;
 	}
 	p = cgGetNamedParameter(pf->prog, "g_sBitwiseANDY");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sBitwiseANDY = p;
 	}
 	p = cgGetNamedParameter(pf->prog, "g_sCLUT");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sCLUT = p;
 	}
 	p = cgGetNamedParameter(pf->prog, "g_sInterlace");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		//cgGLEnableTextureParameter(p);
 		pf->sInterlace = p;
 	}
 
 	// set global shader constants
 	p = cgGetNamedParameter(pf->prog, "g_fExactColor");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE ) {
 		cgGLSetParameter4fv(p, float4(0.5f, (conf.settings().exact_color)?0.9f/256.0f:0.5f/256.0f, 0,1/255.0f));
 	}
 
 	p = cgGetNamedParameter(pf->prog, "g_fBilinear");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(-0.2f, -0.65f, 0.9f, 1.0f / 32767.0f ));
 
 	p = cgGetNamedParameter(pf->prog, "g_fZBias");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(1.0f/256.0f, 1.0004f, 1, 0.5f));
 
 	p = cgGetNamedParameter(pf->prog, "g_fc0");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(0,1, 0.001f, 0.5f));
 
 	p = cgGetNamedParameter(pf->prog, "g_fMult");
-	if( p != NULL && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, pf->prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(1/1024.0f, 0.2f/1024.0f, 1/128.0f, 1/512.0f));
 }
 
@@ -441,7 +441,7 @@ void SetupVertexProgramParameters(ZZshProgram prog, int context)
 	ZZshParameter p;
 
 	p = cgGetNamedParameter(prog, "g_fPosXY");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )
 		cgConnectParameter(g_vparamPosXY[context], p);
 
 	// Set Z-test, log or no log;
@@ -455,11 +455,11 @@ void SetupVertexProgramParameters(ZZshProgram prog, int context)
 	}
 
 	p = cgGetNamedParameter(prog, "g_fZ");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE ) {
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE ) {
 		cgGLSetParameter4fv(p, g_vdepth);
 
 		p = cgGetNamedParameter(prog, "g_fZMin"); // Switch to flat-z when needed
-		if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )  {
+		if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )  {
 			//ZZLog::Error_Log("Use flat-z\n");
 			cgGLSetParameter4fv(p, vlogz);
 		}
@@ -469,19 +469,19 @@ void SetupVertexProgramParameters(ZZshProgram prog, int context)
 
 	float4 vnorm = float4(g_filog32, 0, 0,0);
 	p = cgGetNamedParameter(prog, "g_fZNorm");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, vnorm);
 
 	p = cgGetNamedParameter(prog, "g_fBilinear");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(-0.2f, -0.65f, 0.9f, 1.0f / 32767.0f ));
 
 	p = cgGetNamedParameter(prog, "g_fZBias");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(1.0f/256.0f, 1.0004f, 1, 0.5f));
 
 	p = cgGetNamedParameter(prog, "g_fc0");
-	if( p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE )
+	if( p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE )
 		cgGLSetParameter4fv(p, float4(0,1, 0.001f, 0.5f));
 }
 
@@ -586,7 +586,7 @@ inline bool LoadEffects()
 	// clear the textures
 	for(u16 i = 0; i < ArraySize(ppsTexture); ++i) {
 		SAFE_RELEASE_PROG(ppsTexture[i].prog);
-		ppsTexture[i].prog = NULL;
+		ppsTexture[i].prog = nullptr;
 	}
 #ifndef _DEBUG
 	memset(ppsTexture, 0, sizeof(ppsTexture));
@@ -694,9 +694,9 @@ FRAGMENTSHADER* ZZshLoadShadeEffect(int type, int texfilter, int fog, int testae
 	assert( index < ArraySize(ppsTexture) );
 	FRAGMENTSHADER* pf = ppsTexture+index;
 
-	if( pbFailed != NULL ) *pbFailed = false;
+	if( pbFailed != nullptr ) *pbFailed = false;
 
-	if( pf->prog != NULL )
+	if( pf->prog != nullptr )
 		return pf;
 
 	if( (g_nPixelShaderVer & SHADER_ACCURATE) && mapShaderResources.find(index+NUM_SHADERS*SHADER_ACCURATE) != mapShaderResources.end() )
@@ -704,20 +704,20 @@ FRAGMENTSHADER* ZZshLoadShadeEffect(int type, int texfilter, int fog, int testae
 
 	assert( mapShaderResources.find(index) != mapShaderResources.end() );
 	SHADERHEADER* header = mapShaderResources[index];
-	if( header == NULL )
+	if( header == nullptr )
 		ZZLog::Error_Log("%d %d", index, g_nPixelShaderVer);
 	assert( header != NULL );
 
 	//DEBUG_LOG("shader:\n%s\n", (char*)(s_lpShaderResources + (header)->offset));
-	pf->prog = cgCreateProgram(g_cgcontext, CG_OBJECT, (char*)(s_lpShaderResources + (header)->offset), cgfProf, NULL, NULL);
-	if( pf->prog != NULL && cgIsProgram(pf->prog) && cgGetError() == CG_NO_ERROR ) {
+	pf->prog = cgCreateProgram(g_cgcontext, CG_OBJECT, (char*)(s_lpShaderResources + (header)->offset), cgfProf, nullptr, nullptr);
+	if( pf->prog != nullptr && cgIsProgram(pf->prog) && cgGetError() == CG_NO_ERROR ) {
 		SetupFragmentProgramParameters(pf, context, type);
 		cgGLLoadProgram(pf->prog);
 		if( cgGetError() != CG_NO_ERROR ) {
 //		  cgGLLoadProgram(pf->prog);
 //		  if( cgGetError() != CG_NO_ERROR ) {
 				ZZLog::Error_Log("Failed to load shader %d,%d,%d,%d.", type, fog, texfilter, 4*clamp.wms+clamp.wmt);
-				if( pbFailed != NULL ) *pbFailed = true;
+				if( pbFailed != nullptr ) *pbFailed = true;
 				return pf;
 //		  }
 		}
@@ -725,9 +725,9 @@ FRAGMENTSHADER* ZZshLoadShadeEffect(int type, int texfilter, int fog, int testae
 	}
 
 	ZZLog::Error_Log("Failed to create shader %d,%d,%d,%d", type, fog, texfilter, 4*clamp.wms+clamp.wmt);
-	if( pbFailed != NULL ) *pbFailed = true;
+	if( pbFailed != nullptr ) *pbFailed = true;
 
-	return NULL;
+	return nullptr;
 }
 
 #else // not RELEASE_TO_PUBLIC

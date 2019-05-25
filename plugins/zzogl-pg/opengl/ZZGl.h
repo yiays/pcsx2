@@ -89,7 +89,7 @@ static __forceinline void SET_STREAM()
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VertexGPU), (void*)8);
 	glSecondaryColorPointerEXT(4, GL_UNSIGNED_BYTE, sizeof(VertexGPU), (void*)12);
 	glTexCoordPointer(3, GL_FLOAT, sizeof(VertexGPU), (void*)16);
-	glVertexPointer(4, GL_SHORT, sizeof(VertexGPU), (void*)0);
+	glVertexPointer(4, GL_SHORT, sizeof(VertexGPU), (void*)nullptr);
 #else
 	vertex_array->set_internal_format();
 #endif

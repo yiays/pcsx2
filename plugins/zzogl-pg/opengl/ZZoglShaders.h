@@ -235,7 +235,7 @@ extern ZZshParameter 	g_vparamPosXY[2], g_fparamFogColor;
 #ifndef GLSL4_API
 struct FRAGMENTSHADER
 {
-	FRAGMENTSHADER() : prog(sZero), Shader(0), sMemory(pZero), sFinal(pZero), sBitwiseANDX(pZero), sBitwiseANDY(pZero), sInterlace(pZero), sCLUT(pZero), sOneColor(pZero), sBitBltZ(pZero),
+	FRAGMENTSHADER() : prog(sZero), Shader(nullptr), sMemory(pZero), sFinal(pZero), sBitwiseANDX(pZero), sBitwiseANDY(pZero), sInterlace(pZero), sCLUT(pZero), sOneColor(pZero), sBitBltZ(pZero),
 		fTexAlpha2(pZero), fTexOffset(pZero), fTexDims(pZero), fTexBlock(pZero), fClampExts(pZero), fTexWrapMode(pZero),
 		fRealTexDims(pZero), fTestBlack(pZero), fPageOffset(pZero), fTexAlpha(pZero)  {}
 	
@@ -260,7 +260,7 @@ struct FRAGMENTSHADER
 		ZZshParameter p;
 		p = cgGetNamedParameter(prog, name);
 
-		if (p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE) var = p;
+		if (p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE) var = p;
 	}
 
 	bool set_texture(GLuint texobj, const char *name)
@@ -269,7 +269,7 @@ struct FRAGMENTSHADER
 
 		p = cgGetNamedParameter(prog, name);
 
-		if (p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE)
+		if (p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE)
 		{
 			cgGLSetTextureParameter(p, texobj);
 			cgGLEnableTextureParameter(p);
@@ -285,7 +285,7 @@ struct FRAGMENTSHADER
 
 		p = cgGetNamedParameter(prog, name);
 
-		if (p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE)
+		if (p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE)
 		{
 			cgConnectParameter(tex, p);
 			return true;
@@ -300,7 +300,7 @@ struct FRAGMENTSHADER
 
 		p = cgGetNamedParameter(prog, name);
 
-		if (p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE)
+		if (p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE)
 		{
 			//cgGLEnableTextureParameter(p);
 			tex = p;
@@ -316,7 +316,7 @@ struct FRAGMENTSHADER
 
 		p = cgGetNamedParameter(prog, name);
 
-		if (p != NULL && cgIsParameterUsed(p, prog) == CG_TRUE)
+		if (p != nullptr && cgIsParameterUsed(p, prog) == CG_TRUE)
 		{
 			cgGLSetParameter4fv(p, v);
 			return true;
@@ -566,7 +566,7 @@ struct COMMONSHADER
 #ifndef GLSL4_API
 struct VERTEXSHADER
 {
-	VERTEXSHADER() : prog(sZero), Shader(0), sBitBltPos(pZero), sBitBltTex(pZero) {}
+	VERTEXSHADER() : prog(sZero), Shader(nullptr), sBitBltPos(pZero), sBitBltTex(pZero) {}
 	
 	ZZshShaderLink prog;
 	ZZshShader Shader;
@@ -674,9 +674,9 @@ struct VERTEXSHADER
 // ------------------------- Functions -------------------------------
 
 #ifdef NVIDIA_CG_API
-inline bool ZZshExistProgram(FRAGMENTSHADER* pf) {return (pf->prog != NULL); };			// We don't check ps != NULL, so be warned,
-inline bool ZZshExistProgram(VERTEXSHADER* pf) {return (pf->prog != NULL); };
-inline bool ZZshExistProgram(ZZshShaderLink prog) {return (prog != NULL); };
+inline bool ZZshExistProgram(FRAGMENTSHADER* pf) {return (pf->prog != nullptr); };			// We don't check ps != NULL, so be warned,
+inline bool ZZshExistProgram(VERTEXSHADER* pf) {return (pf->prog != nullptr); };
+inline bool ZZshExistProgram(ZZshShaderLink prog) {return (prog != nullptr); };
 #endif
 #if defined(GLSL_API) && !defined(GLSL4_API)
 inline bool ZZshExistProgram(FRAGMENTSHADER* pf) {return (pf->Shader != 0); };

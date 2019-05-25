@@ -799,7 +799,7 @@ inline FRAGMENTSHADER* FlushUseExistRenderTarget(VB& curvb, CRenderTarget* ptext
 
 	FlushTextureDims(pfragment, shadertype, curvb, ptextarg);
 
-	if (pfragment->sCLUT != NULL && ptexclut != 0)
+	if (pfragment->sCLUT != nullptr && ptexclut != 0)
 		ZZshGLSetTextureParameter(pfragment->prog, pfragment->sCLUT, ptexclut, "CLUT");
 
 	FlushApplyResizeFilter(curvb, dwFilterOpts, ptextarg, context);
@@ -857,7 +857,7 @@ inline void FlushSetTexture(VB& curvb, FRAGMENTSHADER* pfragment, CRenderTarget*
 	if( s_ptexCurSet[context] != 0) 
 		ZZshGLSetTextureParameter(pfragment->prog, pfragment->sMemory, s_ptexCurSet[context], "Clamp memory");
 #else
-	if( pfragment->sMemory != NULL && s_ptexCurSet[context] != 0) 
+	if( pfragment->sMemory != nullptr && s_ptexCurSet[context] != 0) 
 		ZZshGLSetTextureParameter(pfragment->prog, pfragment->sMemory, s_ptexCurSet[context], "Clamp memory");
 #endif
 }
@@ -1857,10 +1857,10 @@ void SetTexClamping(int context, FRAGMENTSHADER* pfragment)
 			break;
 	}
 
-	if (pfragment->fTexWrapMode != 0)
+	if (pfragment->fTexWrapMode != nullptr)
 		ZZshSetParameter4fv(pfragment->prog, pfragment->fTexWrapMode, v, "g_fTexWrapMode");
 
-	if (pfragment->fClampExts != 0)
+	if (pfragment->fClampExts != nullptr)
 		ZZshSetParameter4fv(pfragment->prog, pfragment->fClampExts, v2, "g_fClampExts");
 
 }

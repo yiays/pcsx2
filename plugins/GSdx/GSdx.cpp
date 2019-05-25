@@ -205,12 +205,12 @@ void GSdxApp::Init()
 	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::DX1011_SW), "Direct3D 11", "Software"));
 	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::OGL_SW), "OpenGL", "Software"));
 #else // Linux
-	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::OGL_HW), "OpenGL", "Hardware"));
-	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::OGL_SW), "OpenGL", "Software"));
+	m_gs_renderers.emplace_back(static_cast<uint32>(GSRendererType::OGL_HW), "OpenGL", "Hardware");
+	m_gs_renderers.emplace_back(static_cast<uint32>(GSRendererType::OGL_SW), "OpenGL", "Software");
 #endif
 
 	// The null renderer goes third, it has use for benchmarking purposes in a release build
-	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::Null), "None", "Core Benchmark"));
+	m_gs_renderers.emplace_back(static_cast<uint32>(GSRendererType::Null), "None", "Core Benchmark");
 
 #ifdef ENABLE_OPENCL
 	// OpenCL stuff goes last
@@ -221,59 +221,59 @@ void GSdxApp::Init()
 	m_gs_renderers.push_back(GSSetting(static_cast<uint32>(GSRendererType::OGL_OpenCL),		"OpenGL",		"OpenCL"));
 #endif
 
-	m_gs_interlace.push_back(GSSetting(0, "None", ""));
-	m_gs_interlace.push_back(GSSetting(1, "Weave tff", "saw-tooth"));
-	m_gs_interlace.push_back(GSSetting(2, "Weave bff", "saw-tooth"));
-	m_gs_interlace.push_back(GSSetting(3, "Bob tff", "use blend if shaking"));
-	m_gs_interlace.push_back(GSSetting(4, "Bob bff", "use blend if shaking"));
-	m_gs_interlace.push_back(GSSetting(5, "Blend tff", "slight blur, 1/2 fps"));
-	m_gs_interlace.push_back(GSSetting(6, "Blend bff", "slight blur, 1/2 fps"));
-	m_gs_interlace.push_back(GSSetting(7, "Automatic", "Default"));
+	m_gs_interlace.emplace_back(0, "None", "");
+	m_gs_interlace.emplace_back(1, "Weave tff", "saw-tooth");
+	m_gs_interlace.emplace_back(2, "Weave bff", "saw-tooth");
+	m_gs_interlace.emplace_back(3, "Bob tff", "use blend if shaking");
+	m_gs_interlace.emplace_back(4, "Bob bff", "use blend if shaking");
+	m_gs_interlace.emplace_back(5, "Blend tff", "slight blur, 1/2 fps");
+	m_gs_interlace.emplace_back(6, "Blend bff", "slight blur, 1/2 fps");
+	m_gs_interlace.emplace_back(7, "Automatic", "Default");
 
-	m_gs_aspectratio.push_back(GSSetting(0, "Stretch", ""));
-	m_gs_aspectratio.push_back(GSSetting(1, "4:3", ""));
-	m_gs_aspectratio.push_back(GSSetting(2, "16:9", ""));
+	m_gs_aspectratio.emplace_back(0, "Stretch", "");
+	m_gs_aspectratio.emplace_back(1, "4:3", "");
+	m_gs_aspectratio.emplace_back(2, "16:9", "");
 
-	m_gs_upscale_multiplier.push_back(GSSetting(1, "Native", "PS2"));
-	m_gs_upscale_multiplier.push_back(GSSetting(2, "2x Native", "~720p"));
-	m_gs_upscale_multiplier.push_back(GSSetting(3, "3x Native", "~1080p"));
-	m_gs_upscale_multiplier.push_back(GSSetting(4, "4x Native", "~1440p 2K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(5, "5x Native", "~1620p 3K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(6, "6x Native", "~2160p 4K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(8, "8x Native", "~2880p 5K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(10, "10x Native", "~3160p 6K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(12, "12x Native", "~4320p 8K"));
+	m_gs_upscale_multiplier.emplace_back(1, "Native", "PS2");
+	m_gs_upscale_multiplier.emplace_back(2, "2x Native", "~720p");
+	m_gs_upscale_multiplier.emplace_back(3, "3x Native", "~1080p");
+	m_gs_upscale_multiplier.emplace_back(4, "4x Native", "~1440p 2K");
+	m_gs_upscale_multiplier.emplace_back(5, "5x Native", "~1620p 3K");
+	m_gs_upscale_multiplier.emplace_back(6, "6x Native", "~2160p 4K");
+	m_gs_upscale_multiplier.emplace_back(8, "8x Native", "~2880p 5K");
+	m_gs_upscale_multiplier.emplace_back(10, "10x Native", "~3160p 6K");
+	m_gs_upscale_multiplier.emplace_back(12, "12x Native", "~4320p 8K");
 #ifndef __unix__
 	m_gs_upscale_multiplier.push_back(GSSetting(0, "Custom", "Not Recommended"));
 #endif
 
-	m_gs_max_anisotropy.push_back(GSSetting(0, "Off", "Default"));
-	m_gs_max_anisotropy.push_back(GSSetting(2, "2x", ""));
-	m_gs_max_anisotropy.push_back(GSSetting(4, "4x", ""));
-	m_gs_max_anisotropy.push_back(GSSetting(8, "8x", ""));
-	m_gs_max_anisotropy.push_back(GSSetting(16, "16x", ""));
+	m_gs_max_anisotropy.emplace_back(0, "Off", "Default");
+	m_gs_max_anisotropy.emplace_back(2, "2x", "");
+	m_gs_max_anisotropy.emplace_back(4, "4x", "");
+	m_gs_max_anisotropy.emplace_back(8, "8x", "");
+	m_gs_max_anisotropy.emplace_back(16, "16x", "");
 
-	m_gs_bifilter.push_back(GSSetting(static_cast<uint32>(BiFiltering::Nearest), "Nearest", ""));
-	m_gs_bifilter.push_back(GSSetting(static_cast<uint32>(BiFiltering::Forced_But_Sprite), "Bilinear", "Forced excluding sprite"));
-	m_gs_bifilter.push_back(GSSetting(static_cast<uint32>(BiFiltering::Forced), "Bilinear", "Forced"));
-	m_gs_bifilter.push_back(GSSetting(static_cast<uint32>(BiFiltering::PS2), "Bilinear", "PS2"));
+	m_gs_bifilter.emplace_back(static_cast<uint32>(BiFiltering::Nearest), "Nearest", "");
+	m_gs_bifilter.emplace_back(static_cast<uint32>(BiFiltering::Forced_But_Sprite), "Bilinear", "Forced excluding sprite");
+	m_gs_bifilter.emplace_back(static_cast<uint32>(BiFiltering::Forced), "Bilinear", "Forced");
+	m_gs_bifilter.emplace_back(static_cast<uint32>(BiFiltering::PS2), "Bilinear", "PS2");
 
-	m_gs_trifilter.push_back(GSSetting(static_cast<uint32>(TriFiltering::None), "None", "Default"));
-	m_gs_trifilter.push_back(GSSetting(static_cast<uint32>(TriFiltering::PS2), "Trilinear", ""));
-	m_gs_trifilter.push_back(GSSetting(static_cast<uint32>(TriFiltering::Forced), "Trilinear", "Ultra/Slow"));
+	m_gs_trifilter.emplace_back(static_cast<uint32>(TriFiltering::None), "None", "Default");
+	m_gs_trifilter.emplace_back(static_cast<uint32>(TriFiltering::PS2), "Trilinear", "");
+	m_gs_trifilter.emplace_back(static_cast<uint32>(TriFiltering::Forced), "Trilinear", "Ultra/Slow");
 
-	m_gs_gl_ext.push_back(GSSetting(-1, "Automatic", "Default"));
-	m_gs_gl_ext.push_back(GSSetting(0,  "Force-Disabled", ""));
-	m_gs_gl_ext.push_back(GSSetting(1,  "Force-Enabled", ""));
+	m_gs_gl_ext.emplace_back(-1, "Automatic", "Default");
+	m_gs_gl_ext.emplace_back(0,  "Force-Disabled", "");
+	m_gs_gl_ext.emplace_back(1,  "Force-Enabled", "");
 
-	m_gs_hack.push_back(GSSetting(0, "Off", "Default"));
-	m_gs_hack.push_back(GSSetting(1, "Half", ""));
-	m_gs_hack.push_back(GSSetting(2, "Full", ""));
+	m_gs_hack.emplace_back(0, "Off", "Default");
+	m_gs_hack.emplace_back(1, "Half", "");
+	m_gs_hack.emplace_back(2, "Full", "");
 
-	m_gs_offset_hack.push_back(GSSetting(0, "Off", "Default"));
-	m_gs_offset_hack.push_back(GSSetting(1, "Normal", "Vertex"));
-	m_gs_offset_hack.push_back(GSSetting(2, "Special", "Texture"));
-	m_gs_offset_hack.push_back(GSSetting(3, "Special", "Texture - aggressive"));
+	m_gs_offset_hack.emplace_back(0, "Off", "Default");
+	m_gs_offset_hack.emplace_back(1, "Normal", "Vertex");
+	m_gs_offset_hack.emplace_back(2, "Special", "Texture");
+	m_gs_offset_hack.emplace_back(3, "Special", "Texture - aggressive");
 
 	m_gs_hw_mipmapping = {
 		GSSetting(HWMipmapLevel::Automatic, "Automatic", "Default"),
@@ -291,50 +291,50 @@ void GSdxApp::Init()
 		GSSetting(CRCHackLevel::Aggressive, "Aggressive", ""),
 	};
 
-	m_gs_acc_date_level.push_back(GSSetting(0, "Off", ""));
-	m_gs_acc_date_level.push_back(GSSetting(1, "Fast", "Default"));
-	m_gs_acc_date_level.push_back(GSSetting(2, "Full", "Slow"));
+	m_gs_acc_date_level.emplace_back(0, "Off", "");
+	m_gs_acc_date_level.emplace_back(1, "Fast", "Default");
+	m_gs_acc_date_level.emplace_back(2, "Full", "Slow");
 
-	m_gs_acc_blend_level.push_back(GSSetting(0, "None", "Fastest"));
-	m_gs_acc_blend_level.push_back(GSSetting(1, "Basic", "Recommended"));
-	m_gs_acc_blend_level.push_back(GSSetting(2, "Medium", ""));
-	m_gs_acc_blend_level.push_back(GSSetting(3, "High", ""));
-	m_gs_acc_blend_level.push_back(GSSetting(4, "Full", "Very Slow"));
-	m_gs_acc_blend_level.push_back(GSSetting(5, "Ultra", "Ultra Slow"));
+	m_gs_acc_blend_level.emplace_back(0, "None", "Fastest");
+	m_gs_acc_blend_level.emplace_back(1, "Basic", "Recommended");
+	m_gs_acc_blend_level.emplace_back(2, "Medium", "");
+	m_gs_acc_blend_level.emplace_back(3, "High", "");
+	m_gs_acc_blend_level.emplace_back(4, "Full", "Very Slow");
+	m_gs_acc_blend_level.emplace_back(5, "Ultra", "Ultra Slow");
 
-	m_gs_acc_blend_level_d3d11.push_back(GSSetting(0, "None", "Fastest"));
-	m_gs_acc_blend_level_d3d11.push_back(GSSetting(1, "Basic", "Recommended"));
-	m_gs_acc_blend_level_d3d11.push_back(GSSetting(2, "Medium", "Debug"));
-	m_gs_acc_blend_level_d3d11.push_back(GSSetting(3, "High", "Debug"));
+	m_gs_acc_blend_level_d3d11.emplace_back(0, "None", "Fastest");
+	m_gs_acc_blend_level_d3d11.emplace_back(1, "Basic", "Recommended");
+	m_gs_acc_blend_level_d3d11.emplace_back(2, "Medium", "Debug");
+	m_gs_acc_blend_level_d3d11.emplace_back(3, "High", "Debug");
 
-	m_gs_tv_shaders.push_back(GSSetting(0, "None", ""));
-	m_gs_tv_shaders.push_back(GSSetting(1, "Scanline filter", ""));
-	m_gs_tv_shaders.push_back(GSSetting(2, "Diagonal filter", ""));
-	m_gs_tv_shaders.push_back(GSSetting(3, "Triangular filter", ""));
-	m_gs_tv_shaders.push_back(GSSetting(4, "Wave filter", ""));
+	m_gs_tv_shaders.emplace_back(0, "None", "");
+	m_gs_tv_shaders.emplace_back(1, "Scanline filter", "");
+	m_gs_tv_shaders.emplace_back(2, "Diagonal filter", "");
+	m_gs_tv_shaders.emplace_back(3, "Triangular filter", "");
+	m_gs_tv_shaders.emplace_back(4, "Wave filter", "");
 
 	// PSX options that start with m_gpu.
-	m_gpu_renderers.push_back(GSSetting(static_cast<int8>(GPURendererType::D3D11_SW), "Direct3D 11", "Software"));
-	m_gpu_renderers.push_back(GSSetting(static_cast<int8>(GPURendererType::NULL_Renderer), "Null", ""));
+	m_gpu_renderers.emplace_back(static_cast<int8>(GPURendererType::D3D11_SW), "Direct3D 11", "Software");
+	m_gpu_renderers.emplace_back(static_cast<int8>(GPURendererType::NULL_Renderer), "Null", "");
 
-	m_gpu_filter.push_back(GSSetting(0, "Nearest", ""));
-	m_gpu_filter.push_back(GSSetting(1, "Bilinear (polygons only)", ""));
-	m_gpu_filter.push_back(GSSetting(2, "Bilinear", ""));
+	m_gpu_filter.emplace_back(0, "Nearest", "");
+	m_gpu_filter.emplace_back(1, "Bilinear (polygons only)", "");
+	m_gpu_filter.emplace_back(2, "Bilinear", "");
 
-	m_gpu_dithering.push_back(GSSetting(0, "Disabled", ""));
-	m_gpu_dithering.push_back(GSSetting(1, "Auto", ""));
+	m_gpu_dithering.emplace_back(0, "Disabled", "");
+	m_gpu_dithering.emplace_back(1, "Auto", "");
 
-	m_gpu_aspectratio.push_back(GSSetting(0, "Stretch", ""));
-	m_gpu_aspectratio.push_back(GSSetting(1, "4:3", ""));
-	m_gpu_aspectratio.push_back(GSSetting(2, "16:9", ""));
+	m_gpu_aspectratio.emplace_back(0, "Stretch", "");
+	m_gpu_aspectratio.emplace_back(1, "4:3", "");
+	m_gpu_aspectratio.emplace_back(2, "16:9", "");
 
-	m_gpu_scale.push_back(GSSetting(0 | (0 << 2), "H x 1 - V x 1", ""));
-	m_gpu_scale.push_back(GSSetting(1 | (0 << 2), "H x 2 - V x 1", ""));
-	m_gpu_scale.push_back(GSSetting(0 | (1 << 2), "H x 1 - V x 2", ""));
-	m_gpu_scale.push_back(GSSetting(1 | (1 << 2), "H x 2 - V x 2", ""));
-	m_gpu_scale.push_back(GSSetting(2 | (1 << 2), "H x 4 - V x 2", ""));
-	m_gpu_scale.push_back(GSSetting(1 | (2 << 2), "H x 2 - V x 4", ""));
-	m_gpu_scale.push_back(GSSetting(2 | (2 << 2), "H x 4 - V x 4", ""));
+	m_gpu_scale.emplace_back(0 | (0 << 2), "H x 1 - V x 1", "");
+	m_gpu_scale.emplace_back(1 | (0 << 2), "H x 2 - V x 1", "");
+	m_gpu_scale.emplace_back(0 | (1 << 2), "H x 1 - V x 2", "");
+	m_gpu_scale.emplace_back(1 | (1 << 2), "H x 2 - V x 2", "");
+	m_gpu_scale.emplace_back(2 | (1 << 2), "H x 4 - V x 2", "");
+	m_gpu_scale.emplace_back(1 | (2 << 2), "H x 2 - V x 4", "");
+	m_gpu_scale.emplace_back(2 | (2 << 2), "H x 4 - V x 4", "");
 
 	// Avoid to clutter the ini file with useless options
 #ifdef _WIN32

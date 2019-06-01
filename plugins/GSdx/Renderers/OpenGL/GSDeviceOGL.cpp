@@ -284,9 +284,9 @@ GSTexture* GSDeviceOGL::FetchSurface(int type, int w, int h, int format)
 				break;
 			case GSTexture::Texture:
 				if (m_force_texture_clear > 1)
-					dynamic_cast<GSTextureOGL*>(t)->Clear((void*)&red);
+					static_cast<GSTextureOGL*>(t)->Clear((void*)&red);
 				else if (m_force_texture_clear)
-					dynamic_cast<GSTextureOGL*>(t)->Clear(nullptr);
+					static_cast<GSTextureOGL*>(t)->Clear(nullptr);
 
 				break;
 		}
@@ -688,7 +688,7 @@ void GSDeviceOGL::ClearRenderTarget(GSTexture* t, const GSVector4& c)
 {
 	if (!t) return;
 
-	GSTextureOGL* T = dynamic_cast<GSTextureOGL*>(t);
+	GSTextureOGL* T = static_cast<GSTextureOGL*>(t);
 	if (T->HasBeenCleaned() && !T->IsBackbuffer())
 		return;
 
@@ -740,7 +740,7 @@ void GSDeviceOGL::ClearDepth(GSTexture* t)
 {
 	if (!t) return;
 
-	GSTextureOGL* T = dynamic_cast<GSTextureOGL*>(t);
+	GSTextureOGL* T = static_cast<GSTextureOGL*>(t);
 
 	GL_PUSH("Clear Depth %d", T->GetID());
 
@@ -779,7 +779,7 @@ void GSDeviceOGL::ClearStencil(GSTexture* t, uint8 c)
 {
 	if (!t) return;
 
-	GSTextureOGL* T = dynamic_cast<GSTextureOGL*>(t);
+	GSTextureOGL* T = static_cast<GSTextureOGL*>(t);
 
 	GL_PUSH("Clear Stencil %d", T->GetID());
 
@@ -900,9 +900,9 @@ void GSDeviceOGL::InitPrimDateTexture(GSTexture* rt, const GSVector4i& area)
 
 	// Clean with the max signed value
 	int max_int = 0x7FFFFFFF;
-	dynamic_cast<GSTextureOGL*>(m_date.t)->Clear(&max_int, area);
+	static_cast<GSTextureOGL*>(m_date.t)->Clear(&max_int, area);
 
-	glBindImageTexture(2, dynamic_cast<GSTextureOGL*>(m_date.t)->GetID(), 0, false, 0, GL_READ_WRITE, GL_R32I);
+	glBindImageTexture(2, static_cast<GSTextureOGL*>(m_date.t)->GetID(), 0, false, 0, GL_READ_WRITE, GL_R32I);
 #ifdef ENABLE_OGL_DEBUG
 	// Help to see the texture in apitrace
 	PSSetShaderResource(2, m_date.t);
@@ -1216,8 +1216,8 @@ void GSDeviceOGL::CopyRectConv(GSTexture* sTex, GSTexture* dTex, const GSVector4
 	if (!(sTex && dTex))
 		return;
 
-	const GLuint& sid = dynamic_cast<GSTextureOGL*>(sTex)->GetID();
-	const GLuint& did = dynamic_cast<GSTextureOGL*>(dTex)->GetID();
+	const GLuint& sid = static_cast<GSTextureOGL*>(sTex)->GetID();
+	const GLuint& did = static_cast<GSTextureOGL*>(dTex)->GetID();
 
 	GL_PUSH(format("CopyRectConv from %d to %d", sid, did).c_str());
 
@@ -1241,8 +1241,8 @@ void GSDeviceOGL::CopyRect(GSTexture* sTex, GSTexture* dTex, const GSVector4i& r
 	if (!(sTex && dTex))
 		return;
 
-	const GLuint& sid = dynamic_cast<GSTextureOGL*>(sTex)->GetID();
-	const GLuint& did = dynamic_cast<GSTextureOGL*>(dTex)->GetID();
+	const GLuint& sid = static_cast<GSTextureOGL*>(sTex)->GetID();
+	const GLuint& did = static_cast<GSTextureOGL*>(dTex)->GetID();
 
 	GL_PUSH("CopyRect from %d to %d", sid, did);
 
@@ -1350,7 +1350,7 @@ void GSDeviceOGL::StretchRect(GSTexture* sTex, const GSVector4& sRect, GSTexture
 	// 2/ in case some GSdx code expect thing in dx order.
 	// Only flipping the backbuffer is transparent (I hope)...
 	GSVector4 flip_sr = sRect;
-	if (dynamic_cast<GSTextureOGL*>(dTex)->IsBackbuffer()) {
+	if (static_cast<GSTextureOGL*>(dTex)->IsBackbuffer()) {
 		flip_sr.y = sRect.w;
 		flip_sr.w = sRect.y;
 	}
@@ -1654,7 +1654,7 @@ void GSDeviceOGL::PSSetShaderResource(int i, GSTexture* sr)
 	ASSERT(i < (int)countof(GLState::tex_unit));
 	// Note: Nvidia debgger doesn't support the id 0 (ie the NULL texture)
 	if (sr) {
-		GLuint id = dynamic_cast<GSTextureOGL*>(sr)->GetID();
+		GLuint id = static_cast<GSTextureOGL*>(sr)->GetID();
 		if (GLState::tex_unit[i] != id) {
 			GLState::tex_unit[i] = id;
 			glBindTextureUnit(i, id);
@@ -1772,8 +1772,8 @@ void GSDeviceOGL::OMSetBlendState(uint8 blend_index, uint8 blend_factor, bool is
 
 void GSDeviceOGL::OMSetRenderTargets(GSTexture* rt, GSTexture* ds, const GSVector4i* scissor)
 {
-	GSTextureOGL* RT = dynamic_cast<GSTextureOGL*>(rt);
-	GSTextureOGL* DS = dynamic_cast<GSTextureOGL*>(ds);
+	GSTextureOGL* RT = static_cast<GSTextureOGL*>(rt);
+	GSTextureOGL* DS = static_cast<GSTextureOGL*>(ds);
 
 	if (rt == nullptr || !RT->IsBackbuffer()) {
 		OMSetFBO(m_fbo);

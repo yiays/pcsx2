@@ -1161,7 +1161,7 @@ GSTextureCache::Source* GSTextureCache::CreateSource(const GIFRegTEX0& TEX0, con
 			AttachPaletteToSource(src, psm.pal, true);
 		}
 	}
-	else if (dst && dynamic_cast<GSRendererHW*>(m_renderer)->IsDummyTexture())
+	else if (dst && static_cast<GSRendererHW*>(m_renderer)->IsDummyTexture())
 	{
 		// This shortcut is a temporary solution. It isn't a good solution
 		// as it won't work with Channel Shuffle/Texture Shuffle pattern

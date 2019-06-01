@@ -125,13 +125,13 @@ static const pxEnumEnd_t pxEnumEnd = {};
 //    The macro reports the exact class that causes the copy failure, while Boost's class
 //    approach just reports an error in whatever "NoncopyableObject" is inherited.
 //
-//  * This macro is the same as wxWidgets' DECLARE_NO_COPY_CLASS macro.  This one is free
+//  * This macro is a modified version of wxWidgets' DECLARE_NO_COPY_CLASS macro.  This one is free
 //    of wx dependencies though, and has a nicer typeset. :)
 //
 #ifndef DeclareNoncopyableObject
 #define DeclareNoncopyableObject(classname) \
 private:                                    \
-    explicit classname(const classname &);  \
+    explicit classname(const classname &) = delete;  \
     classname &operator=(const classname &) = delete
 #endif
 

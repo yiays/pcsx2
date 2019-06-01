@@ -186,6 +186,7 @@ useCross=2
 CoverityBuild=0
 cppcheck=0
 clangTidy=0
+clangJSON=0
 
 root=$PWD/$(dirname "$0")
 log="$root/install_log.txt"

@@ -313,6 +313,13 @@ public:
 		OMBlendSelector() : key(0) {}
 	};
 
+	struct alignas(32) MiscConstantBuffer
+	{
+		GSVector4i EMOD_AC;
+
+		MiscConstantBuffer() {memset(this, 0, sizeof(*this));}
+	};
+
 	#pragma pack(pop)
 
 	class ShaderMacro
@@ -411,6 +418,7 @@ private:
 		CComPtr<ID3D11DepthStencilState> dss;
 		CComPtr<ID3D11DepthStencilState> dss_write;
 		CComPtr<ID3D11BlendState> bs;
+		CComPtr<ID3D11Buffer> cb;
 	} m_convert;
 
 	struct
@@ -467,6 +475,7 @@ private:
 	VSConstantBuffer m_vs_cb_cache;
 	GSConstantBuffer m_gs_cb_cache;
 	PSConstantBuffer m_ps_cb_cache;
+	MiscConstantBuffer m_misc_cb_cache;
 
 	std::unique_ptr<GSTexture> m_font;
 

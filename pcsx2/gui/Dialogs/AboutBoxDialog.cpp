@@ -40,10 +40,10 @@ Dialogs::AboutBoxDialog::AboutBoxDialog(wxWindow* parent)
 	// [TODO] : About box should be upgraded to use scrollable read-only text boxes.
 
 	wxString developsString = wxsFormat(
-		L"avih, Refraction, rama, pseudonym, gregory.hainaut, turtleli"
+		L"Arcum42, avih, Refraction, rama, pseudonym, gregory.hainaut, turtleli"
 		L"\n\n"
 		L"%s: \n"
-		L"Arcum42, Aumatt, drk||raziel, "
+		L"Aumatt, drk||raziel, "
 		L"cottonvibes, gigaherz, saqib, "
 		L"\n"
 		L"Alexey Silinov, Florin, "
@@ -55,11 +55,11 @@ Dialogs::AboutBoxDialog::AboutBoxDialog(wxWindow* parent)
 		_("Previous versions"), _("Webmasters"));
 
 	wxString contribsString = wxsFormat(
-		L"ssakash, FlatOut, CK1, lightningterror, atomic83github, Pandubz, Prafull, Blyss Sarania, Nobbs66, Alessandro Vetere"
+		L"ssakash, FlatOut, CK1, lightningterror, atomic83github, Pandubz, Prafull, Blyss Sarania, Nobbs66, iMineLink, KrossX, Kojin"
 		L"\n\n"
 		L"%s: \n"
 		L"ChickenLiver (Lilypad), Gabest (GSdx, Cdvdolio, Xpad), Ckemu, "
-		L"General Plot, KrossX, Devina, micove, black_wd, Belmont, "
+		L"General Plot, Devina, micove, black_wd, Belmont, "
 		L"\n"
 		L"BGome, _Demo_, Dreamtime, Hiryu and Sjeep, nneeve, F|RES, "
 		L"Shadow Lady, MrBrown, razorblade, Seta-san, Skarmeth, feal87, Athos"
@@ -99,7 +99,7 @@ Dialogs::AboutBoxDialog::AboutBoxDialog(wxWindow* parent)
 
 	*this += boxesContainer | StdCenter();
 
-	wxButton& closeButton = *new wxButton(this, wxID_OK, _("I've seen enough"));
+	wxButton& closeButton = *new wxButton(this, wxID_OK, _("Close"));
 	closeButton.SetFocus();
 	*this += closeButton | StdCenter();
 

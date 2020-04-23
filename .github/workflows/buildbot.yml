@@ -1,0 +1,88 @@
+# Automated testing and building of Release builds of pcsx2 for Windows
+# - The Auto-Updater depends on this buildbot running!
+# Written by yiays, with help from turtleli
+
+name: BuildBot
+
+# Activated upon pushing changes to the master branch, also tests PRs.
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+    
+    # Built and tested for Windows 10/Server 2019, may eventually be broken by continuous changes made to Windows...
+    runs-on: windows-latest
+
+    steps:
+    # Checkout code with submodules to $GITHUB_WORKSPACE
+    # Note: The contents of $GITHUB_WORKSPACE prior to this will be deleted
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    
+    # Get release information
+    - name: Get name of release
+      id: releaseinfo
+      run: |
+           git fetch --prune --unshallow
+           echo "::set-env name=release::$(git describe)"
+           echo "::set-env name=tag::$(git describe --abbrev=0)"
+           echo "::set-output name=commit::$((git log -1 --pretty=format:%an%n%ad%n%s%n%b) -join "`%0D`%0A")"
+    
+    # Install MSBuild
+    - name: Setup msbuild
+      uses: microsoft/setup-msbuild@v1.0.0
+      with:
+        vs-version: 15.0
+    
+    # Activate cache
+    - name: Start DXSDK Cache
+      id:   dxcache
+      uses: actions/cache@v1
+      with:
+       path: DXSDK
+       key:  dxsdk-includes
+     
+    # Download DXSDK if needed, otherwise use cache
+    # Only extract files that are required
+    - name:  Download DXSDK if needed
+      if:    steps.dxcache.outputs.cache-hit != 'true'
+      run:   |
+             curl -L https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -o _DX2010_.exe
+             7z x _DX2010_.exe DXSDK/Include/{audiodefs.h,comdecl.h,XAudio2.h,xma2defs.h}
+             rm -fR _DX*_ _DX*_.exe
+      shell: bash
+    
+    # Run the pcsx2 msbuild command
+    - name: Build pcsx2
+      run: msbuild "buildbot.xml" /m /v:m /fl1 /fl2 /t:ReleaseAll
+      env:
+        DXSDK_DIR: ${{ github.workspace }}\DXSDK\
+
+    # Create release for this build
+    - name: Create release
+      id: createrelease
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ env.release }}
+        release_name: ${{ env.release }}
+        body: ${{ steps.releaseinfo.outputs.commit }}
+        prerelease: true
+
+    # Compress build for release
+    - name: Zip Release
+      run: 7z a "${{ env.release }}-windows-x86.zip" "./bin/*" -tzip
+
+    # Upload build as artifact
+    - name: Upload a Release Asset
+      uses: actions/upload-release-asset@v1.0.2
+      with:
+        upload_url: ${{ steps.createrelease.outputs.upload_url }}
+        asset_path: ${{ env.release }}-windows-x86.zip
+        asset_name: ${{ env.release }}-windows-x86.zip
+        asset_content_type: application/zip

@@ -247,8 +247,6 @@ void GSdxApp::Init()
 	m_gs_upscale_multiplier.push_back(GSSetting(5, "5x Native", "~1620p 3K"));
 	m_gs_upscale_multiplier.push_back(GSSetting(6, "6x Native", "~2160p 4K"));
 	m_gs_upscale_multiplier.push_back(GSSetting(8, "8x Native", "~2880p 5K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(10, "10x Native", "~3160p 6K"));
-	m_gs_upscale_multiplier.push_back(GSSetting(12, "12x Native", "~4320p 8K"));
 #ifndef __unix__
 	m_gs_upscale_multiplier.push_back(GSSetting(0, "Custom", "Not Recommended"));
 #endif
@@ -268,9 +266,9 @@ void GSdxApp::Init()
 	m_gs_trifilter.push_back(GSSetting(static_cast<uint32>(TriFiltering::PS2), "Trilinear", ""));
 	m_gs_trifilter.push_back(GSSetting(static_cast<uint32>(TriFiltering::Forced), "Trilinear", "Ultra/Slow"));
 
-	m_gs_gl_ext.push_back(GSSetting(-1, "Automatic", "Default"));
-	m_gs_gl_ext.push_back(GSSetting(0,  "Force-Disabled", ""));
-	m_gs_gl_ext.push_back(GSSetting(1,  "Force-Enabled", ""));
+	m_gs_generic_list.push_back(GSSetting(-1, "Automatic", "Default"));
+	m_gs_generic_list.push_back(GSSetting(0, "Force-Disabled", ""));
+	m_gs_generic_list.push_back(GSSetting(1, "Force-Enabled", ""));
 
 	m_gs_hack.push_back(GSSetting(0, "Off", "Default"));
 	m_gs_hack.push_back(GSSetting(1, "Half", ""));
@@ -355,14 +353,12 @@ void GSdxApp::Init()
 
 	// PSX option. Not supported on linux.
 	m_default_configuration["dithering"]                                  = "1";
-	m_default_configuration["ModeRefreshRate"]                            = "0";
 	m_default_configuration["scale_x"]                                    = "0";
 	m_default_configuration["scale_y"]                                    = "0";
 	m_default_configuration["windowed"]                                   = "1";
 #else
 	m_default_configuration["linux_replay"]                               = "1";
 #endif
-
 	m_default_configuration["aa1"]                                        = "0";
 	m_default_configuration["accurate_date"]                              = "1";
 	m_default_configuration["accurate_blending_unit"]                     = "1";
@@ -458,6 +454,7 @@ void GSdxApp::Init()
 	m_default_configuration["UserHacks_Disable_Safe_Features"]            = "0";
 	m_default_configuration["UserHacks_DisablePartialInvalidation"]       = "0";
 	m_default_configuration["UserHacks_CPU_FB_Conversion"]                = "0";
+	m_default_configuration["UserHacks_Half_Bottom_Override"]             = "-1";
 	m_default_configuration["UserHacks_HalfPixelOffset"]                  = "0";
 	m_default_configuration["UserHacks_merge_pp_sprite"]                  = "0";
 	m_default_configuration["UserHacks_round_sprite_offset"]              = "0";
@@ -470,7 +467,6 @@ void GSdxApp::Init()
 	m_default_configuration["UserHacks_WildHack"]                         = "0";
 	m_default_configuration["wrap_gs_mem"]                                = "0";
 	m_default_configuration["vsync"]                                      = "0";
-	m_default_configuration["disable_ts_half_bottom"]                     = "0";
 }
 
 void GSdxApp::ReloadConfig()
